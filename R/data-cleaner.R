@@ -1,0 +1,244 @@
+#' Provides data cleaning functionality
+#'
+#' @description
+#' Allows removing unneeded characters from text files.
+#'
+#' @details
+#' It provides a method for cleaning text files. It allows removing bad words,
+#' stop words, non dictionary words, extra space, punctuation and non-alphabet
+#' characters. Converting text to lower case. It supports large text files.
+DataCleaner <- R6::R6Class(
+    "DataCleaner",
+    inherit = TextFileProcessor,
+    public = list(
+        #' @field dc_opts The options for the data cleaner object.
+        #'   min_words -> The minimum number of words per sentence.
+        #'   line_count -> The number of lines to read and clean at a time.
+        #    save_data -> If the combined processed lines should be saved.
+        #    output_file -> Name of the output file used to store the data.
+        #'   sw_file -> The stop words file path.
+        #    dict_file -> The dictionary file path.
+        #'   bad_file -> The bad words file path.
+        #'   to_lower -> If the words should be converted to lower case.
+        #'   remove_stop -> If stop words should be removed.
+        #'   remove_punct -> If punctuation symbols should be removed.
+        #'   remove_non_dict -> If non dictionary words should be removed.
+        #'   remove_non_alpha -> If non alphabet symbols should be removed.
+        #'   remove_extra_space -> If leading, trailing and double spaces
+        #'     should be removed.
+        #'   remove_bad -> If bad words should be removed
+        dc_opts = list(
+            "min_words" = 2,
+            "line_count" = 1000,
+            "save_data" = T,
+            "output_file" = "./data/sample-clean.txt",
+            "sw_file" = "./data/stop-words.txt",
+            "dict_file" = "./data/dict-no-bad.txt",
+            "bad_file" = "./data/bad-words.txt",
+            "to_lower" = T,
+            "remove_stop" = F,
+            "remove_punct" = T,
+            "remove_non_dict" = T,
+            "remove_non_alpha" = T,
+            "remove_extra_space" = T,
+            "remove_bad" = F
+        ),
+
+        #' @field sw The list of stop words.
+        sw = list(),
+
+        #' @field bw The list of bad words.
+        bw = list(),
+
+        #' @field dw The list of dictionary words.
+        dw = list(),
+
+        #' @description
+        #' It initializes the current object. It is used to set the file name
+        #' and verbose options.
+        #' @param file_name The path to the file to clean.
+        #' @param opts The options for data cleaning.
+        #'   min_words -> The minimum number of words per sentence.
+        #'   line_count -> The number of lines to read and clean at a time.
+        #    save_data -> If the combined processed lines should be saved.
+        #    output_file -> Name of the output file used to store the data.
+        #'   sw_file -> The stop words file path.
+        #    dict_file -> The dictionary file path.
+        #'   bad_file -> The bad words file path.
+        #'   to_lower -> If the words should be converted to lower case.
+        #'   remove_stop -> If stop words should be removed.
+        #'   remove_punct -> If punctuation symbols should be removed.
+        #'   remove_non_dict -> If non dictionary words should be removed.
+        #'   remove_non_alpha -> If non alphabet symbols should be removed.
+        #'   remove_extra_space -> If leading, trailing and double spaces
+        #'     should be removed.
+        #'   remove_bad -> If bad words should be removed
+        #' @param verbose Indicates if progress information should be displayed.
+        initialize = function(file_name = NULL,
+                              opts = self$dc_opts,
+                              verbose = 0) {
+            # The given options are merged with the opts attribute
+            self$dc_opts <- modifyList(self$dc_opts, opts)
+            # The dc_opts is merged with the base class opts attribute
+            self$opts <- modifyList(self$opts, self$dc_opts)
+            # The stop words file is read
+            self$sw <- self$read_file(self$opts[["sw_file"]], F);
+            # The dictionary file is read
+            self$dw <- self$read_file(self$opts[["dict_file"]], F);
+            # The bad word file is read
+            self$bw <- self$read_file(self$opts[["bad_file"]], F);
+            # The base class is initialized
+            super$initialize(file_name, self$opts[['line_count']], verbose)
+        },
+
+        #' @description
+        #' It removes unneeded characters from the given text with
+        #' several options. It allows removing punctuations, numbers, symbols,
+        #' urls and separators. It allows removing bad words, stop words and
+        #' words not in the given dictionary file. It reads the given file one
+        #' line at a time, removing unneeded characters. After every line_count
+        #' number of lines, the cleaned lines are saved to the output file.
+        clean_file = function() {
+            # The information message
+            msg <- paste0("Cleaning the sample file...", self$file_name)
+            # The information message is shown
+            self$display_msg(msg, 1)
+            # The base class process_file function is called
+            super$process_file(super$pre_process, private$process,
+                               super$post_process)
+        },
+
+        #' @description
+        #' It cleans the given lines of text using the options
+        #' passed to the current object.
+        #' @param lines The input sentences.
+        #' @return The cleaned lines of text.
+        clean_lines = function(lines) {
+            # The lines to clean
+            l <- lines
+            # If a line does not end with a ".", then "." is appended to the
+            # line
+            l <- gsub("(.+[^\\.])$", "\\1.", l)
+            # The "." character is replaced with the string "specialdotsep"
+            l <- gsub("\\.", " specialdotsep ", l)
+            # If the words should be converted to lower case
+            if (self$opts[["to_lower"]]) {
+                # The information message
+                self$display_msg("Converting lines to lower case...", 3)
+                # The line is converted to lower case
+                l <- tolower(l)
+            }
+            # If punctuation symbols should be removed
+            if (self$opts[["remove_punct"]]) {
+                # The information message
+                self$display_msg("Removing punctuation symbols...", 3)
+                # The pattern for removing all punctuation symbols
+                l <- gsub("[[:punct:]]+", "", l)
+            }
+            # If non alphabet symbols should be removed
+            if (self$opts[["remove_non_alpha"]]) {
+                # The information message
+                self$display_msg("Removing non alphabet symbols...", 3)
+                # Words containing non alphabetical characters are removed
+                l <- gsub("([^[:alpha:]\\s])", "", l, perl = T)
+            }
+
+            # If stop words should be removed
+            if (self$opts[["remove_stop"]]) {
+                # The information message
+                self$display_msg("Removing stop words..", 3)
+                # Stop words are collapsed
+                sw <- paste(self$sw, collapse = "|")
+                swp <- paste("\\b(", sw, ")\\b", sep = "")
+                # The stop words are removed
+                l <- gsub(swp, "", l)
+            }
+            # If extra spaces should be removed
+            if (self$opts[["remove_extra_space"]]) {
+                # The information message
+                self$display_msg("Removing extra space...", 3)
+                # Multiple spaces are replaced by single space
+                l = gsub("\\s{2,}", " ", l)
+                # Leading and trailing whitespaces are removed
+                l = trimws(l)
+            }
+
+            # The words in the lines are extracted
+            words <- strsplit(l, split = " ")
+            # The words are converted to an atomic list
+            words <- unlist(words)
+            # If non dictionary words should be removed
+            if (self$opts[["remove_non_dict"]]) {
+                # The "specialdotsep" string is added to list of dictionary
+                # words
+                dw <- c(self$dw, "specialdotsep")
+                # The non dictionary words are removed from the data
+                words <- words[words %in% dw]
+                # All 1 length words except for 'a' and 'i' are removed
+                # The indexes position of all words that are "a" or "i"
+                i1 <- (words == "a" | words == "i")
+                # The index position of words of length 2 or more
+                i2 <- (nchar(words) > 1)
+                # The list of all words of length 2 or more including "a" and
+                # "i"
+                words <- words[i1 | i2]
+            }
+            # If bad words should be removed
+            if (self$opts[["remove_bad"]]) {
+                # The "specialdotsep" string is added to list of bad words
+                bw <- c(self$bw, "specialdotsep")
+                # The bad words are removed from the data
+                words <- words[!words %in% self$bw]
+            }
+            # The words are combined with space
+            l <- paste(words, collapse = " ")
+            # The "specialdotsep" string is replaced with "."
+            l <- gsub("specialdotsep", ".", l)
+            # The sentences in the lines are extracted
+            l <- strsplit(l, split = "\\.")
+            # The sentences are converted to an atomic list
+            l <- unlist(l)
+            # If extra spaces should be removed
+            if (self$opts[["remove_extra_space"]]) {
+                # Multiple spaces are replaced by single space
+                l = gsub("\\s{2,}", " ", l)
+                # Leading and trailing whitespaces are removed
+                l = trimws(l)
+            }
+
+            # If each sentence should have a minimum number of words
+            if (self$opts[["min_words"]] > -1) {
+                # The number of words in each sentence
+                wc <- str_count(l, pattern = boundary("word"))
+                # The lines containing less than min_words number of words are
+                # removed
+                l <- l[wc >= self$opts[["min_words"]]]
+            }
+
+            # Consecutive 'a' and 'i' are replaced with single 'a' or 'i'
+            l <- gsub("(a\\s){2,}", "\\1 ", l)
+            l <- gsub("(i\\s){2,}", "\\1 ", l)
+            l <- gsub("a$", "", l)
+
+            return(l)
+        }
+    ),
+
+    private = list(
+
+        # @description
+        # Performs processing for the \code{clean_files} function.
+        # It processes the given lines of text. It divides the given lines of
+        # text into sentences by spliting on '.'. Each sentence is then cleaned
+        # using \code{clean_line}. If the number of words in the cleaned
+        # sentence is less than min_words, then the sentence is rejected.
+        # @param lines The lines of text to clean.
+        # @return The processed line is returned.
+        process = function(lines) {
+            # The sentence is cleaned
+            cl <- self$clean_lines(lines)
+
+            return(cl)
+        }
+    )
+)
