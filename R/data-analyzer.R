@@ -11,6 +11,7 @@
 #' length and file size. It also provides a method that takes random samples of
 #' lines in an input text file. It provides a method that reads an input text
 #' file containing token frequencies. It displays the most occuring tokens.
+#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes
 DataAnalyzer <- R6::R6Class(
     "DataAnalyzer",
     inherit = TextFileProcessor,
@@ -21,14 +22,15 @@ DataAnalyzer <- R6::R6Class(
         #' @param file_name The path to the input file.
         #' @param line_count The number of lines to read at a time.
         #' @param verbose If progress information should be displayed.
-        initialize = function(file_name = "./data/n1.txt",
+        #' @export
+        initialize = function(file_name = NULL,
                               verbose = 0) {
             # The file name is set
-            self$file_name <- file_name
+            private$file_name <- file_name
             # The processed output is initialized
-            self$p_output <- data.frame()
+            private$p_output <- data.frame()
             # The verbose options is set
-            self$verbose = verbose
+            private$verbose = verbose
         },
 
         #' @description
@@ -42,23 +44,23 @@ DataAnalyzer <- R6::R6Class(
         #'     'top_features', 'coverage'.
         #'   n -> For 'top_features', it is the number of top most occuring
         #'     tokens.
-        plot_data = function(opts) {
+        plot_n_gram_stats = function(opts) {
             # The opts is merged with the da_opts attribute
             private$da_opts = modifyList(private$da_opts, opts)
             # The da_opts is merged with the base class opts attribute
-            self$opts = modifyList(self$opts, private$da_opts)
+            private$opts = modifyList(private$opts, private$da_opts)
             # The ngram data is read
-            df <- self$read_file(self$file_name, T)
+            df <- private$read_obj(private$file_name)
             # The information message is shown
-            self$display_msg("Displaying Plot...", 1)
+            private$display_msg("Displaying Plot...", 1)
             # If the coverage option was specified
-            if (self$opts[["type"]] == "coverage") {
+            if (private$opts[["type"]] == "coverage") {
                 # The y values
-                y <- as.character(1:self$opts[["n"]])
+                y <- as.character(1:private$opts[["n"]])
                 # The x values
                 x <- numeric()
                 # The percentage frequencies is calculated
-                for (i in 1:self$opts[["n"]]) {
+                for (i in 1:private$opts[["n"]]) {
                     # The percentage of tokens with frequency i
                     x[i] <- round(100*(nrow(df[df$freq == i,])/nrow(df)), 2)
                 }
@@ -74,12 +76,12 @@ DataAnalyzer <- R6::R6Class(
                 private$display_plot(df, labels)
             }
             # If the top_features option was specified
-            else if (self$opts[["type"]] == "top_features") {
+            else if (private$opts[["type"]] == "top_features") {
                 # The plot labels
                 labels <- list(
                     y = "Frequency",
                     x = "Feature",
-                    title = paste("Top", self$opts[["n"]], "Features"))
+                    title = paste("Top", private$opts[["n"]], "Features"))
 
                 # The chart is plotted
                 private$display_plot(df, labels)
@@ -87,53 +89,85 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' Generates and returns information about the given text files.
-        #' @param file_list The list of text files to check.
-        #' @return A data frame containing the overall file statistics.
-        get_file_info = function(file_list = list()) {
-            # If the file list is empty, then the file name passed to the
-            # current objet is used.
-            if (length(file_list) == 0)
-                file_list = list(self$file_name)
+        #' Generates and returns information about text files.
+        #' @param res The name of a directory or a file name.
+        #' @return A data frame containing the file statistics.
+        get_file_info = function(res) {
+            # The list of files to check
+            file_list <- NULL
+            # If a directory name was passed
+            if (dir.exists(res)) {
+                # All files in the directory are fetched
+                file_list = dir(res, full.names = T)
+            }
+            # If a file name was passed
+            else if (file.exists(res)) {
+                # The file name is set
+                file_list <- res
+            }
 
-            # Empty list. Used to store information about each file
-            stats <- data.frame(
-                "total_line_count" = 0,
-                "max_line_length" = 0,
-                "min_line_length" = 0,
-                "mean_line_length" = 0,
-                "total_size" = 0)
+            # Used to store overall information about files
+            ostats <- data.frame(
+                "total_lc" = 0,
+                "max_ll" = 0,
+                "min_ll" = 0,
+                "mean_ll" = 0,
+                "total_s" = 0
+            )
+
+            # Used to store information about each file
+            fstats <- tstats <- data.frame()
+
             # Temporary variables for calculating max, min, mean line length
             temp_max <- temp_min <- temp_mean <- 0
 
             # For each file in the list
-            for (file_name in file_list) {
+            for (fn in file_list) {
                 # The file is read
-                lines <- self$read_file(file_name, F)
-
+                lines <- private$read_file(fn, F)
+                # The line count
+                lc <- length(lines)
+                # The file size
+                size <- file.size(fn)
                 # The file stats are updated
-                stats["total_size"] <-
-                    stats["total_size"] + file.size(file_name)
-                stats["total_line_count"] <-
-                    stats["total_line_count"] + length(lines)
+                ostats[["total_s"]] <- ostats[["total_s"]] + size
+                ostats[["total_lc"]] <- ostats[["total_lc"]] + lc
 
                 # The temporary variables are updated
                 temp_max <- max(nchar(lines))
                 temp_min <- min(nchar(lines))
-                temp_mean <- mean(nchar(lines))
+                temp_mean <- round(mean(nchar(lines)))
 
-                if (temp_max > stats["max_line_length"])
-                    stats["max_line_length"] <- temp_max
-                if (temp_min > stats["min_line_length"])
-                    stats["min_line_length"] <- temp_min
-                if (temp_mean > stats["mean_line_length"])
-                    stats["mean_line_length"] <- round(temp_mean)
+                # The file stats are updated
+                tstats <- data.frame(
+                    "fn" = fn,
+                    "total_lc" = lc,
+                    "max_ll" = temp_max,
+                    "min_ll" = temp_min,
+                    "mean_ll" = temp_mean,
+                    "size" = size
+                )
+                # The size is formatted
+                tstats["size"] <-
+                    utils:::format.object_size(tstats["size"], "auto")
+
+                # The file stats are appended
+                fstats <- rbind(fstats, tstats)
+
+                if (temp_max > ostats["max_ll"])
+                    ostats["max_ll"] <- temp_max
+                if (temp_min > ostats["min_ll"])
+                    ostats["min_ll"] <- temp_min
+                if (temp_mean > ostats["mean_ll"])
+                    ostats["mean_ll"] <- temp_mean
             }
             # The total size is formatted
-            stats["total_size"] <- utils:::format.object_size(
-                stats["total_size"], "auto")
+            ostats["total_s"] <-
+                utils:::format.object_size(ostats["total_s"], "auto")
 
-            # The required data is returned
+            # The required stats
+            stats = list("file_stats" = fstats, "overall_stats" = ostats)
+            # The required stats are returned
             return(stats)
         },
 
@@ -149,7 +183,7 @@ DataAnalyzer <- R6::R6Class(
         #' @param percs The size of the training, testing and validation sets.
         generate_data = function(dir, percs) {
             # The information message is shown
-            self$display_msg(
+            private$display_msg(
                 "Generating training, testing and validation data sets...", 1)
             # If the train, test and validation files already exist
             if (file.exists(paste0(dir, "/train.txt")) &&
@@ -158,11 +192,11 @@ DataAnalyzer <- R6::R6Class(
                 # The information message
                 msg <- "The train, test and validate files already exist"
                 # The information message is shown
-                self$display_msg(msg, 1)
+                private$display_msg(msg, 1)
             }
             else {
                 # The input file is read
-                data <- self$read_file(self$file_name, F)
+                data <- private$read_file(private$file_name, F)
                 # The number of lines in the data
                 lc <- length(data)
                 # Random indexes are generated
@@ -176,11 +210,11 @@ DataAnalyzer <- R6::R6Class(
                 # The validation set data
                 validate_ds <- rd[1:round(lc*percs[["validate"]])]
                 # The training data is written to file
-                self$write_file(train_ds, paste0(dir, "/train.txt"), F)
+                private$write_file(train_ds, paste0(dir, "/train.txt"), F)
                 # The testing data is written to file
-                self$write_file(test_ds, paste0(dir, "/test.txt"), F)
+                private$write_file(test_ds, paste0(dir, "/test.txt"), F)
                 # The validation data is written to file
-                self$write_file(validate_ds, paste0(dir, "/validate.txt"), F)
+                private$write_file(validate_ds, paste0(dir, "/validate.txt"), F)
             }
         },
 
@@ -194,7 +228,7 @@ DataAnalyzer <- R6::R6Class(
         #' @param pre The ngram prefix, given as a regular expression.
         get_ngrams = function(fn, c = NULL, pre = NULL) {
             # The data is read
-            df <- self$read_obj(fn)
+            df <- private$read_obj(fn)
             # If the prefix is not given
             if (is.null(pre)) {
                 # The sample indexes
@@ -235,7 +269,7 @@ DataAnalyzer <- R6::R6Class(
             # The data frame is sorted in descending order
             df <- (df[order(df$freq, decreasing = T),])
             # The top n terms are extracted
-            df <- df[1:self$opts[["n"]], ]
+            df <- df[1:private$opts[["n"]], ]
             # The ngram names and their frequencies are plotted
             g <- ggplot(data = df, aes(x = reorder(pre, freq), y = freq)) +
                 geom_bar(stat = "identity", fill = "red") +

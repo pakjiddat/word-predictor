@@ -1,39 +1,18 @@
 #' It generates ngrams of given size from an input text file
 #'
 #' @description
-#' It generates ngram tokens along with their frequencies.
+#' It generates ngram tokens along with their frequencies. The data
+#' may be saved to a file in plain text format or as a R object.
 #'
-#' @details
-#' It provides a method for generating ngrams of given size. It saves
-#' each ngram along with its frequency to a text file.
+#' @importFrom SnowballC wordStem
+#' @importFrom dplyr group_by summarize_all
 TokenGenerator <- R6::R6Class(
     "TokenGenerator",
     inherit = TextFileProcessor,
     public = list(
-        #' @field tg_opts The options for the token generator obj.
-        #'   n -> The ngram size.
-        #'   save_ngrams -> If the ngram data should be saved.
-        #'   min_freq -> All ngrams with frequency less than min_freq are
-        #'     ignored.
-        #'   line_count -> The number of lines to process at a time.
-        #'   stem_words -> If words should be converted to their stem.
-        #'   dir -> The dir where the output file should be saved.
-        #'   format -> The format for the output. There are two options.
-        #'     'plain' -> The data is stored in plain text.
-        #'     'obj' -> The data is stored as a R obj.
-        tg_opts = list(
-            "n" = 1,
-            "save_ngrams" = F,
-            "min_freq" = -1,
-            "line_count" = 5000,
-            "stem_words" = F,
-            "dir" = "./data/models",
-            "format" = "obj"
-        ),
-
         #' @description
-        #' It initializes the current obj. It is used to set the file name
-        #' and verbose options.
+        #' It initializes the current obj. It is used to set the file name,
+        #' tokenization options and verbose option.
         #' @param file_name The path to the input file.
         #' @param opts The options for generating the ngram tokens.
         #'   n -> The ngram size.
@@ -47,57 +26,76 @@ TokenGenerator <- R6::R6Class(
         #'     'plain' -> The data is stored in plain text.
         #'     'obj' -> The data is stored as a R obj.
         #' @param verbose Indicates if progress information should be displayed.
-        initialize = function(file_name = "./data/models/validate-clean.txt",
-                              opts = self$tg_opts,
-                              verbose = 0) {
+        #' @export
+        initialize = function(file_name = NULL, opts = list(), verbose = 0) {
             # The given options are merged with the opts attribute
-            self$tg_opts <- modifyList(self$tg_opts, opts)
-            # The tg_opts is merged with the base class opts attribute
-            self$opts <- modifyList(self$opts, self$tg_opts)
+            private$tg_opts <- modifyList(private$tg_opts, opts)
             # The base class is initialized
-            super$initialize(file_name, self$opts[["line_count"]], verbose)
+            super$initialize(file_name, private$tg_opts$line_count, verbose)
             # The processed output is initialized
-            self$p_output <- NULL
+            private$p_output <- NULL
         },
 
         #' @description
-        #' It generates ngram tokens and their frequencies from the given file
-        #' name. The tokens may be saved to a text file as plain text or a R
-        #' obj.
-        #' @return The ngram tokens along with their frequencies.
+        #' It generates ngram tokens and their frequencies from the
+        #' given file name. The tokens may be saved to a text file as plain text
+        #' or a R object.
+        #' @return The data frame containing ngram tokens along with their
+        #'   frequencies.
         generate_tokens = function() {
             # The processed output is initialized
-            self$p_output <- NULL
+            private$p_output <- NULL
             # The output file name
             fn <- private$get_file_name()
             # If the output file already exists
             if (file.exists(fn)) {
                 # The information message
-                msg <- paste0("The ", self$opts[["n"]],
+                msg <- paste0("The ", private$tg_opts[["n"]],
                               "-gram file already exists")
                 # The information message is shown
-                self$display_msg(msg, 1)
+                private$display_msg(msg, 1)
                 # If the ngram data should not be saved
-                if (!self$opts[["save_ngrams"]]) {
+                if (!private$tg_opts[["save_ngrams"]]) {
                     # The ngrams file is read
-                    self$p_output <- self$read_data(
-                        fn, self$opts[["format"]], T)
+                    private$p_output <- private$read_data(
+                        fn, private$tg_opts[["format"]], T)
                 }
             }
             else {
                 # The information message
                 msg <- paste0("Generating ",
-                              self$opts[["n"]], "-gram tokens...")
+                              private$tg_opts[["n"]], "-gram tokens...")
                 # The information message is shown
-                self$display_msg(msg, 1)
+                private$display_msg(msg, 1)
                 # The base class process_file function is called
-                super$process_file(super$pre_process, private$process,
+                private$process_file(private$pre_process, private$process,
                                    private$post_process)
             }
         }
     ),
 
     private = list(
+        # @field tg_opts The options for the token generator obj.
+        #   n -> The ngram size.
+        #   save_ngrams -> If the ngram data should be saved.
+        #   min_freq -> All ngrams with frequency less than min_freq are
+        #     ignored.
+        #   line_count -> The number of lines to process at a time.
+        #   stem_words -> If words should be converted to their stem.
+        #   dir -> The dir where the output file should be saved.
+        #   format -> The format for the output. There are two options.
+        #     'plain' -> The data is stored in plain text.
+        #     'obj' -> The data is stored as a R obj.
+        tg_opts = list(
+            "n" = 1,
+            "save_ngrams" = F,
+            "min_freq" = -1,
+            "line_count" = 5000,
+            "stem_words" = F,
+            "dir" = "./data/models",
+            "format" = "obj"
+        ),
+
         # @description
         # Performs processing for the \code{generate_tokens} function. It
         # processes the given line of text. It converts each line of text into
@@ -107,13 +105,13 @@ TokenGenerator <- R6::R6Class(
             # Ngrams are extracted from each line
             ngrams <- private$generate_ngrams(lines)
             # If the processed output is empty
-            if (is.null(self$p_output)) {
+            if (is.null(private$p_output)) {
                 # The ngram words are set to the processed output
-                self$p_output <- ngrams
+                private$p_output <- ngrams
             }
             else {
                 # The ngram words are appended to the processed output
-                self$p_output <- c(self$p_output, ngrams)
+                private$p_output <- c(private$p_output, ngrams)
             }
         },
 
@@ -121,11 +119,11 @@ TokenGenerator <- R6::R6Class(
         # It returns the name of the output ngram file.
         get_file_name = function() {
             # The ngram number
-            n <- self$opts[["n"]]
+            n <- private$tg_opts[["n"]]
             # The format
-            fo <- self$opts[["format"]]
+            fo <- private$tg_opts[["format"]]
             # The output directory
-            dir <- self$opts[["dir"]]
+            dir <- private$tg_opts[["dir"]]
             # The file extension
             if (fo == "plain") ext <- ".txt"
             else ext <- ".RDS"
@@ -141,36 +139,36 @@ TokenGenerator <- R6::R6Class(
         post_process = function() {
             # The information message
             msg <- paste0("Calculating ",
-                          self$opts[["n"]], "-gram frequencies...")
+                          private$tg_opts[["n"]], "-gram frequencies...")
             # The information message is shown
-            self$display_msg(msg, 1)
+            private$display_msg(msg, 1)
             # The output is copied to a variable
-            df <- data.frame("pre" = self$p_output)
+            df <- data.frame("pre" = private$p_output)
             # A frequency column is added
             df$freq <- 1
             # Each prefix is grouped and summed
             df <- df %>% group_by(pre) %>% summarize_all(sum)
             # If the minimum ngram frequency is given
-            if (self$opts[["min_freq"]] > -1) {
+            if (private$tg_opts[["min_freq"]] > -1) {
                 # The information message
                 msg <- paste0("Removing low frequency ngrams...")
                 # The information message is shown
-                self$display_msg(msg, 2)
+                private$display_msg(msg, 2)
                 # All ngrams with frequency less than min_freq are ignored
-                df <- df[df$freq >= self$opts[["min_freq"]], ]
+                df <- df[df$freq >= private$tg_opts[["min_freq"]], ]
             }
             # The column names are set
             colnames(df) <- c("pre", "freq")
             # The output is set to the updated variable
-            self$p_output <- df
+            private$p_output <- df
             # If the ngram data should be saved
-            if (self$opts[["save_ngrams"]]) {
+            if (private$tg_opts[["save_ngrams"]]) {
                 # The required file name
                 fn <- private$get_file_name()
                 # The format
-                fo <- self$opts[["format"]]
+                fo <- private$tg_opts[["format"]]
                 # The n-gram data frame is written to file
-                private$write_data(self$p_output, fn, fo, F)
+                private$write_data(private$p_output, fn, fo, F)
             }
         },
 
@@ -179,7 +177,7 @@ TokenGenerator <- R6::R6Class(
         # @param lines The lines of text to process
         generate_ngrams = function(lines) {
             # The ngram number
-            n <- self$opts[["n"]]
+            n <- private$tg_opts[["n"]]
             # If n > 1
             if (n > 1) {
                 # Trailing and leading white space is removed
@@ -199,7 +197,7 @@ TokenGenerator <- R6::R6Class(
                 # The ngrams are generated
                 l <- sapply(indexes, function(i) {
                     # If the words should be stemmed
-                    if (self$tg_opts[["stem_words"]]) {
+                    if (private$tg_opts[["stem_words"]]) {
                         # The ngram prefix words are stemmed. The next word is
                         # not stemmed
                         v <- c(wordStem(w[i:(i+n-2)]), w[(i+n-1)])
