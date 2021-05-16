@@ -13,59 +13,86 @@
 #' memory and time is needed to generate a model for different input data sizes.
 #' It provides a method for determining how much memory is needed by the final
 #' model.
-#' @importFrom ggplot2 ggplot aes aes_string geom_point geom_smooth labs xlim
-#'   coord_cartesian
 #' @importFrom digest digest2int
 #' @importFrom SnowballC wordStem
-#' @importFrom patchwork plot_annotation
-#' @importFrom pryr mem_change object_size
 ModelPredictor <- R6::R6Class(
     "ModelPredictor",
     inherit = TextFileProcessor,
     public = list(
         #' @description
         #' It initializes the current object. It is used to set the
-        #' maximum ngram number, sample size, input file name, data cleaner
-        #' options and verbose option.
-        #' @param model The maximum ngram number supported by the model.
-        #' @param ssize The sample size in Mb.
-        #' @param ddir The data directory.
-        #' @param mdir The model directory.
-        #' @param dc_opts The data cleaner options.
-        #' @param tg_opts The token generator options.
+        #' model file name and verbose options.
+        #' @param mf The model file name.
         #' @param ve If progress information should be displayed.
         #' @export
-        initialize = function(model = 4,
-                              ssize = 30,
-                              ddir = "./data",
-                              mdir = "./data/models",
-                              dc_opts = list(),
-                              tg_opts = list(),
-                              ve = 0) {
-
+        initialize = function(mf, ve = 0) {
             # The base class is initialized
             super$initialize(NULL, NULL, ve)
+            # If the model file name is not valid, then an error is thrown
+            if (!file.exists(mf))
+                stop(paste0("Invalid model file: ", mf))
+            else {
+                # The model object is read
+                private$m <- private$read_obj(mf)
+            }
+        },
 
-            # The model number is set
-            private$model <- model
-            # The sample size is set
-            private$ssize <- ssize
-            # The data directory name is set
-            private$ddir <- ddir
-            # The model directory name is set
-            private$mdir <- mdir
-            # If the dc_opts are given
-            if (length(dc_opts) > 0) {
-                # The custom dc_opts are merged with the default dc_opts
-                private$dc_opts = modifyList(private$dc_opts, dc_opts)
+        #' @description
+        #' Returns the Model class object.
+        #' @return The Model class object is returned.
+        get_model = function() {
+            # The model object is returned
+            return(private$m)
+        },
+
+        #' @description
+        #' The Perplexity for the given sentence is calculated. For
+        #' each word, the probability of the word given the previous words is
+        #' calculated. The probabilities are multiplied and then inverted. The
+        #' nth root of the result is the perplexity, where n is the number of
+        #' words in the sentence. If the stem_words tokenization option was
+        #' specified, then the previous words are converted to their stem.
+        #' @param words The list of words.
+        #' @return The perplexity of the given list of words.
+        calc_perplexity = function(words) {
+            # The model size
+            n <- private$m$get_config("n")
+            # The options for token generation
+            tg_opts <- private$m$get_config("tg_opts")
+
+            # The number of words in the sentence
+            wl <- length(words)
+            # The product of the word probabilities
+            prob_prod <- 1
+            # For each word, the probability of the word is calculated
+            for (i in 1:wl) {
+                # The word
+                word <- words[i]
+                # The list of previous words
+                pw <- NULL
+                # If i is more than 1
+                if (i > 1) {
+                    # The start index
+                    start <- 1
+                    # If i > self$model
+                    if (i > n) start <- i-(n-1)
+                    # The list of previous words
+                    pw <- words[start:(i-1)]
+                    # If the words should be stemmed
+                    if (tg_opts[["stem_words"]]) {
+                        # The previous words are stemmed
+                        pw <- wordStem(pw)
+                    }
+                }
+                # The word probability
+                prob <- self$get_word_prob(word, pw)
+                # The probability product is updated
+                prob_prod <- prob_prod * prob
             }
-            # If the tg_opts are given
-            if (length(tg_opts) > 0) {
-                # The custom tg_opts are merged with the default tg_opts
-                private$tg_opts = modifyList(private$tg_opts, tg_opts)
-            }
-            # The transition probabilities data is initialized
-            private$tp <- NULL
+            # The nth root of the inverse of the probability product is taken
+            p <- round((1/prob_prod)^(1/wl), 0)
+
+            return(p)
         },
 
         #' @description
@@ -84,8 +111,13 @@ ModelPredictor <- R6::R6Class(
         #'   converted to their stems.
         #' @return The top 3 predicted words along with their probabilities.
         predict_word = function(words, count = 3, dc = NULL) {
-            # The transition probabilities data is read
-            private$read_tp_data(private$model)
+            # The tp data is fetched from the model object
+            tp <- private$m$get_config("tp")
+            # The word list data is fetched from the model object
+            wl <- private$m$get_config("wl")
+            # The options for token generation
+            tg_opts <- private$m$get_config("tg_opts")
+
             # The words are assigned to temp variable
             w <- words
             # If the DataCleaner obj was specified
@@ -98,7 +130,7 @@ ModelPredictor <- R6::R6Class(
                 # The words are cleaned
                 w <- dc$clean_lines(w)
                 # If the words should be stemmed
-                if (private$tg_opts[["stem_words"]]) {
+                if (tg_opts[["stem_words"]]) {
                     # The previous words are stemmed
                     w <- wordStem(w)
                 }
@@ -141,7 +173,7 @@ ModelPredictor <- R6::R6Class(
                 # The key is converted to a numeric hash
                 h <- digest2int(k)
                 # The transition probabilities data is checked
-                res <- private$tp[private$tp$pre == h, ]
+                res <- tp[tp$pre == h, ]
                 # If the prefix was found
                 if (nrow(res) > 0) {
                     # The word was found
@@ -166,7 +198,7 @@ ModelPredictor <- R6::R6Class(
                     # The next words indexes
                     ind <- sres$nw[1:rc]
                     # The required words
-                    nw <- as.character(private$wl$pre[ind])
+                    nw <- as.character(wl$pre[ind])
 
                     # The result is updated
                     result[["words"]] <- nw
@@ -218,20 +250,29 @@ ModelPredictor <- R6::R6Class(
         #' @param pw The previous words.
         #' @return The probability of the word given the previous words.
         get_word_prob = function(word, pw) {
+            # The tp data is fetched from the model object
+            tp <- private$m$get_config("tp")
+            # The word list data is fetched from the model object
+            wl <- private$m$get_config("wl")
+            # The options for token generation
+            tg_opts <- private$m$get_config("tg_opts")
+            # The default probability is fetched from the model object
+            dp <- private$m$get_config("dp")
+
             # If the default probability is not set, then an error is raised
-            if (is.null(private$dp))
+            if (is.null(dp))
                 stop("The default probability is not set !")
             # The length of previous words
             pwl <- length(pw)
             # The probability of the word given the previous words. It is
             # initialized to the default probability, which should be 1/(N+V)
-            prob <- private$dp
+            prob <- dp
             # The loop counter
             c <- 1
             # Indicates if the word was found
             found <- FALSE
             # The next word id
-            nw <- match(word, private$wl$pre)
+            nw <- match(word, wl$pre)
             # If the next word was not found
             if (is.na(nw)) {
                 # The information message
@@ -251,7 +292,7 @@ ModelPredictor <- R6::R6Class(
                     # The key is converted to a numeric hash
                     h <- digest2int(k)
                     # The transition probabilities data is checked
-                    res <- private$tp[private$tp$pre == h & private$tp$nw == nw, ]
+                    res <- tp[tp$pre == h & tp$nw == nw, ]
                     # If the prefix was found
                     if (nrow(res) > 0) {
                         # The word was found
@@ -287,17 +328,22 @@ ModelPredictor <- R6::R6Class(
             # checked in the n1-gram
             if (!found) {
                 # If the word was not found
-                if (sum(private$wl$pre == word) == 0) {
+                if (sum(wl$pre == word) == 0) {
                     # Information message is shown
                     private$display_msg("Using default probability", 3)
                 }
                 else {
                     # The word probability
-                    prob <- as.numeric(private$wl[private$wl$pre == word, "prob"])
+                    prob <- as.numeric(wl[wl$pre == word, "prob"])
                 }
             }
 
             return(prob)
         }
+    ),
+
+    private = list(
+        # @field m The model object.
+        m = NULL
     )
 )

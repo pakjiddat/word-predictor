@@ -1,3 +1,38 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("Word probability is correctly calculated", {
+    # ModelPredictor class object is created
+    mp <- ModelPredictor$new(mf = "./data/model/def-model.RDS")
+    # The probability that the next word is "you" given the previous words "how"
+    # and "are"
+    prob <- mp$get_word_prob(word = "you", pw = c("how", "are"))
+    # Check that probability is correct
+    expect_equal(prob, 0.52941176)
+    # The probability that the next word is "you" given the previous words "how"
+    # and "is"
+    prob <- mp$get_word_prob(word = "you", pw = c("how", "is"))
+    # Check that probability is correct
+    expect_equal(prob, 0.00116866)
+})
+
+test_that("The next word is correctly predicted", {
+    # ModelPredictor class object is created
+    mp <- ModelPredictor$new(mf = "./data/model/def-model.RDS")
+    # The next word is predicted
+    nws <- mp$predict_word("how are", count = 10)
+    # Check that the most likely next word is "you"
+    expect_equal(nws[["words"]][1], "you")
+    # Check that the most likely next word has probability 0.52941176
+    expect_equal(nws[["probs"]][1], 0.52941176)
+})
+
+test_that("Perplexity is correctly calculated", {
+    # ModelPredictor class object is created
+    mp <- ModelPredictor$new(mf = "./data/model/def-model.RDS")
+    # The sentence whoose Perplexity is to be calculated
+    l <- "last year at this time i was preparing for a trip to rome"
+    # The line is split in to words
+    w <- str_split(l, " ")[[1]]
+    # The Perplexity of the sentence is calculated
+    p <- mp$calc_perplexity(w)
+    # Check that probability is correct
+    expect_equal(p, 8)
 })

@@ -93,15 +93,19 @@ ModelGenerator <- R6::R6Class(
         # @description
         # Saves the model to a file
         save_model = function() {
+            # The model directory path
+            mdir <- private$m$get_config("mdir")
             # The model file name
             ofn <- private$m$get_config("fn")
+            # The output  file path
+            ofp <- paste0(mdir, "/", ofn)
             # The information message is shown
             private$display_msg("Saving model...", 1)
             # The model object is loaded
             private$m$load_model()
             # The model object is saved to the models folder using the output
             # file name
-            private$save_obj(private$m, ofn)
+            private$save_obj(private$m, ofp)
         },
 
         # @description
