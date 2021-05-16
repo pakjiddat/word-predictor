@@ -37,13 +37,13 @@ TPGenerator <- R6::R6Class(
         #'   format -> The format for the output. There are two options.
         #'     'plain' -> The data is stored in plain text.
         #'     'obj' -> The data is stored as a R obj.
-        #' @param verbose If progress information should be displayed.
+        #' @param ve If progress information should be displayed.
         #' @export
-        initialize = function(opts = NULL, verbose = 0) {
+        initialize = function(opts = list(), ve = 0) {
             # The given options are merged with the opts attribute
             private$tp_opts <- modifyList(private$tp_opts, opts)
             # The base class is initialized
-            super$initialize(NULL, NULL, verbose)
+            super$initialize(NULL, NULL, ve)
             # The processed output is initialized
             private$p_output <- data.frame()
         },
@@ -72,47 +72,62 @@ TPGenerator <- R6::R6Class(
             # The file extension
             if (fo == "plain") ext <- ".txt"
             else ext <- ".RDS"
-            # The options for generating transition probabilities
-            tp_opts <- list(
-                n = 1,
-                format = fo,
-                save_tp = T,
-                dir = private$tp_opts[["dir"]]
-            )
-            # The combined tp data
-            c_pre <- c_nw <- c_prob <- c()
-            # For each ngram number, the transition probabilities data is
-            # generated.
-            for (n in 1:nmax) {
-                # The value of n is set
-                tp_opts$n <- n
-                # The transition probabilities or word list is generated
-                self$generate_tp_for_n(n)
-                # If n == 1, then word list data is saved
-                if (n == 1) {
-                    # The combined tp data is saved
-                    private$save_data()
+
+            # The short output file name
+            fn <- paste0("model-", nmax, ext)
+            # The model file name path
+            fp <- paste0(private$tp_opts[["dir"]], "/", fn)
+            # If the combined tp file already exists
+            if (file.exists(fp)) {
+                # The information message
+                msg <- paste0("The output file: ", fp, " already exists")
+                # Information message is shown
+                private$display_msg(msg, 1)
+            }
+            else {
+                # The options for generating transition probabilities
+                tp_opts <- list(
+                    n = 1,
+                    format = fo,
+                    save_tp = T,
+                    dir = private$tp_opts[["dir"]]
+                )
+                # The combined tp data
+                c_pre <- c_nw <- c_prob <- c()
+                # For each ngram number, the transition probabilities data is
+                # generated.
+                for (n in 1:nmax) {
+                    # The value of n is set
+                    tp_opts$n <- n
+                    # The transition probabilities or word list is generated
+                    self$generate_tp_for_n(n)
+                    # If n == 1, then word list data is saved
+                    if (n == 1) {
+                        # The combined tp data is saved
+                        private$save_data()
+                    }
+                    else {
+                        # c_pre is updated
+                        c_pre <- c(c_pre, private$p_output$pre)
+                        # c_nw is updated
+                        c_nw <- c(c_nw, private$p_output$nw)
+                        # c_prob is updated
+                        c_prob <- c(c_prob, private$p_output$prob)
+                        # The processed output is cleared
+                        private$p_output <- data.frame()
+                    }
                 }
-                else {
-                    # c_pre is updated
-                    c_pre <- c(c_pre, private$p_output$pre)
-                    # c_nw is updated
-                    c_nw <- c(c_nw, private$p_output$nw)
-                    # c_prob is updated
-                    c_prob <- c(c_prob, private$p_output$prob)
-                    # The processed output is cleared
-                    private$p_output <- data.frame()
+                # The processed output is set to the combined tp data
+                private$p_output <-
+                    data.frame("pre" = c_pre,
+                               "nw" = c_nw,
+                               "prob" = c_prob)
+
+                # If the data should be saved
+                if (private$tp_opts[["save_tp"]]) {
+                    private$save_data(fn)
                 }
             }
-            # The processed output is set to the combined tp data
-            private$p_output <-
-                data.frame("pre" = c_pre,
-                           "nw" = c_nw,
-                           "prob" = c_prob)
-            # The model file name
-            fn <- paste0("model-", nmax, ext)
-            # The combined tp data is saved
-            private$save_data(fn)
         },
 
         #' @description
@@ -121,6 +136,8 @@ TPGenerator <- R6::R6Class(
         #' and next word frequency. The data frame may be saved to a file as
         #' plain text or as a R obj. For n = 1, the list of words is saved.
         generate_tp_for_n = function(n) {
+            # The n value is set
+            private$tp_opts[["n"]] <- n
             # The output format
             fo <- private$tp_opts[["format"]]
             # The output file name
@@ -150,9 +167,9 @@ TPGenerator <- R6::R6Class(
                 private$display_msg(msg, 1)
 
                 # The input file name
-                private$file_name <- private$get_file_name(F)
+                private$fn <- private$get_file_name(F)
                 # The data is read
-                df <- private$read_data(private$file_name, fo, T)
+                df <- private$read_data(private$fn, fo, T)
                 # If n = 1
                 if (n == 1) {
                     # The word list is set to the data frame
@@ -185,10 +202,10 @@ TPGenerator <- R6::R6Class(
                     private$generate_probs()
                     # The frequency column is removed
                     private$p_output$freq <- NULL
-                    # If the data should be saved
-                    if (private$tp_opts[["save_tp"]]) {
-                        private$save_data()
-                    }
+                }
+                # If the data should be saved
+                if (private$tp_opts[["save_tp"]]) {
+                    private$save_data()
                 }
             }
         }
@@ -204,9 +221,9 @@ TPGenerator <- R6::R6Class(
         #     'plain' -> The data is stored in plain text.
         #     'obj' -> The data is stored as a R obj.
         tp_opts = list(
-            "save_tp" = F,
+            "save_tp" = T,
             "n" = 1,
-            "dir" = "./models",
+            "dir" = "./data/model",
             "format" = "obj"
         ),
 
@@ -276,8 +293,8 @@ TPGenerator <- R6::R6Class(
         # depending on the n options, to a file in plain format or as a R obj.
         # If the file name is not given, then it is generated using the current
         # object attributes.
-        # @param file_name The file name to use.
-        save_data = function(file_name = NULL) {
+        # @param fn The file name to use.
+        save_data = function(fn = NULL) {
             # The ngram number
             n <- private$tp_opts[["n"]]
             # The directory
@@ -295,7 +312,7 @@ TPGenerator <- R6::R6Class(
                 data <- private$p_output
             }
             # If the file name is given as parameter then it is used
-            if (!is.null(file_name)) fn <- paste0(od, "/", file_name)
+            if (!is.null(fn)) fn <- paste0(od, "/", fn)
             else fn <- private$get_file_name(T)
             # The data is written
             private$write_data(data, fn, fo, F)

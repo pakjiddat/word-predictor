@@ -1,45 +1,51 @@
-test_that("Performance of random sample generator is acceptable", {
-    time_taken <- system.time({
-        memory_used <- mem_change({
-            # The DataAnalyzer object is created
-            da <- DataAnalyzer$new("./data/en_US.input.txt")
-            # The options
-            opts <- list("save_data" = T, "output_file" = "./data/sample.txt")
-            # The sample file is generated
-            data <- da$generate_sample(1000, opts)
-        });
-    });
-    # The memory used
-    memory_used <- da$format_size(memory_used)
-    # The time taken is tested
-    expect_lt(time_taken[[3]], 5)
-    # The memory usage is tested
-    expect_lt(memory_used, 2)
-    # The number of lines generated should be 1000
-    expect_equal(length(data), 1000)
-});
-
-test_that("File information is corrected calculated", {
+test_that("Correct file information is returned", {
     # The DataAnalyzer object is created
-    da <- DataAnalyzer$new("./data/sample.txt")
-    # The sample file is generated
-    file_info <- da$get_file_info("./data/sample.txt")
-    # The total line count is checked
-    expect_equal(file_info$total_line_count, 219680)
-    # The mean line length is checked
-    expect_equal(file_info$mean_line_length, 135)
-    # The total size is checked
-    expect_equal(file_info$total_size, "28.5 Mb")
+    da <- DataAnalyzer$new()
+    # The file info is fetched
+    fi <- da$get_file_info("./data/model/test-clean.txt")
+    # The file size is checked
+    expect_equal(fi[["file_stats"]][1,6], "647.1 Kb")
 });
 
 test_that("plot_data function works", {
     # The DataAnalyzer object is created
-    da <- DataAnalyzer$new("./data/n2.txt")
+    da <- DataAnalyzer$new("./data/model/n2.RDS")
     # The top features plot is checked
-    da$plot_data(da_opts)
+    df <- da$plot_n_gram_stats(opts = list(
+        "type" = "top_features",
+        "n" = 10,
+        "save_to" = "png",
+        "dir" = "./data/model"
+    ))
+    # Checks that the top feature is new_york
+    expect_equal(df$pre[1], "new_york")
+    # Checks that the top feature frequency is 37
+    expect_equal(df$freq[1], 37)
+    # Check that the plot file was successfully created
+    expect_true(file.exists("./data/model/top_features.png"))
+
     # The coverage plot is checked
-    da_opts$type <- "coverage"
-    da$plot_data(da_opts)
-    # Checks that Rplots.pdf file exists
-    expect_true(file.exists("./Rplots.pdf"))
+    df <- da$plot_n_gram_stats(opts = list(
+        "type" = "coverage",
+        "n" = 10,
+        "save_to" = "png",
+        "dir" = "./data/model"
+    ))
+    # Checks that the most occuring words are those with frequency 1
+    expect_equal(df$pre[1], "1")
+    # Checks that words with frequency 1 make up 94.36% of all words
+    expect_equal(df$freq[1], 94.36)
+    # Check that the plot file was successfully created
+    expect_true(file.exists("./data/model/coverage.png"))
+});
+
+test_that("ngrams with correct frequency are returned", {
+    # The DataAnalyzer object is created
+    da <- DataAnalyzer$new("./data/model/n2.RDS")
+    # Bi-grams starting with "great_" are returned
+    df <- da$get_ngrams(fn = "./data/model/n2.RDS", c = 10, pre = "^great_*")
+    # The frequency of the bi-gram "great_care"
+    f <- as.numeric(df[df$pre == "great_care", "freq"])
+    # The frequency is checked
+    expect_equal(f, 2)
 });

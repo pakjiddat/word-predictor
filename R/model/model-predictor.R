@@ -19,8 +19,8 @@
 #' @importFrom SnowballC wordStem
 #' @importFrom patchwork plot_annotation
 #' @importFrom pryr mem_change object_size
-ModelEvaluator <- R6::R6Class(
-    "ModelEvaluator",
+ModelPredictor <- R6::R6Class(
+    "ModelPredictor",
     inherit = TextFileProcessor,
     public = list(
         #' @description
@@ -33,7 +33,7 @@ ModelEvaluator <- R6::R6Class(
         #' @param mdir The model directory.
         #' @param dc_opts The data cleaner options.
         #' @param tg_opts The token generator options.
-        #' @param verbose If progress information should be displayed.
+        #' @param ve If progress information should be displayed.
         #' @export
         initialize = function(model = 4,
                               ssize = 30,
@@ -41,10 +41,10 @@ ModelEvaluator <- R6::R6Class(
                               mdir = "./data/models",
                               dc_opts = list(),
                               tg_opts = list(),
-                              verbose = 0) {
+                              ve = 0) {
 
             # The base class is initialized
-            super$initialize(NULL, NULL, verbose)
+            super$initialize(NULL, NULL, ve)
 
             # The model number is set
             private$model <- model

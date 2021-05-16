@@ -14,16 +14,16 @@ DataSampler <- R6::R6Class(
         #' verbose option.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
-        #' @param verbose If progress information should be displayed.
+        #' @param ve If progress information should be displayed.
         initialize = function(ddir = "./data",
                               mdir = "./models",
-                              verbose = 0) {
+                              ve = 0) {
             # The data directory name is set
             private$ddir <- ddir
             # The model directory name is set
             private$mdir <- mdir
             # The base class is initialized
-            super$initialize(NULL, NULL, verbose)
+            super$initialize(NULL, NULL, ve)
         },
 
         #' @description Generates a sample file of given size from the given
@@ -33,8 +33,10 @@ DataSampler <- R6::R6Class(
         #'   the type parameter.
         #' @param ss The number of lines or proportion of lines to sample.
         #' @param ic If the sample file should be cleaned.
-        #' @param t The type of sample. It can be: 'tr' -> training 'te' ->
-        #'   testing 'va' -> validation
+        #' @param t The type of sample. It can be:
+        #'   'tr' -> training.
+        #'   'te' -> testing.
+        #'   'va' -> validation.
         #' @param is If the sampled data should be saved to a file.
         generate_sample = function(fn = NULL, ss, ic, t, is) {
             # If the type is 'tr'
@@ -108,8 +110,6 @@ DataSampler <- R6::R6Class(
                 }
                 # If the sample file should be cleaned
                 if (ic) {
-                    # The options for cleaning the data
-                    opts <- private$dc_opts
                     # The line count is set to 5000
                     opts[["line_count"]] <- 5000
                     # The output file name
@@ -117,7 +117,7 @@ DataSampler <- R6::R6Class(
                     # If the data should be saved
                     opts[["save_data"]] <- is
                     # The data cleaner object is created
-                    dc <- DataCleaner$new(sf, opts, verbose = private$verbose)
+                    dc <- DataCleaner$new(sf, opts, ve = private$ve)
                     # The sample file is cleaned
                     data <- dc$clean_file()
                 }

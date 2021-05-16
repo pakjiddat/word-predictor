@@ -13,25 +13,25 @@ TokenGenerator <- R6::R6Class(
         #' @description
         #' It initializes the current obj. It is used to set the file name,
         #' tokenization options and verbose option.
-        #' @param file_name The path to the input file.
+        #' @param fn The path to the input file.
         #' @param opts The options for generating the ngram tokens.
         #'   n -> The ngram size.
         #'   save_ngrams -> If the ngram data should be saved.
         #'   min_freq -> All ngrams with frequency less than min_freq are
         #'     ignored.
         #'   line_count -> The number of lines to process at a time.
-        #'   stem_words -> If words should be converted to their stem.
+        #    stem_words -> If words should be transformed to their stems.
         #'   dir -> The dir where the output file should be saved.
         #'   format -> The format for the output. There are two options.
         #'     'plain' -> The data is stored in plain text.
         #'     'obj' -> The data is stored as a R obj.
-        #' @param verbose Indicates if progress information should be displayed.
+        #' @param ve Indicates if progress information should be displayed.
         #' @export
-        initialize = function(file_name = NULL, opts = list(), verbose = 0) {
+        initialize = function(fn = NULL, opts = list(), ve = 0) {
             # The given options are merged with the opts attribute
             private$tg_opts <- modifyList(private$tg_opts, opts)
             # The base class is initialized
-            super$initialize(file_name, private$tg_opts$line_count, verbose)
+            super$initialize(fn, private$tg_opts$line_count, ve)
             # The processed output is initialized
             private$p_output <- NULL
         },
@@ -80,8 +80,8 @@ TokenGenerator <- R6::R6Class(
         #   save_ngrams -> If the ngram data should be saved.
         #   min_freq -> All ngrams with frequency less than min_freq are
         #     ignored.
+        #   stem_words -> If words should be transformed to their stems.
         #   line_count -> The number of lines to process at a time.
-        #   stem_words -> If words should be converted to their stem.
         #   dir -> The dir where the output file should be saved.
         #   format -> The format for the output. There are two options.
         #     'plain' -> The data is stored in plain text.
@@ -89,10 +89,10 @@ TokenGenerator <- R6::R6Class(
         tg_opts = list(
             "n" = 1,
             "save_ngrams" = F,
+            "stem_words" = F,
             "min_freq" = -1,
             "line_count" = 5000,
-            "stem_words" = F,
-            "dir" = "./data/models",
+            "dir" = "./data/model",
             "format" = "obj"
         ),
 
@@ -104,15 +104,8 @@ TokenGenerator <- R6::R6Class(
         process = function(lines) {
             # Ngrams are extracted from each line
             ngrams <- private$generate_ngrams(lines)
-            # If the processed output is empty
-            if (is.null(private$p_output)) {
-                # The ngram words are set to the processed output
-                private$p_output <- ngrams
-            }
-            else {
-                # The ngram words are appended to the processed output
-                private$p_output <- c(private$p_output, ngrams)
-            }
+            # The ngram words are appended to the processed output
+            private$p_output <- c(private$p_output, ngrams)
         },
 
         # @description
@@ -169,6 +162,10 @@ TokenGenerator <- R6::R6Class(
                 fo <- private$tg_opts[["format"]]
                 # The n-gram data frame is written to file
                 private$write_data(private$p_output, fn, fo, F)
+            }
+            # If ngram data should not be saved
+            else {
+                return(private$p_output)
             }
         },
 

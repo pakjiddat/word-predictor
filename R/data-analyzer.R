@@ -11,7 +11,7 @@
 #' length and file size. It also provides a method that takes random samples of
 #' lines in an input text file. It provides a method that reads an input text
 #' file containing token frequencies. It displays the most occuring tokens.
-#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes
+#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes, ggsave
 DataAnalyzer <- R6::R6Class(
     "DataAnalyzer",
     inherit = TextFileProcessor,
@@ -19,38 +19,41 @@ DataAnalyzer <- R6::R6Class(
         #' @description
         #' It initializes the current object. It is used to set the file name
         #' and verbose options.
-        #' @param file_name The path to the input file.
-        #' @param line_count The number of lines to read at a time.
-        #' @param verbose If progress information should be displayed.
+        #' @param fn The path to the input file.
+        #' @param ve If progress information should be displayed.
         #' @export
-        initialize = function(file_name = NULL,
-                              verbose = 0) {
+        initialize = function(fn = NULL, ve = 0) {
             # The file name is set
-            private$file_name <- file_name
+            private$fn <- fn
             # The processed output is initialized
             private$p_output <- data.frame()
             # The verbose options is set
-            private$verbose = verbose
+            private$ve = ve
         },
 
         #' @description
-        #' It reads ngram token frequencies from an input text file. The ngram
-        #' frequencies are then displayed in a bar plot. The type of plot is
-        #' specified by the type option. 'top_features' displays the top n most
-        #' occuring tokens along with their frequencies. 'coverage' displays
-        #' the number of words along with their frequencies.
+        #' It reads ngram token frequencies from an input text
+        #' file. The ngram frequencies are then displayed in a bar plot. The
+        #' type of plot is specified by the type option. 'top_features' displays
+        #' the top n most occuring tokens along with their frequencies.
+        #' 'coverage' displays the number of words along with their frequencies.
+        #' The plot stats are returned by the function as a data frame.
         #' @param opts The options for analyzing the data.
-        #'   type -> The type of plot to display. The options are:
-        #'     'top_features', 'coverage'.
-        #'   n -> For 'top_features', it is the number of top most occuring
-        #'     tokens.
+        #' type -> The type of plot to display. The options are:
+        #'   'top_features', 'coverage'.
+        #' n -> For 'top_features', it is the number of top most occuring
+        #'   tokens. For 'coverage' it is the first n frequencies.
+        #' save_to -> The graphics devices to save the plot to.
+        #'   NULL implies plot is printed.
+        #' dir -> The output directory where the plot will be saved.
+        #' @return A data frame containing the stats.
         plot_n_gram_stats = function(opts) {
             # The opts is merged with the da_opts attribute
             private$da_opts = modifyList(private$da_opts, opts)
             # The da_opts is merged with the base class opts attribute
             private$opts = modifyList(private$opts, private$da_opts)
             # The ngram data is read
-            df <- private$read_obj(private$file_name)
+            df <- private$read_obj(private$fn)
             # The information message is shown
             private$display_msg("Displaying Plot...", 1)
             # If the coverage option was specified
@@ -71,9 +74,6 @@ DataAnalyzer <- R6::R6Class(
                     y = "Percentage of total",
                     x = "Word Frequency",
                     title = "Coverage")
-
-                # The chart is plotted
-                private$display_plot(df, labels)
             }
             # If the top_features option was specified
             else if (private$opts[["type"]] == "top_features") {
@@ -82,10 +82,39 @@ DataAnalyzer <- R6::R6Class(
                     y = "Frequency",
                     x = "Feature",
                     title = paste("Top", private$opts[["n"]], "Features"))
-
-                # The chart is plotted
-                private$display_plot(df, labels)
             }
+            # The freq column is converted to numeric
+            df$freq <- as.numeric(df$freq)
+            # The pre column is converted to character
+            df$pre <- as.character(df$pre)
+            # The data frame is sorted in descending order
+            df <- (df[order(df$freq, decreasing = T),])
+            # The top n terms are extracted
+            df <- df[1:private$opts[["n"]], ]
+            # The chart is plotted
+            g <- private$display_plot(df, labels)
+
+            # If the save_to and dir options are not NULL
+            if (!is.null(opts[["save_to"]]) && !is.null(opts[["dir"]])) {
+                # The file name for the plot
+                fn <- paste0(opts[["type"]], ".", opts[["save_to"]])
+                # The plot object is saved
+                ggsave(
+                    filename = fn,
+                    plot = g,
+                    device = opts[["save_to"]],
+                    path = opts[["dir"]],
+                    width = 7,
+                    height = 7,
+                    units = "in"
+                )
+            }
+            else {
+                # The plot is printed
+                print(g)
+            }
+
+            return(df)
         },
 
         #' @description
@@ -172,53 +201,6 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' It generates training, testing and validation data sets
-        #' from the given input file. It first reads the file given as a
-        #' parameter to the current object. It generates random indexes for the
-        #' data. It partitions the data into training, testing and validation
-        #' sets, according to the given parameters. The files are named
-        #' train.txt, test.txt and va.txt. The files are saved to the given
-        #' output folder.
-        #' @param dir The name of the output folder.
-        #' @param percs The size of the training, testing and validation sets.
-        generate_data = function(dir, percs) {
-            # The information message is shown
-            private$display_msg(
-                "Generating training, testing and validation data sets...", 1)
-            # If the train, test and validation files already exist
-            if (file.exists(paste0(dir, "/train.txt")) &&
-                file.exists(paste0(dir, "/test.txt")) &&
-                file.exists(paste0(dir, "/validate.txt"))) {
-                # The information message
-                msg <- "The train, test and validate files already exist"
-                # The information message is shown
-                private$display_msg(msg, 1)
-            }
-            else {
-                # The input file is read
-                data <- private$read_file(private$file_name, F)
-                # The number of lines in the data
-                lc <- length(data)
-                # Random indexes are generated
-                indexes <- sample(1:lc, lc)
-                # The randomized data
-                rd <- data[indexes]
-                # The training set data
-                train_ds <- rd[1:round(lc*percs[["train"]])]
-                # The testing set data
-                test_ds <- rd[1:round(lc*percs[["test"]])]
-                # The validation set data
-                validate_ds <- rd[1:round(lc*percs[["validate"]])]
-                # The training data is written to file
-                private$write_file(train_ds, paste0(dir, "/train.txt"), F)
-                # The testing data is written to file
-                private$write_file(test_ds, paste0(dir, "/test.txt"), F)
-                # The validation data is written to file
-                private$write_file(validate_ds, paste0(dir, "/validate.txt"), F)
-            }
-        },
-
-        #' @description
         #' Returns the given number of ngrams and their
         #' frequencies. If the prefix parameter is not given, then the ngrams
         #' are randomly chosen. Otherise ngrams starting with the given regular
@@ -260,16 +242,9 @@ DataAnalyzer <- R6::R6Class(
         # bar plot filled with red. It has the given labels and main title
         # @param df The data to plot. It is a data frame with prefix and freq
         #   columns.
-        # @param labels The main title, x and y axis labels
+        # @param labels The main title, x and y axis labels.
+        # @return The ggplot object is returned.
         display_plot = function(df, labels) {
-            # The freq column is converted to numeric
-            df$freq <- as.numeric(df$freq)
-            # The pre column is converted to character
-            df$pre <- as.character(df$pre)
-            # The data frame is sorted in descending order
-            df <- (df[order(df$freq, decreasing = T),])
-            # The top n terms are extracted
-            df <- df[1:private$opts[["n"]], ]
             # The ngram names and their frequencies are plotted
             g <- ggplot(data = df, aes(x = reorder(pre, freq), y = freq)) +
                 geom_bar(stat = "identity", fill = "red") +
@@ -277,7 +252,7 @@ DataAnalyzer <- R6::R6Class(
                 coord_flip() +
                 ylab(labels[["y"]]) +
                 xlab(labels[["x"]])
-            print(g)
+            return(g)
         }
     )
 )

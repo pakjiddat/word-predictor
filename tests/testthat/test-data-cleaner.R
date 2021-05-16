@@ -1,18 +1,19 @@
-test_that("Performance of file cleaning function is acceptable", {
-    time_taken <- system.time({
-        memory_used <- mem_change({
-            # The data cleaner object is created
-            dc <- DataCleaner$new("./data/models/test.txt")
-            # The sample input file is cleaned
-            dc$clean_file()
-        });
-    });
-    # The memory used
-    memory_used <- dc$format_size(memory_used)
-    # The time taken is tested
-    expect_lt(time_taken[[3]], 2)
-    # The memory usage is tested
-    expect_lt(memory_used, 2)
+test_that("A sample text file is cleaned successfully", {
+    # If the test-clean file exists, then it is removed
+    if (file.exists("./data/model/test-clean.txt"))
+        file.remove("./data/model/test-clean.txt")
+    # The custom data cleaning options
+    dc_opts <- list("remove_bad" = T, "remove_stop" = T)
+    # The data cleaner object is created
+    dc <- DataCleaner$new("./data/model/test.txt", dc_opts)
+    # The sample file is cleaned
+    dc$clean_file()
+    # The DataAnalyzer object is created
+    da <- DataAnalyzer$new()
+    # The file info is fetched
+    fi <- da$get_file_info("./data/model/test-clean.txt")
+    # The file size is checked
+    expect_equal(fi[["file_stats"]][1,6], "647.1 Kb")
 });
 
 test_that("Sample line of text are cleaned as expected", {
@@ -30,23 +31,4 @@ test_that("Sample line of text are cleaned as expected", {
     cl <- dc$clean_lines(l)
     # The actual cleaned data is compared with expected data
     expect_equal(cl, res)
-});
-
-test_that("Performance of line cleaning function is acceptable", {
-    time_taken <- system.time({
-        memory_used <- mem_change({
-            # The DataCleaner object is created
-            dc <- DataCleaner$new()
-            # The test file is read
-            lines <- dc$read_lines("./data/models/test.txt", -1)
-            # The sample lines are cleaned
-            cl <- dc$clean_lines(lines)
-        });
-    });
-    # The memory used
-    memory_used <- dc$format_size(memory_used)
-    # The time taken is tested
-    expect_lt(time_taken[[3]], 1)
-    # The memory usage is tested
-    expect_lt(memory_used, 2)
 });

@@ -34,54 +34,59 @@ Model <- R6::R6Class(
         #' name and verbose.
         #' @param name The model name.
         #' @param desc The model description.
-        #' @param file_name The model file name.
-        #' @param data_file The path of the file used to generate the model. If
-        #'   the data was cleaned, then data_file is the path to the cleaned
+        #' @param fn The model file name.
+        #' @param df The path of the file used to generate the model. If
+        #'   the data was cleaned, then df is the path to the cleaned
         #'   file.
-        #' @param wl_file The path of the word list file.
         #' @param n The maximum ngram number supported by the model.
         #' @param ssize The sample size in Mb.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
         #' @param dc_opts The data cleaner options.
         #' @param tg_opts The token generator options.
-        #' @param verbose If progress information should be displayed.
+        #' @param ve If progress information should be displayed.
         #' @export
         initialize = function(name = NULL,
                               desc = NULL,
-                              file_name = NULL,
-                              data_file = NULL,
-                              wl_file = NULL,
+                              fn = NULL,
+                              df = NULL,
                               n = 4,
                               ssize = 30,
                               ddir = "./data",
                               mdir = "./models",
                               dc_opts = list(),
                               tg_opts = list(),
-                              verbose = 0) {
+                              ve = 0) {
 
             # The base class is initialized
-            super$initialize(NULL, NULL, verbose)
+            super$initialize(NULL, NULL, ve)
 
-            # If the wl_file does not exist, then an error is thrown
-            if (!file.exists(wl_file))
-                stop(paste0("The file: ", wl_file, " does not exist !"))
+            # If the input file name is not given
+            if (is.null(df)) {
+                # The default training data file name
+                df <- paste0(private$ddir, "/train.txt")
+            }
+
+            # If the output file name is not given
+            if (is.null(fn)) {
+                # The default output file name is used
+                fn <- paste0(private$mdir, "/model.RDS")
+            }
+
+            # The path to the data file
+            dfp <- paste0(ddir, "/", df)
             # If the data file does not exist, then an error is thrown
-            if (!file.exists(data_file))
-                stop(paste0("The file: ", data_file, " does not exist !"))
+            if (!file.exists(dfp))
+                stop(paste0("The file: ", dfp, " does not exist !"))
             # If the data directory does not exist, then an error is thrown
             if (!dir.exists(ddir))
                 stop(paste0("The dir: ", ddir, " does not exist !"))
             # If the model directory does not exist, then an error is thrown
             if (!dir.exists(mdir))
                 stop(paste0("The dir: ", mdir, " does not exist !"))
-            # If the dict_file does not exist, then an error is thrown
-            if (!file.exists(dc_opts$dict_file)) {
-                # The error message
-                msg <- paste0("The file: ", dc_opts$dict_file)
-                msg <- paste0(msg, " does not exist !")
-                stop(msg)
-            }
+            # The dict words file is checked
+            dc_opts[["dict_file"]] <- private$check_file(
+                dc_opts[["dict_file"]], "dict-no-bad.txt")
 
             # The model name is set
             self$name <- name
@@ -96,11 +101,11 @@ Model <- R6::R6Class(
             # The model directory name is set
             private$mdir <- mdir
             # The input file name is set
-            private$data_file <- data_file
+            private$df <- df
             # The word list file name is set
-            private$wl_file <- wl_file
+            private$wlf <- paste0(mdir, "/words.RDS")
             # The model file name is set
-            private$file_name <- file_name
+            private$fn <- fn
             # If the dc_opts are given
             if (length(dc_opts) > 0) {
                 # The custom dc_opts are merged with the default dc_opts
@@ -117,11 +122,11 @@ Model <- R6::R6Class(
         #' It loads the model using the given information
         load_model = function() {
             # The tp file name
-            fn <- paste0(mdir, "/model-", private$n, ".RDS")
+            fn <- paste0(private$mdir, "/model-", private$n, ".RDS")
             # The tp file is read
             private$tp <- private$read_obj(fn)
             # The wl file is read
-            private$wl <- private$read_obj(private$wl_file)
+            private$wl <- private$read_obj(private$wlf)
             # The dictionary file name
             fn <- private$dc_opts[["dict_file"]]
             # The file contents
@@ -131,8 +136,10 @@ Model <- R6::R6Class(
             # The number of words in the dictionary file. It is used to
             # calculate Perplexity.
             vc <- length(dict)
+            # The path to the input data file
+            dfp <- paste0(private$ddir, "/", private$df)
             # The data file is read
-            data <- private$read_file(private$data_file, F)
+            data <- private$read_file(dfp, F)
             # The words are split on " "
             w <- strsplit(data, " ")
             # The words are converted to atomic list
@@ -141,15 +148,26 @@ Model <- R6::R6Class(
             n <- length(w)
             # The default probability is set
             private$dp <- 1/(n + vc)
+        },
+
+        #' @description
+        #' It returns the given configuration data
+        #' @param cn The name of the required configuration.
+        #' @return The configuration value.
+        get_config = function(cn) {
+            # The required configuration value
+            cv <- private[[cn]]
+
+            return(cv)
         }
     ),
     private = list(
-        # @field file_name The path to the model file.
-        file_name = NULL,
-        # @field wl_file The path to the word list file.
-        wl_file = NULL,
-        # @field data_file The path to the input file.
-        data_file = NULL,
+        # @field fn The path to the model file.
+        fn = NULL,
+        # @field wlf The path to the word list file.
+        wlf = NULL,
+        # @field df The short name of the input file.
+        df = NULL,
         # @field tp The transition probabilities data frame.
         tp = NULL,
         # @field wl The list of unique words.

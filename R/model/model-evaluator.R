@@ -16,25 +16,25 @@
 #' each line. If the actual next word is one of the three predicted next words,
 #' then the prediction is considered to be accurate. The extrinsic evaluation
 #' returns the percentage of correct and incorrect predictions.
-Evaluator <- R6::R6Class(
-    "Evaluator",
+ModelEvaluator <- R6::R6Class(
+    "ModelEvaluator",
     inherit = TextFileProcessor,
     public = list(
         #' @description
         #' It initializes the current object. It is used to set the
         #' model file name and verbose options.
-        #' @param mfile The model file name.
-        #' @param verbose If progress information should be displayed.
+        #' @param mf The model file name.
+        #' @param ve If progress information should be displayed.
         #' @export
-        initialize = function(mfile, verbose = 0) {
+        initialize = function(mf, ve = 0) {
             # The base class is initialized
             super$initialize(NULL, NULL, verbose)
             # If the model file name is not valid, then an error is thrown
-            if (!file.exists(mfile))
+            if (!file.exists(mf))
                 stop(paste0("Invalid model file: ", model_file))
             else {
                 # The model file name is set
-                private$mfile <- mfile
+                private$mf <- mf
                 # The model object is read
                 private$m <- private$read_obj(model_file)
             }
@@ -71,7 +71,7 @@ Evaluator <- R6::R6Class(
             # The performance stats are saved
             private$m$pstats <- pstats
             # The model is saved
-            private$save_obj(private$m, private$mfile)
+            private$save_obj(private$m, private$mf)
         },
 
         #' @description
@@ -314,7 +314,7 @@ Evaluator <- R6::R6Class(
     private = list(
         # @field m The model object.
         m = NULL,
-        # @field mfile The path to the model file.
-        mfile = NULL
+        # @field mf The path to the model file.
+        mf = NULL
     )
 )
