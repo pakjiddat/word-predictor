@@ -39,3 +39,18 @@ test_that("Performance evaluation works", {
     # Check that memory used is less than 45 Mb
     expect_lt(as.numeric(m$pstats$m), (4.5*10^7))
 })
+
+test_that("Performance comparision works", {
+    # ModelEvaluator class object is created
+    me <- ModelEvaluator$new()
+    # The performance evaluation is performed
+    me$compare_performance(opts = list(
+        "save_to" = "png",
+        "mdir" = "./models",
+        "dir" = "./models/stats"
+    ))
+    # Check that the performance image file exists
+    expect_true(file.exists("./models/stats/performance.png"))
+    # Check that the performance stats file exists
+    expect_true(file.exists("./models/stats/pstats.RDS"))
+})

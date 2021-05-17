@@ -5,6 +5,8 @@ library(pryr)
 library(ggplot2)
 library(patchwork)
 library(SnowballC)
+library(devtools)
+library(testthat)
 
 source("../../R/data-analyzer.R")
 source("../../R/data-cleaner.R")

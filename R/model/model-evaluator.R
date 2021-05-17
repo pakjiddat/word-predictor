@@ -17,6 +17,8 @@
 #' then the prediction is considered to be accurate. The extrinsic evaluation
 #' returns the percentage of correct and incorrect predictions.
 #'
+#' @importFrom patchwork plot_annotation
+#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes, ggsave
 #' @importFrom pryr object_size
 ModelEvaluator <- R6::R6Class(
     "ModelEvaluator",
@@ -28,21 +30,149 @@ ModelEvaluator <- R6::R6Class(
         #' @param mf The model file name.
         #' @param ve If progress information should be displayed.
         #' @export
-        initialize = function(mf, ve = 0) {
+        initialize = function(mf = NULL, ve = 0) {
             # The base class is initialized
             super$initialize(NULL, NULL, ve)
-            # If the model file name is not valid, then an error is thrown
-            if (!file.exists(mf))
-                stop(paste0("Invalid model file: ", mf))
-            else {
-                # The model file is set
-                private$mf <- mf
-                # The ModelPredictor class object is created
-                mp <- ModelPredictor$new(private$mf, ve = private$ve)
-                # The ModelPredictor object is set
-                private$mp <- mp
+            # If the model file is not NULL
+            if (!is.null(mf)) {
+                # If the model file name is not valid, then an error is thrown
+                if (!file.exists(mf))
+                    stop(paste0("Invalid model file: ", mf))
+                else {
+                    # The model file is set
+                    private$mf <- mf
+                    # The ModelPredictor class object is created
+                    mp <- ModelPredictor$new(private$mf, ve = private$ve)
+                    # The ModelPredictor object is set
+                    private$mp <- mp
+                }
             }
         },
+
+        #' @description
+        #' It compares the performance of the models in the given
+        #' folder. The performance of the model is compared for the 4 metric
+        #' which are time taken, memory used, Perplexity and accuracy. The
+        #' performance comparision is displayed on plots. 4 plots are displayed.
+        #' One for each performance metric. A fifth plot shows the variation of
+        #' Perplexity with accuracy. All 5 plots are plotted on one page.
+        #' @param opts The options for compraring model performance.
+        #'   save_to -> The graphics devices to save the plot to.
+        #'     NULL implies plot is printed.
+        #'   dir -> The directory where the plot and stats will be saved.
+        #'   mdir -> The directory containing the model files.
+        compare_performance = function(opts) {
+            # A data frame containing the combined performance stats
+            cps <- data.frame()
+            # The list of model files in the given directory
+            fl <- dir(opts[["mdir"]], full.names = T)
+            # Each model file in the directory is read
+            for (fn in fl) {
+                # If the file name is a directory
+                if (dir.exists(fn)) next
+                # The model file is read
+                m <- private$read_obj(fn)
+                # The performance stats for the model
+                pstats <- m$pstats
+                # The memory used by the object is formated
+                mu <- as.numeric(pstats$m)
+                mu <- mu/(10^6)
+                # The temporary performance stats
+                tstats = data.frame(
+                    "n" = m$name,
+                    "m" = mu,
+                    "t" = pstats$t,
+                    "p" = pstats$p,
+                    "a" = pstats$a
+                )
+                # The combined performance stats are updated
+                cps <- rbind(cps, tstats)
+            }
+            # The combined performance stats are plotted
+            g <- self$plot_stats(cps)
+            # If the save_to and dir options are not NULL
+            if (!is.null(opts[["save_to"]]) && !is.null(opts[["dir"]])) {
+                # The file name for the plot
+                fn <- paste0("performance.", opts[["save_to"]])
+                # The plot object is saved
+                ggsave(
+                    filename = fn,
+                    plot = g,
+                    device = opts[["save_to"]],
+                    path = opts[["dir"]],
+                    width = 7,
+                    height = 7,
+                    units = "in"
+                )
+            }
+            else {
+                # The plot is printed
+                print(g)
+            }
+            # The performance stats file name
+            fn <- paste0(opts[["dir"]], "/pstats.RDS")
+            # The combined performance stats are save
+            private$save_obj(cps, fn)
+        },
+
+        #' @description
+        #' It plots the given stats on 5 plots. The plots are
+        #' displayed on a single page. The 4 performance metrics which are time
+        #' taken, memory, Perplexity and accuracy are plotted against the model
+        #' name. Another plot compares Perplexity with accuracy for each model.
+        #' @param data The data to plot
+        #' @return The ggplot object is returned.
+        plot_stats = function(data) {
+            # The information message is shown
+            private$display_msg("Plotting performance stats...", 1)
+
+            # The x values. Each value in the range is the model number
+            x_vals <- 1:length(data$n)
+            # The data frames
+            df1 <- data.frame(x = x_vals, y = data$m)
+            df2 <- data.frame(x = x_vals, y = data$t)
+            df3 <- data.frame(x = x_vals, y = data$p)
+            df4 <- data.frame(x = x_vals, y = data$a)
+            df5 <- data.frame(x = x_vals, y = data$p)
+            # The options for plot 1
+            popts <- list("x_lab" = "model",
+                          "y_lab" = "memory")
+            # Plot 1
+            p1 <- private$plot_graph(df1, popts)
+            # The options for plot 2
+            popts <- list("x_lab" = "model",
+                          "y_lab" = "time")
+            # Plot 2
+            p2 <- private$plot_graph(df2, popts)
+            # The options for plot 3
+            popts <- list("x_lab" = "model",
+                          "y_lab" = "perplexity")
+            # Plot 3
+            p3 <- private$plot_graph(df3, popts)
+            # The options for plot 4
+            popts <- list("x_lab" = "model",
+                          "y_lab" = "accuracy")
+            # Plot 4
+            p4 <- private$plot_graph(df4, popts)
+            # The options for plot 5
+            popts <- list("x_lab" = "accuracy",
+                          "y_lab" = "perplexity")
+            # Plot 5
+            p5 <- private$plot_graph(df5, popts)
+            # The plots are displayed on a single page
+            patchwork <- p1 + p2 + p3 + p4 + p5
+            # The model names
+            mn <- paste0(data$n, collapse = ", ")
+            # The subtitle
+            st <- paste0(
+                "The performance of following models is compared: ", mn)
+            # Main title is added
+            p <- (patchwork + plot_annotation(
+                "title" = "Performance comparision of n-gram models",
+                "subtitle" = st))
+            return(p)
+        },
+
 
         #' @description
         #' It performs intrinsic and extrinsic evaluation for the
@@ -215,6 +345,25 @@ ModelEvaluator <- R6::R6Class(
         # @field mf The model file name.
         mf = NULL,
         # @field mp The ModelPredictor class object.
-        mp = NULL
+        mp = NULL,
+
+        # @description
+        # It creates a single plot based on ggplot2.
+        # @param data A data frame containing the data to be plotted. It should
+        #   have 2 variables, x and y.
+        # @param opts The options for plotting the data. It contains:
+        #   'x_lab' -> The x-axis label.
+        #   'y_lab' -> The y-axis label.
+        # @return A ggplot object representing the plot.
+        plot_graph = function(data, opts) {
+            # y-max
+            y_max <- max(data$y)
+            # The graph is plotted
+            p <- ggplot(data, aes(x, y)) + geom_point() +
+                geom_smooth(method='lm', formula= y~x) +
+                labs(x = opts[["x_lab"]], y = opts[["y_lab"]]) +
+                coord_cartesian(ylim = c(0,y_max))
+            return(p)
+        }
     )
 )
