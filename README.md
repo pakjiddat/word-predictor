@@ -1,5 +1,3 @@
-Word Predictor
-================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -9,8 +7,8 @@ Word Predictor
 
 <!-- badges: end -->
 
-The goal of wordpredictor is to provide a flexible and easy to use
-framework for generating n-gram models for word prediction.
+The goal of the wordpredictor package is to provide a flexible and easy
+to use framework for generating n-gram models for word prediction.
 
 The package allows generating n-gram models from input text files. It
 also allows exploring n-grams using plots. Additionally it provides
