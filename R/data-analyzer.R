@@ -11,7 +11,7 @@
 #' length and file size. It also provides a method that takes random samples of
 #' lines in an input text file. It provides a method that reads an input text
 #' file containing token frequencies. It displays the most occuring tokens.
-#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes, ggsave
+#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes ggsave
 DataAnalyzer <- R6::R6Class(
     "DataAnalyzer",
     inherit = TextFileProcessor,

@@ -22,27 +22,15 @@ file containing token frequencies. It displays the most occuring tokens.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{DataAnalyzer$new()}}
-\item \href{#method-plot_data}{\code{DataAnalyzer$plot_data()}}
+\item \href{#method-plot_n_gram_stats}{\code{DataAnalyzer$plot_n_gram_stats()}}
 \item \href{#method-get_file_info}{\code{DataAnalyzer$get_file_info()}}
-\item \href{#method-generate_data}{\code{DataAnalyzer$generate_data()}}
 \item \href{#method-get_ngrams}{\code{DataAnalyzer$get_ngrams()}}
 \item \href{#method-clone}{\code{DataAnalyzer$clone()}}
 }
 }
 \if{html}{
-\out{<details ><summary>Inherited methods</summary>}
+\out{<details open ><summary>Inherited methods</summary>}
 \itemize{
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="display_msg">}\href{../../wordpredictor/html/TextFileProcessor.html#method-display_msg}{\code{wordpredictor::TextFileProcessor$display_msg()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="format_size">}\href{../../wordpredictor/html/TextFileProcessor.html#method-format_size}{\code{wordpredictor::TextFileProcessor$format_size()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="post_process">}\href{../../wordpredictor/html/TextFileProcessor.html#method-post_process}{\code{wordpredictor::TextFileProcessor$post_process()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="pre_process">}\href{../../wordpredictor/html/TextFileProcessor.html#method-pre_process}{\code{wordpredictor::TextFileProcessor$pre_process()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="process">}\href{../../wordpredictor/html/TextFileProcessor.html#method-process}{\code{wordpredictor::TextFileProcessor$process()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="process_file">}\href{../../wordpredictor/html/TextFileProcessor.html#method-process_file}{\code{wordpredictor::TextFileProcessor$process_file()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="read_file">}\href{../../wordpredictor/html/TextFileProcessor.html#method-read_file}{\code{wordpredictor::TextFileProcessor$read_file()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="read_lines">}\href{../../wordpredictor/html/TextFileProcessor.html#method-read_lines}{\code{wordpredictor::TextFileProcessor$read_lines()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="read_obj">}\href{../../wordpredictor/html/TextFileProcessor.html#method-read_obj}{\code{wordpredictor::TextFileProcessor$read_obj()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="save_obj">}\href{../../wordpredictor/html/TextFileProcessor.html#method-save_obj}{\code{wordpredictor::TextFileProcessor$save_obj()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="wordpredictor" data-topic="TextFileProcessor" data-id="write_file">}\href{../../wordpredictor/html/TextFileProcessor.html#method-write_file}{\code{wordpredictor::TextFileProcessor$write_file()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -53,32 +41,31 @@ file containing token frequencies. It displays the most occuring tokens.
 It initializes the current object. It is used to set the file name
 and verbose options.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$new(file_name = NULL, verbose = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$new(fn = NULL, ve = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{file_name}}{The path to the input file.}
+\item{\code{fn}}{The path to the input file.}
 
-\item{\code{verbose}}{If progress information should be displayed.}
-
-\item{\code{line_count}}{The number of lines to read at a time.}
+\item{\code{ve}}{If progress information should be displayed.}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_data"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_data}{}}}
-\subsection{Method \code{plot_data()}}{
-It reads ngram token frequencies from an input text file. The ngram
-frequencies are then displayed in a bar plot. The type of plot is
-specified by the type option. 'top_features' displays the top n most
-occuring tokens along with their frequencies. 'coverage' displays
-the number of words along with their frequencies.
+\if{html}{\out{<a id="method-plot_n_gram_stats"></a>}}
+\if{latex}{\out{\hypertarget{method-plot_n_gram_stats}{}}}
+\subsection{Method \code{plot_n_gram_stats()}}{
+It reads ngram token frequencies from an input text
+file. The ngram frequencies are then displayed in a bar plot. The
+type of plot is specified by the type option. 'top_features' displays
+the top n most occuring tokens along with their frequencies.
+'coverage' displays the number of words along with their frequencies.
+The plot stats are returned by the function as a data frame.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$plot_data(opts)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$plot_n_gram_stats(opts)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -88,54 +75,35 @@ the number of words along with their frequencies.
 type -> The type of plot to display. The options are:
 'top_features', 'coverage'.
 n -> For 'top_features', it is the number of top most occuring
-tokens.}
+tokens. For 'coverage' it is the first n frequencies.
+save_to -> The graphics devices to save the plot to.
+NULL implies plot is printed.
+dir -> The output directory where the plot will be saved.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A data frame containing the stats.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_file_info"></a>}}
 \if{latex}{\out{\hypertarget{method-get_file_info}{}}}
 \subsection{Method \code{get_file_info()}}{
-Generates and returns information about the given text files.
+Generates and returns information about text files.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$get_file_info(file_list = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$get_file_info(res)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{file_list}}{The list of text files to check.}
+\item{\code{res}}{The name of a directory or a file name.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A data frame containing the overall file statistics.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_data"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_data}{}}}
-\subsection{Method \code{generate_data()}}{
-It generates training, testing and validation data sets
-from the given input file. It first reads the file given as a
-parameter to the current object. It generates random indexes for the
-data. It partitions the data into training, testing and validation
-sets, according to the given parameters. The files are named
-train.txt, test.txt and va.txt. The files are saved to the given
-output folder.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$generate_data(dir, percs)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dir}}{The name of the output folder.}
-
-\item{\code{percs}}{The size of the training, testing and validation sets.}
-}
-\if{html}{\out{</div>}}
+A data frame containing the file statistics.
 }
 }
 \if{html}{\out{<hr>}}

@@ -135,6 +135,7 @@ TPGenerator <- R6::R6Class(
         #' file. It generates a data frame containing the prefix, next word
         #' and next word frequency. The data frame may be saved to a file as
         #' plain text or as a R obj. For n = 1, the list of words is saved.
+        #' @param n The n-gram size for which the tp data is generated.
         generate_tp_for_n = function(n) {
             # The n value is set
             private$tp_opts[["n"]] <- n

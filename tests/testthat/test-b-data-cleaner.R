@@ -13,7 +13,7 @@ test_that("A sample text file is cleaned successfully", {
     # The file info is fetched
     fi <- da$get_file_info("./data/model/test-clean.txt")
     # The file size is checked
-    expect_equal(fi[["file_stats"]][1,6], "647.1 Kb")
+    expect_equal(fi[["file_stats"]][1,6], "539.4 Kb")
 });
 
 test_that("Sample line of text are cleaned as expected", {

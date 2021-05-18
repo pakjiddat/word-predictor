@@ -18,7 +18,7 @@
 #' returns the percentage of correct and incorrect predictions.
 #'
 #' @importFrom patchwork plot_annotation
-#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes, ggsave
+#' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes ggsave
 #' @importFrom pryr object_size
 ModelEvaluator <- R6::R6Class(
     "ModelEvaluator",

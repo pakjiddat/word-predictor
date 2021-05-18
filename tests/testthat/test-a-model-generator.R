@@ -1,6 +1,6 @@
 test_that("Generation of n-gram Model words", {
     # The test is skipped since it can take some time
-    #skip("Skipping tests for ModelGenerator class")
+    skip_on_cran()
 
     # ModelGenerator class object is created
     mg <- ModelGenerator$new(
@@ -13,8 +13,7 @@ test_that("Generation of n-gram Model words", {
         ddir = "./data",
         mdir = "./data/model",
         dc_opts = list(),
-        tg_opts = list(),
-        ve = 2
+        tg_opts = list()
     )
     # The n-gram model is generated
     mg$generate_model()

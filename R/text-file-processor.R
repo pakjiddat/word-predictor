@@ -19,7 +19,6 @@ TextFileProcessor <- R6::R6Class(
         #' @param fn The path to the file to clean.
         #' @param lc The number of lines to read and clean at a time.
         #' @param ve Indicates if progress information should be displayed.
-        #' @export
         initialize = function(fn = NULL, lc = 100, ve = 2) {
             # If the given file name is not NULL and is not valid
             if (!is.null(fn) && !file.exists(fn))

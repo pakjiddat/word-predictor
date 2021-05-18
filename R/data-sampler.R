@@ -110,14 +110,16 @@ DataSampler <- R6::R6Class(
                 }
                 # If the sample file should be cleaned
                 if (ic) {
+                    # The data cleaning options
+                    dc_opts <- list()
                     # The line count is set to 5000
-                    opts[["line_count"]] <- 5000
+                    dc_opts[["line_count"]] <- 5000
                     # The output file name
-                    opts[["output_file"]] <- csf
+                    dc_opts[["output_file"]] <- csf
                     # If the data should be saved
-                    opts[["save_data"]] <- is
+                    dc_opts[["save_data"]] <- is
                     # The data cleaner object is created
-                    dc <- DataCleaner$new(sf, opts, ve = private$ve)
+                    dc <- DataCleaner$new(sf, dc_opts, ve = private$ve)
                     # The sample file is cleaned
                     data <- dc$clean_file()
                 }
@@ -132,11 +134,10 @@ DataSampler <- R6::R6Class(
         #' @description
         #' It generates training, testing and validation data sets
         #' from the given input file. It first reads the file given as a
-        #' parameter to the current object. It generates random indexes for the
-        #' data. It partitions the data into training, testing and validation
-        #' sets, according to the given parameters. The files are named
-        #' train.txt, test.txt and va.txt. The files are saved to the given
-        #' output folder.
+        #' parameter to the current object. It partitions the data into
+        #' training, testing and validation sets, according to the given
+        #' parameters. The files are named train.txt, test.txt and va.txt. The
+        #' files are saved to the given output folder.
         #' @param fn The input file name. It should be relative to the ddir.
         #' @param dir The name of the output folder.
         #' @param percs The size of the training, testing and validation sets.
@@ -167,10 +168,8 @@ DataSampler <- R6::R6Class(
                 data <- private$read_file(fn, F)
                 # The number of lines in the data
                 lc <- length(data)
-                # Random indexes are generated
-                indexes <- sample(1:lc, lc)
-                # The randomized data
-                rd <- data[indexes]
+                # The required data data
+                rd <- data[1:lc]
                 # The training set data
                 train_ds <- rd[1:round(lc*percs[["train"]])]
                 # The testing set data
