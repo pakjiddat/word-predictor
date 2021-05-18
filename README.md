@@ -150,7 +150,7 @@ df <- da$plot_n_gram_stats(opts = list(
 The following plot shows the top 10 bi-grams with the highest
 frequencies:
 
-![Top 10 bi-grams](./tests/testthat/data/model/top_features.png)
+![Top 10 bi-grams](./tests/testthat/stats/top_features.png)
 
 The following example plots the n-gram frequency coverage. It shows the
 percentage of n-grams with frequency 1, 2 … 10.
@@ -172,7 +172,7 @@ df <- da$plot_n_gram_stats(opts = list(
 
 The following coverage plot is displayed:
 
-![Top 10 bi-grams](./tests/testthat/data/model/coverage.png)
+![Top 10 bi-grams](./tests/testthat/stats/coverage.png)
 
 The following example shows how to get the list of bi-grams starting
 with **“great\_”** along with their frequencies. It also shows how to
@@ -296,7 +296,7 @@ me$compare_performance(opts = list(
 After running the above method the following plot was generated:
 
 ![Performance comparision of n-gram
-models](./tests/testthat/models/stats/performance.png)
+models](./tests/testthat/stats/performance.png)
 
 ## Benefits
 

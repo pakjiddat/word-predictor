@@ -131,7 +131,7 @@ df <- da$plot_n_gram_stats(opts = list(
 
 The following plot shows the top 10 bi-grams with the highest frequencies:
 
-![Top 10 bi-grams](./tests/testthat/data/model/top_features.png)
+![Top 10 bi-grams](./tests/testthat/stats/top_features.png)
 
 The following example plots the n-gram frequency coverage. It shows the percentage of n-grams with frequency 1, 2 ... 10.
 
@@ -152,7 +152,7 @@ df <- da$plot_n_gram_stats(opts = list(
 
 The following coverage plot is displayed:
 
-![Top 10 bi-grams](./tests/testthat/data/model/coverage.png)
+![Top 10 bi-grams](./tests/testthat/stats/coverage.png)
 
 The following example shows how to get the list of bi-grams starting with **"great_"** along with their frequencies. It also shows how to get the frequency of the bi-gram **"great_deal"**.
 
@@ -259,7 +259,7 @@ me$compare_performance(opts = list(
 
 After running the above method the following plot was generated:
 
-![Performance comparision of n-gram models](./tests/testthat/models/stats/performance.png)
+![Performance comparision of n-gram models](./tests/testthat/stats/performance.png)
 
 ## Benefits
 The **wordpredictor** package provides an easy to use framework for working with n-gram models. It is optamized for performance and produces language models with good performance. Performance tests have shown that a 4-gram language model generated from an data file of size 10 Mb using default data cleaning and tokenization options has a mean Perplexity score of 20 and word prediction accuracy of 80%.
