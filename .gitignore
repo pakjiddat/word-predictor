@@ -9,3 +9,5 @@
 ./tests/teststhat/stats
 inst/doc
 docs
+./vignettes/features_cache
+./vignettes/overview_cache
