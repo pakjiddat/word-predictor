@@ -2,17 +2,15 @@
 % Please edit documentation in R/data-analyzer.R
 \name{DataAnalyzer}
 \alias{DataAnalyzer}
-\title{It is used to analyze text data}
+\title{Allows analyzing n-gram data}
 \description{
 It provides information on text files, such as number of lines
-and number of words. It allows generating sample file from an input text
-file. It displays bar plots showing word frequencies.
+and number of words. It displays bar plots showing n-gram frequencies.
 }
 \details{
 It provides a method that returns text file information. The text
 file information includes total number of lines, max, min and mean line
-length and file size. It also provides a method that takes random samples of
-lines in an input text file. It provides a method that reads an input text
+length and file size. It provides a method that reads an input text
 file containing token frequencies. It displays the most occuring tokens.
 }
 \section{Super class}{
@@ -72,13 +70,15 @@ The plot stats are returned by the function as a data frame.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{opts}}{The options for analyzing the data.
-type -> The type of plot to display. The options are:
+\itemize{
+\item \strong{type}. The type of plot to display. The options are:
 'top_features', 'coverage'.
-n -> For 'top_features', it is the number of top most occuring
+\item \strong{n}. For 'top_features', it is the number of top most occuring
 tokens. For 'coverage' it is the first n frequencies.
-save_to -> The graphics devices to save the plot to.
+\item \strong{save_to}. The graphics devices to save the plot to.
 NULL implies plot is printed.
-dir -> The output directory where the plot will be saved.}
+\item \strong{dir}. The output directory where the plot will be saved.
+}}
 }
 \if{html}{\out{</div>}}
 }
@@ -103,7 +103,7 @@ Generates and returns information about text files.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A data frame containing the file statistics.
+A data frame containing the text file statistics.
 }
 }
 \if{html}{\out{<hr>}}

@@ -1,15 +1,13 @@
-#' It is used to analyze text data
+#' Allows analyzing n-gram data
 #'
 #' @description
 #' It provides information on text files, such as number of lines
-#' and number of words. It allows generating sample file from an input text
-#' file. It displays bar plots showing word frequencies.
+#' and number of words. It displays bar plots showing n-gram frequencies.
 #'
 #' @details
 #' It provides a method that returns text file information. The text
 #' file information includes total number of lines, max, min and mean line
-#' length and file size. It also provides a method that takes random samples of
-#' lines in an input text file. It provides a method that reads an input text
+#' length and file size. It provides a method that reads an input text
 #' file containing token frequencies. It displays the most occuring tokens.
 #' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes ggsave
 DataAnalyzer <- R6::R6Class(
@@ -39,13 +37,13 @@ DataAnalyzer <- R6::R6Class(
         #' 'coverage' displays the number of words along with their frequencies.
         #' The plot stats are returned by the function as a data frame.
         #' @param opts The options for analyzing the data.
-        #' type -> The type of plot to display. The options are:
+        #' * **type**. The type of plot to display. The options are:
         #'   'top_features', 'coverage'.
-        #' n -> For 'top_features', it is the number of top most occuring
+        #' * **n**. For 'top_features', it is the number of top most occuring
         #'   tokens. For 'coverage' it is the first n frequencies.
-        #' save_to -> The graphics devices to save the plot to.
+        #' * **save_to**. The graphics devices to save the plot to.
         #'   NULL implies plot is printed.
-        #' dir -> The output directory where the plot will be saved.
+        #' * **dir**. The output directory where the plot will be saved.
         #' @return A data frame containing the stats.
         plot_n_gram_stats = function(opts) {
             # The opts is merged with the da_opts attribute
@@ -120,19 +118,19 @@ DataAnalyzer <- R6::R6Class(
         #' @description
         #' Generates and returns information about text files.
         #' @param res The name of a directory or a file name.
-        #' @return A data frame containing the file statistics.
+        #' @return A data frame containing the text file statistics.
         get_file_info = function(res) {
             # The list of files to check
-            file_list <- NULL
+            fl <- NULL
             # If a directory name was passed
             if (dir.exists(res)) {
                 # All files in the directory are fetched
-                file_list = dir(res, full.names = T)
+                fl = dir(res, full.names = T, pattern = "*.txt")
             }
             # If a file name was passed
             else if (file.exists(res)) {
                 # The file name is set
-                file_list <- res
+                fl <- res
             }
 
             # Used to store overall information about files
@@ -151,7 +149,7 @@ DataAnalyzer <- R6::R6Class(
             temp_max <- temp_min <- temp_mean <- 0
 
             # For each file in the list
-            for (fn in file_list) {
+            for (fn in fl) {
                 # The file is read
                 lines <- private$read_file(fn, F)
                 # The line count
@@ -228,9 +226,9 @@ DataAnalyzer <- R6::R6Class(
 
     private = list(
         # @field da_opts The options for data analyzer object.
-        #   type -> The type of plot to display. The options are:
+        # * **type**. The type of plot to display. The options are:
         #     'top_features', 'coverage'.
-        #   n -> For 'top_features', it is the number of top most occuring
+        # * **n**. For 'top_features', it is the number of top most occuring
         #     tokens.
         da_opts = list(
             "type" = "top_features",

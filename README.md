@@ -3,17 +3,14 @@
 
 # Introduction
 
-<!-- badges: start -->
-
-<!-- badges: end -->
-
 The goal of the **wordpredictor** package is to provide a flexible and
-easy to use framework for generating n-gram models for word prediction.
+easy to use framework for generating [n-gram
+models](https://en.wikipedia.org/wiki/N-gram) for word prediction.
 
 The package allows generating n-gram models from input text files. It
 also allows exploring n-grams using plots. Additionally it provides
-methods for measuring n-gram model performance using Perplexity and
-accuracy.
+methods for measuring n-gram model performance using
+[Perplexity](https://en.wikipedia.org/wiki/Perplexity) and accuracy.
 
 The n-gram model may be customized using several options such as n-gram
 size, data cleaning options and options for tokenization.
@@ -68,7 +65,6 @@ package works and the theory behind it.
 The following example shows how to generate a n-gram model.
 
 ``` r
-library(wordpredictor)
 
 # The following code generates n-gram model using default options for data
 # cleaning and tokenization. See the following section on how to customize these
@@ -85,8 +81,8 @@ mg <- ModelGenerator$new(
     df = "input.txt",
     n = 4,
     ssize = 10,
-    ddir = "./data",
-    mdir = "./data/model",
+    ddir = ddir1,
+    mdir = mdir,
     dc_opts = list(),
     tg_opts = list(),
     ve = 2
@@ -106,11 +102,11 @@ The following example shows how to predict the next word given a set of
 words:
 
 ``` r
-library(wordpredictor)
-
+# The model file name
+mfn <- paste0(ddir1, "/model/def-model.RDS")
 # An object of class ModelPredictor is created. The mf parameter is the name of
 # the model file that was generated in the previous example.
-mp <- ModelPredictor$new(mf = "./models/def-model.RDS")
+mp <- ModelPredictor$new(mf = mfn)
 # Given the words: "how are", the next word is predicted. The top 3 most likely
 # next words are returned along with their respective probabilities.
 res <- mp$predict_word(words = "how are", 3)
@@ -133,67 +129,54 @@ The following example plots the top 10 most occuring bi-grams along with
 their frequencies:
 
 ``` r
-library(wordpredictor)
-
+# The file name
+fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
-the n-gram file.
-da <- DataAnalyzer$new(fn = "./data/model/n2.RDS")
+# the n-gram file.
+da <- DataAnalyzer$new(fn =fn)
 # The top 10 most occuring features are plotted
 df <- da$plot_n_gram_stats(opts = list(
   "type" = "top_features",
   "n" = 10,
-  "save_to" = "png",
-  "dir" = "./data/model"
+  "save_to" = NULL,
+  "dir" = NULL
 ))
 ```
 
-The following plot shows the top 10 bi-grams with the highest
-frequencies:
-
-``` r
-knitr::include_graphics("./tests/testthat/stats/top_features.png")
-```
-
-<img src="./tests/testthat/stats/top_features.png" width="70%" />
+![](man/figures/README-analyze-ngrams-1-1.png)<!-- -->
 
 The following example plots the n-gram frequency coverage. It shows the
 percentage of n-grams with frequency 1, 2 … 10.
 
 ``` r
-library(wordpredictor)
-
+# The file name
+fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
-the n-gram file.
-da <- DataAnalyzer$new(fn = "./data/model/n2.RDS")
+# the n-gram file.
+da <- DataAnalyzer$new(fn = fn)
 # The top 10 most occuring features are plotted
 df <- da$plot_n_gram_stats(opts = list(
   "type" = "coverage",
   "n" = 10,
-  "save_to" = "png",
-  "dir" = "./data/model"
+  "save_to" = NULL,
+  "dir" = NULL
 ))
 ```
 
-The following coverage plot is displayed:
-
-``` r
-knitr::include_graphics("./tests/testthat/stats/coverage.png")
-```
-
-<img src="./tests/testthat/stats/coverage.png" width="70%" />
+![](man/figures/README-analyze-ngrams-2-1.png)<!-- -->
 
 The following example shows how to get the list of bi-grams starting
 with **“great\_”** along with their frequencies. It also shows how to
 get the frequency of the bi-gram **“great\_deal”**.
 
 ``` r
-library(wordpredictor)
-
+# The file name
+fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
-the n-gram file.
-da <- DataAnalyzer$new(fn = "./data/model/n2.RDS")
+# the n-gram file.
+da <- DataAnalyzer$new()
 # Bi-grams starting with "great_" are returned
-df <- da$get_ngrams(fn = "./data/model/n2.RDS", c = 10, pre = "^great_*")
+df <- da$get_ngrams(fn = fn, c = 10, pre = "^great_*")
 # The data frame is sorted by frequency
 df <- df[order(df$freq, decreasing = T),]
 # The frequency of the bi-gram "great_deal"
@@ -207,6 +190,7 @@ data cleaning options. The following code shows the data cleaning
 options and their default values:
 
 ``` r
+
 # @field dc_opts The options for the data cleaner object.
 #   min_words -> The minimum number of words per sentence.
 #   line_count -> The number of lines to read and clean at a time.
@@ -246,6 +230,7 @@ token generation options. The following code shows the token generation
 options and their default values:
 
 ``` r
+
 # @field tg_opts The options for the token generator obj.
 #   min_freq -> All ngrams with frequency less than min_freq are
 #     ignored.
@@ -276,47 +261,42 @@ invalid predictions.
 The following example shows how to evaluate the performance of a model:
 
 ``` r
-library(wordpredictor)
-
+# The model file name
+mfn <- paste0(ddir1, "/model/def-model.RDS")
+# The validation file name
+vfn <- paste0(ddir1, "/model/validate.txt")
 # ModelEvaluator class object is created
-me <- ModelEvaluator$new(mf = "./data/model/def-model.RDS")
+me <- ModelEvaluator$new(mf = mfn, ve = 2)
 # The performance evaluation is performed. The performance stats are returned as
-a data frame and also saved within the model file itself.
-stats <- me$evaluate_performance(lc = 20, fn = "./data/model/validate.txt")
+# a data frame and also saved within the model file itself.
+stats <- me$evaluate_performance(lc = 20, fn = vfn)
 ```
 
 The following example shows how to compare the performance of several
 n-gram models.
 
 ``` r
+# The model file name
+mfn <- paste0(ddir1, "/model/def-model.RDS")
 # ModelEvaluator class object is created
-me <- ModelEvaluator$new()
+me <- ModelEvaluator$new(mf = mfn, ve = 2)
 # The performance evaluation is performed. The performance stats are saved as a
-data frame and also plotted on a single page. The plot file and performance
-stats are saved to the given folder.
+# data frame and also plotted on a single page. The plot file and performance
+# stats are saved to the given folder.
 me$compare_performance(opts = list(
-  "save_to" = "png",
-  "mdir" = "./models",
-  "dir" = "./models/stats"
+  "save_to" = NULL,
+  "mdir" = msdir,
+  "dir" = sdir
 ))
 ```
 
-After running the above method the following plot was generated:
-
-``` r
-knitr::include_graphics("./tests/testthat/stats/performance.png")
-```
-
-<img src="./tests/testthat/stats/performance.png" width="80%" />
+![](man/figures/README-evaluate-performance-2-1.png)<!-- -->
 
 ## Benefits
 
 The **wordpredictor** package provides an easy to use framework for
-working with n-gram models. It is optamized for performance and produces
-language models with good performance. Performance tests have shown that
-a 4-gram language model generated from an data file of size 10 Mb using
-default data cleaning and tokenization options has a mean Perplexity
-score of 20 and word prediction accuracy of 80%.
+working with n-gram models. It allows n-gram model generation,
+performance evaluation and word prediction.
 
 ## Limitations
 
@@ -329,11 +309,16 @@ n-gram size, more memory and CPU power will be needed.
 ## Future Work
 
 The **wordpredictor** package may be extended by adding support for
-different smoothing techniques such as Good-Turing, Weighted Backoff,
-Katz-Backoff, UNK based probabilities.
+different smoothing techniques such as
+[Good-Turing](https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation),
+[Katz-Backoff](https://en.wikipedia.org/wiki/Katz%27s_back-off_model)
+and handling of [Out Of Vocabulary
+Words](https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words).
 
-Support for different types of n-gram models such as k-skip-grams, class
-based n-grams and Part of Speech (POS) tagging may be added.
+Support for different types of n-gram models such as
+[Skip-Grams](https://en.wikipedia.org/wiki/N-gram#Skip-gram) and
+[Syntatic
+n-grams](https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams).
 
 The **wordpredictor** package is used for predicting words. It may be
 extended to support other use cases such as spelling correction,
@@ -348,6 +333,6 @@ Contributions are welcome \!.
 I was motivated to develop the **wordpredictor** package after taking
 the courses in the [Data Science
 Specialization](https://www.coursera.org/specializations/jhu-data-science)
-offered by John Hopkins university. I would like to thank the course
-instructors for making the courses interesting and motivating for the
-students.
+offered by John Hopkins university on Coursera. I would like to thank
+the course instructors for making the courses interesting and motivating
+for the students.

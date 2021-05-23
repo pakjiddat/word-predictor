@@ -3,5 +3,9 @@
 .Rdata
 .httr-oauth
 .DS_Store
-tests/testthat/data
-tests/testthat/models
+./tests/teststhat/data1
+./tests/teststhat/data2
+./tests/teststhat/models
+./tests/teststhat/stats
+inst/doc
+docs

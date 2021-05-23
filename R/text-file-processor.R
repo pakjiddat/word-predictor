@@ -10,6 +10,7 @@
 #' line. The post processing function is called on the processed data. It also
 #' provides a method for generating a sample file from an input text file
 #' @importFrom pryr object_size
+#' @export
 TextFileProcessor <- R6::R6Class(
     "TextFileProcessor",
     public = list(
@@ -37,9 +38,9 @@ TextFileProcessor <- R6::R6Class(
     ),
     private = list(
         # @field opts The list of file processing options.
-        #   save_data -> If the combined processed lines should be saved.
-        #   ret_data -> If the data should be returned.
-        #   output_file -> Name of the output file used to store the data.
+        # * **save_data**. If the combined processed lines should be saved.
+        # * **ret_data**. If the data should be returned.
+        # * **output_file**. Name of the output file used to store the data.
         opts = list(
             "save_data" = F,
             "ret_data" = F,

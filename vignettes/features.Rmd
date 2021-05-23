@@ -1,0 +1,294 @@
+---
+title: "features"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{features}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE, results='hide'}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "man/figures/README-"
+)
+```
+
+```{r setup, echo=FALSE, results='hide', message=FALSE}
+library(wordpredictor)
+# The current directory should be the vignette folder
+# The path to the data1 directory
+ddir1 <- "../tests/testthat/data1"
+# The path to the data2 directory
+ddir2 <- "../tests/testthat/data2"
+# The path to the model directory
+mdir <- "../tests/testthat/data1/model"
+# The path to the models directory
+msdir <- "../tests/testthat/models"
+# The path to the stats directory
+sdir <- "../tests/testthat/models/stats"
+# The script used to check for directories is included
+source("../tests/testthat/setup_dirs.R")
+# Check if the directories exist
+check_dirs(ddir1, ddir2, mdir, msdir, sdir)
+```
+
+## Introduction
+This document describes all the features provided by the **wordpredictor** package. It first describes how to generate n-gram models. Next it describes how to evaluate the performance of the model. Finally it describes how to make word predictions using the model.
+
+## Model Generation
+
+The **wordpredictor** package provides several classes that can be used to generate n-gram models. These classes may be used to generate n-gram models step by step. An alternative is to use the **ModelGenerator** class which combines all the steps and provides a single method for generating n-gram models.
+
+The following steps are involved in generating n-gram models:
+
+### Data Exploration
+The first step in generating a n-gram model is data exploration. This involves determining the type of textual content and various text related statistics. The type of text may be news content, blog posts, Twitter feeds, product reviews, customer chat history etc. Example of text related statistics are line count, word count, average line length and input file size.
+
+It is also important to determine the un-wanted words and symbols in the data such as vulgar words, punctuation symbols, non-alphabetical symbols etc. The **wordpredictor** package provides the **DataAnalyzer** class which can be used to find out statistics about the input data. The following example shows how to get statistics on all text files within a folder:
+
+```{r data-exploration, cache=TRUE}
+# The DataAnalyzer object is created
+da <- DataAnalyzer$new()
+# Information on all text files in the ddir2 folder is returned
+fi <- da$get_file_info(ddir2)
+# The file information is printed
+print(fi)
+```
+
+The word count of a text file can be fetched using the command: `cat file-name | wc -w`. This command should work on all Unix based systems.
+
+### Data Sampling
+The next step is to generate training, testing and validation samples from the input text file. If there are many input text files, then they can be combined to a single file using the command: `cat file-1 file-2 file3 > output-file`. The contents of the combined text file may need to be randomized.
+
+The **wordpredictor** package provides the **DataSampler** class which can be used to generate a random sample containing given number of lines. The following example shows how to generate a random sample of size 10 Mb from an input text file:
+
+```{r data-sampling-1, cache=TRUE}
+# The sample size in Mb
+ssize <- 10
+# The data file path
+dfp <- paste0(ddir2, "/input.txt")
+
+# The object size is formatted
+obj_size <- file.size(dfp)/10^6
+# The proportion of data to sample
+prop <- (ssize/obj_size)
+# An object of class DataSampler is created
+ds <- DataSampler$new(ddir = ddir2, mdir = ddir2)
+# The sample file is generated.
+# The randomized sample is saved to the file train.txt in the ddir
+ds$generate_sample(
+    fn =  "input.txt",
+    ss = prop,
+    ic = F,
+    ir = T,
+    t = "tr",
+    is = T
+)
+```
+
+Usually we need a train dataset for generating the n-gram model. A test dataset for testing the model and a validation dataset for evaluating the performance of the model. The following example shows how to generate the train, test and validation files. The train file contains the first 80% of the lines, the test set contains the next 10% of the lines. The remaining lines are in the validation set.
+
+```{r data-sampling-2, cache=TRUE}
+# An object of class DataSampler is created
+ds <- DataSampler$new(ddir = ddir2, mdir = ddir2)
+# The train, test and validation files are generated
+ds$generate_data(
+    fn =  "input.txt",
+    dir = ddir2,
+    percs = list(
+        "train" = 0.8,
+        "test" = 0.1,
+        "validate" = 0.1
+    )
+)
+```
+
+In the above example, **ddir** parameter is the data directory containing the **input.txt** file. **mdir** parameter is the output directory that will contain the generated test, validation and train data files.
+
+### Data Cleaning
+The next step is to remove un-wanted symbols and words from the input text file. This reduces the memory requirement of the n-gram model and makes it more efficient. Example of un-wanted words are vulgar words and words that are not part of the vacabulary. Punctuation, numbers, non-printable characters, extra spaces may also be removed.
+
+The **wordpredictor** package provides the **DataCleaner** class which can be used to remove un-wanted words and symbols from text files. The following example shows how to clean a given text file:
+
+```{r data-cleaning, cache=TRUE}
+# The data file path
+fn <- paste0(ddir2, "/input.txt")
+# The data cleaning options
+dc_opts = list(
+    "min_words" = 2,
+    "to_lower" = T,
+    "remove_stop" = F,
+    "remove_punct" = T,
+    "remove_non_dict" = T,
+    "remove_non_alpha" = T,
+    "remove_extra_space" = T,
+    "remove_bad" = F
+)
+# The data cleaner object is created
+dc <- DataCleaner$new(fn, dc_opts)
+# The sample file is cleaned and saved as input-clean.txt in the ddir
+dc$clean_file()
+```
+
+The **clean_file** method reads a certain number of lines at a time, cleans the lines of text and saves them to an output text file. It is useful for cleaning large text files.
+
+### Tokenization
+The next step is to generate n-gram tokens from the cleaned text file. The **TokenGenerator** class allows generating n-gram tokens of given size from a given input text file. The following example shows how to generate n-grams tokens of size 3:
+
+```{r tokenization-1, cache=TRUE}
+# The test file path
+fn <- paste0(ddir2, "/test.txt")
+# The ngram number is set
+tg_opts = list("n" = 3, "save_ngrams" = T, dir = mdir)
+# The TokenGenerator object is created
+tg <- TokenGenerator$new(fn, tg_opts)
+# The ngram tokens are generated
+tg$generate_tokens()
+```
+
+The above code generates the file **n3.RDS** in the model directory. This file contains 3-gram tokens along with their frequencies. N-gram files of size 1, 2, 3, 4 and so on can be generated in this way. The larger the n-gram size, the higher the memory requirement for the n-gram model. Usually n-grams of size 4 are generated.
+
+Two important customization options supported by the class are **min_freq** and **stem_words**. **min_freq** sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than **min_freq** are excluded. When the **stem_words** option is used, n-gram prefix components are stemmed. The next word is not transformed.
+
+The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occuring n-gram tokens:
+
+```{r tokenization-2, cache=TRUE, fig.width=5, fig.height=3}
+# The ngram file name
+fn <- paste0(ddir2, "/n3.RDS")
+# The DataAnalyzer object is created
+da <- DataAnalyzer$new(fn)
+# The top features plot is checked
+df <- da$plot_n_gram_stats(opts = list(
+    "type" = "top_features",
+    "n" = 10,
+    "save_to" = NULL,
+    "dir" = sdir
+))
+```
+
+The following example shows the distribution of word frequencies:
+
+```{r tokenization-3, cache=TRUE, fig.width=5, fig.height=3}
+# The ngram file name
+fn <- paste0(ddir2, "/n3.RDS")
+# The DataAnalyzer object is created
+da <- DataAnalyzer$new(fn)
+# The top features plot is checked
+df <- da$plot_n_gram_stats(opts = list(
+    "type" = "coverage",
+    "n" = 10,
+    "save_to" = NULL,
+    "dir" = sdir
+))
+```
+
+The following example returns all 3-gram tokens that start with **great_**:
+
+```{r tokenization-4, cache=TRUE}
+# The ngram file name
+fn <- paste0(ddir2, "/n3.RDS")
+# The DataAnalyzer object is created
+da <- DataAnalyzer$new()
+# Bi-grams starting with "great_" are returned
+df <- da$get_ngrams(fn = fn, c = 10, pre = "^great_*")
+# The data frame is sorted by frequency
+df <- df[order(df$freq, decreasing = T),]
+# The data frame is printed
+print(df)
+```
+
+### Transition Probabilities
+The next step in generating the n-gram model is to generate transition probabilities from the n-gram files. The **TPGenerator** class is used to generate the transition probabilities. For each n-gram token file a corresponding transition probabilities file is generated.
+
+The transition probabilities files are then combined into a single file containing transition probability data for n-grams of size 1, 2, 3, 4 etc.
+
+The following example shows how to generate combined transition probabilities for n-grams of size 1, 2, 3 and 4:
+
+```{r transition-probabilities, cache=TRUE}
+# The TPGenerator object is created
+tp <- TPGenerator$new(opts = list(n = 4, dir = ddir2))
+# The combined transition probabilities are generated
+tp$generate_tp()
+```
+
+The above code produces the final **model-4.RDS**.
+
+### The model file
+The final step is to generate a n-gram model file from the files generated in the previous steps. The **Model** class contains the method **load_model**, which reads the combined transition probabilities files and other files that are used by the model. An instance of the **Model** class represents the n-gram model.
+
+### Generating the model in one step
+All the previous steps may be combined into a single step. The **ModelGenerator** class allows generating the final n-gram model using a single method call. The following example generates a n-gram model using default data cleaning and tokenization options:
+
+```{r generate-model, results='hide', cache=TRUE}
+# The following code generates n-gram model using default options for data
+# cleaning and tokenization. See the following section on how to customize these
+# options. Note that input.txt is the name of the input data file. It should be
+# present in the data directory. ddir is the data directory. mdir is the model
+# directory. The output model file, which is def-model.RDS will be placed in
+# this directory.
+
+# ModelGenerator class object is created
+mg <- ModelGenerator$new(
+    name = "def-model",
+    desc = "N-gram model generating using default options",
+    fn = "def-model.RDS",
+    df = "input.txt",
+    n = 4,
+    ssize = 10,
+    ddir = ddir1,
+    mdir = mdir,
+    dc_opts = list(),
+    tg_opts = list(),
+    ve = 2
+)
+
+# Generates n-gram model. The output is the file
+# ./data/model/def-model.RDS
+mg$generate_model()
+```
+
+## Evaluating the model performance
+The **wordpredictor** package provides the **ModelEvaluator** class for evaluating the performance of the generated n-gram model. Intrinsic and Extrinsic evaluation are supported. Also the performance of several n-gram models may be compared.
+
+The following example performs Intrinsic evaluation. It measures the Perplexity score for each sentence in the **validation.txt** file, that was generated in the data sampling step. It returns the minimum, mean and maximum Perplexity score for each line.
+
+```{r model-evaluation-1, cache=TRUE}
+# The model file name
+mfn <- paste0(mdir, "/def-model.RDS")
+# The path to the cleaned validation file
+vfn <- paste0(mdir, "/validate.txt")
+# ModelEvaluator class object is created
+me <- ModelEvaluator$new(mf = mfn)
+# The intrinsic evaluation is performed on first 20 lines
+stats <- me$intrinsic_evaluation(lc = 20, fn = vfn)
+```
+
+The following example performs Extrinsic evaluation. It measures the accuracy score for each sentence in **validation.txt** file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The Extrinsic evaluation returns the number of correct and incorrect predictions.
+
+```{r model-evaluation-2, cache=TRUE}
+# The model file name
+mfn <- paste0(mdir, "/def-model.RDS")
+# The path to the cleaned validation file
+vfn <- paste0(mdir, "/validate.txt")
+# ModelEvaluator class object is created
+me <- ModelEvaluator$new(mf = mfn)
+# The intrinsic evaluation is performed on first 100 lines
+stats <- me$extrinsic_evaluation(lc = 100, fn = vfn)
+```
+
+## Making word predictions
+
+The n-gram model generated in the previous step can be used to predict the next word given a set of words. The following example shows how to predict the next word. It returns the 3 possible next words along with their probabilities.
+
+```{r predict-word, cache=TRUE}
+# The model file name
+mfn <- paste0(mdir, "/def-model.RDS")
+# An object of class ModelPredictor is created. The mf parameter is the name of
+# the model file that was generated in the previous example.
+mp <- ModelPredictor$new(mf = mfn)
+# Given the words: "how are", the next word is predicted. The top 3 most likely
+# next words are returned along with their respective probabilities.
+res <- mp$predict_word(words = "how are", 3)
+```

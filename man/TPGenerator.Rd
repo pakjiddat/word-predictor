@@ -56,12 +56,16 @@ transition probabilities options and verbose option.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{opts}}{The options for generating the transition probabilities.
-save_tp -> If the data should be saved.
-n -> The ngram size.
-dir -> The dir where the output file should be saved.
-format -> The format for the output. There are two options.
-'plain' -> The data is stored in plain text.
-'obj' -> The data is stored as a R obj.}
+\itemize{
+\item \strong{save_tp}. If the data should be saved.
+\item \strong{n}. The ngram size.
+\item \strong{dir}. The directory containing the input and output files.
+\item \strong{format}. The format for the output. There are two options.
+\itemize{
+\item \strong{plain}. The data is stored in plain text.
+\item \strong{obj}. The data is stored as a R obj.
+}
+}}
 
 \item{\code{ve}}{If progress information should be displayed.}
 }

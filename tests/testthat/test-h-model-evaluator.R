@@ -1,41 +1,58 @@
 test_that("Intrinsic evaluation works", {
+    # The model file name
+    mfn <- paste0(mdir, "/def-model.RDS")
+    # The cleaned validation file name
+    cvfn <- paste0(mdir, "/validate.txt")
+
     # ModelEvaluator class object is created
-    me <- ModelEvaluator$new(mf = "./data/model/def-model.RDS")
+    me <- ModelEvaluator$new(mf = mfn)
     # The intrinsic evaluation is performed
-    stats <- me$intrinsic_evaluation(lc = 20, fn = "./data/model/validate.txt")
+    stats <- me$intrinsic_evaluation(lc = 20, fn = cvfn)
+    # The stats are rounded
+    stats$mean <- round(stats$mean)
     # Check that mean Perplexity is correct
-    expect_equal(stats$mean, 19.1)
+    expect_equal(stats$mean, 417)
     # Check that max Perplexity is correct
-    expect_equal(stats$max, 110)
+    expect_equal(stats$max, 1291)
     # Check that min Perplexity is correct
-    expect_equal(stats$min, 2)
+    expect_equal(stats$min, 20)
 })
 
 test_that("Extrinsic evaluation works", {
+    # The model file name
+    mfn <- paste0(mdir, "/def-model.RDS")
+    # The cleaned validation file name
+    cvfn <- paste0(mdir, "/validate.txt")
+
     # ModelEvaluator class object is created
-    me <- ModelEvaluator$new(mf = "./data/model/def-model.RDS")
+    me <- ModelEvaluator$new(mf = mfn)
     # The intrinsic evaluation is performed
-    stats <- me$extrinsic_evaluation(lc = 100, fn = "./data/model/validate.txt")
+    stats <- me$extrinsic_evaluation(lc = 100, fn = cvfn)
     # Check that percentage of valid predictions is correct
-    expect_equal(stats$valid_perc, 74)
+    expect_equal(stats$valid_perc, 10)
     # Check that percentage of invalid predictions is correct
-    expect_equal(stats$invalid_perc, 26)
+    expect_equal(stats$invalid_perc, 90)
 })
 
 
 test_that("Performance evaluation works", {
+    # The model file name
+    mfn <- paste0(mdir, "/def-model.RDS")
+    # The cleaned validation file name
+    cvfn <- paste0(mdir, "/validate.txt")
+
     # ModelEvaluator class object is created
-    me <- ModelEvaluator$new(mf = "./data/model/def-model.RDS")
+    me <- ModelEvaluator$new(mf = mfn)
     # The performance evaluation is performed
-    stats <- me$evaluate_performance(lc = 20, fn = "./data/model/validate.txt")
+    stats <- me$evaluate_performance(lc = 20, fn = cvfn)
     # The Model object is read
-    m <- readRDS("./data/model/def-model.RDS")
+    m <- readRDS(mfn)
     # Check that accuracy is correct
-    expect_equal(m$pstats$a, 85)
+    expect_equal(m$pstats$a, 10)
     # Check that mean Perplexity is correct
-    expect_equal(m$pstats$p, 19.1)
-    # Check that time taken is less than 40 sec
-    expect_lt(m$pstats$t, 40)
+    expect_equal(round(m$pstats$p), 417)
+    # Check that time taken is less than 100 sec
+    expect_lt(m$pstats$t,  100)
     # Check that memory used is less than 45 Mb
     expect_lt(as.numeric(m$pstats$m), (4.5*10^7))
 })
@@ -46,11 +63,11 @@ test_that("Performance comparision works", {
     # The performance evaluation is performed
     me$compare_performance(opts = list(
         "save_to" = "png",
-        "mdir" = "./models",
-        "dir" = "./models/stats"
+        "mdir" = msdir,
+        "dir" = sdir
     ))
     # Check that the performance image file exists
-    expect_true(file.exists("./models/stats/performance.png"))
+    expect_true(file.exists(paste0(sdir, "/performance.png")))
     # Check that the performance stats file exists
-    expect_true(file.exists("./models/stats/pstats.RDS"))
+    expect_true(file.exists(paste0(sdir, "/pstats.RDS")))
 })

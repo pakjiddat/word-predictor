@@ -4,12 +4,14 @@
 \alias{DataCleaner}
 \title{Provides data cleaning functionality}
 \description{
-Allows removing unneeded characters from text files.
+It provides a memory efficient method for removing unneeded
+characters from text files. It is suitable for cleaning large text files.
 }
 \details{
-It provides a method for cleaning text files. It allows removing bad words,
-stop words, non dictionary words, extra space, punctuation and non-alphabet
-characters. Converting text to lower case. It supports large text files.
+It provides a method for cleaning text files. It allows removing bad
+words, stop words, non dictionary words, extra space, punctuation and
+non-alphabet characters. Allows conversion to lower case. It supports large
+text files.
 }
 \section{Super class}{
 \code{\link[wordpredictor:TextFileProcessor]{wordpredictor::TextFileProcessor}} -> \code{DataCleaner}
@@ -45,18 +47,23 @@ and verbose options.
 \item{\code{fn}}{The path to the file to clean.}
 
 \item{\code{opts}}{The options for data cleaning.
-min_words -> The minimum number of words per sentence.
-line_count -> The number of lines to read and clean at a time.
-sw_file -> The stop words file path.
-bad_file -> The bad words file path.
-to_lower -> If the words should be converted to lower case.
-remove_stop -> If stop words should be removed.
-remove_punct -> If punctuation symbols should be removed.
-remove_non_dict -> If non dictionary words should be removed.
-remove_non_alpha -> If non alphabet symbols should be removed.
-remove_extra_space -> If leading, trailing and double spaces
+\itemize{
+\item \strong{min_words}. The minimum number of words per sentence.
+\item \strong{line_count}. The number of lines to read and clean at a time.
+\item \strong{save_data}. If the combined processed lines should be saved.
+\item \strong{output_file}. Name of the output file used to store the data.
+\item \strong{sw_file}. The stop words file path.
+\item \strong{dict_file}. The dictionary file path.
+\item \strong{bad_file}. The bad words file path.
+\item \strong{to_lower}. If the words should be converted to lower case.
+\item \strong{remove_stop}. If stop words should be removed.
+\item \strong{remove_punct}. If punctuation symbols should be removed.
+\item \strong{remove_non_dict}. If non dictionary words should be removed.
+\item \strong{remove_non_alpha}. -> If non alphabet symbols should be removed.
+\item \strong{remove_extra_space}. -> If leading, trailing and double spaces
 should be removed.
-remove_bad -> If bad words should be removed}
+\item \strong{remove_bad}. If bad words should be removed
+}}
 
 \item{\code{ve}}{Indicates if progress information should be displayed.}
 }
@@ -67,12 +74,15 @@ remove_bad -> If bad words should be removed}
 \if{html}{\out{<a id="method-clean_file"></a>}}
 \if{latex}{\out{\hypertarget{method-clean_file}{}}}
 \subsection{Method \code{clean_file()}}{
-It removes unneeded characters from the given text with
-several options. It allows removing punctuations, numbers, symbols,
-urls and separators. It allows removing bad words, stop words and
-words not in the given dictionary file. It reads the given file one
-line at a time, removing unneeded characters. After every line_count
-number of lines, the cleaned lines are saved to the output file.
+It provides an efficient method for cleaning text files.
+It removes unneeded characters from the given text file with several
+options. It allows removing punctuations, bad words, stop words,
+non-alphabetical symbols and non-dictionary words. It reads a certain
+number of lines from the given text file. It removes unneeded
+characters from the lines and then saves the lines to an output text
+file. File cleaning progress is displayed if the verbose option was
+set in the class constructor. It is suitable for cleaning large text
+files.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataCleaner$clean_file()}\if{html}{\out{</div>}}
 }

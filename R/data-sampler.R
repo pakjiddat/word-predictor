@@ -1,4 +1,4 @@
-#' It is used to generate data samples from text files.
+#' It allows generating data samples from text files.
 #'
 #' @description
 #' It provides a method for generating training, testing and
@@ -15,6 +15,7 @@ DataSampler <- R6::R6Class(
         #' @param ddir The data directory.
         #' @param mdir The model directory.
         #' @param ve If progress information should be displayed.
+        #' @export
         initialize = function(ddir = "./data",
                               mdir = "./models",
                               ve = 0) {
@@ -33,12 +34,13 @@ DataSampler <- R6::R6Class(
         #'   the type parameter.
         #' @param ss The number of lines or proportion of lines to sample.
         #' @param ic If the sample file should be cleaned.
+        #' @param ir If the sample file contents should be randomized.
         #' @param t The type of sample. It can be:
-        #'   'tr' -> training.
-        #'   'te' -> testing.
-        #'   'va' -> validation.
+        #' * **tr**. training sample.
+        #' * **te**. testing sample.
+        #' * **va**. validation sample.
         #' @param is If the sampled data should be saved to a file.
-        generate_sample = function(fn = NULL, ss, ic, t, is) {
+        generate_sample = function(fn = NULL, ss, ic, ir, t, is) {
             # If the type is 'tr'
             if (t == 'tr') sfn <- 'train'
             # If the type is 'te'
@@ -83,10 +85,17 @@ DataSampler <- R6::R6Class(
                     private$display_msg(msg, 2)
                     # The input file is read
                     data <- private$read_file(fn, F)
+                    # The number of lines in the main file
+                    lc <- length(data)
+                    # If the data should be randomized
+                    if (ir) {
+                        # The random indexes
+                        i <- sample(1:lc, size = lc)
+                        # The randomized data
+                        data <- data[i]
+                    }
                     # If the sample size is less than 1
                     if (ss < 1) {
-                        # The number of lines in the main file
-                        lc <- length(data)
                         # The number of lines in the sample file
                         lc <- round(lc*ss)
                     }
@@ -170,12 +179,20 @@ DataSampler <- R6::R6Class(
                 lc <- length(data)
                 # The required data data
                 rd <- data[1:lc]
+
+                # The number of lines in train set
+                tr_lc <- round(lc*percs[["train"]])
+                # The number of lines in test set
+                te_lc <- round(lc*percs[["test"]])
+                # The number of lines in validate set
+                va_lc <- round(lc*percs[["validate"]])
+
                 # The training set data
-                train_ds <- rd[1:round(lc*percs[["train"]])]
+                train_ds <- rd[1:tr_lc]
                 # The testing set data
-                test_ds <- rd[1:round(lc*percs[["test"]])]
+                test_ds <- rd[tr_lc:(tr_lc+te_lc)]
                 # The validation set data
-                validate_ds <- rd[1:round(lc*percs[["validate"]])]
+                validate_ds <- rd[(tr_lc+te_lc):(tr_lc+te_lc+va_lc)]
                 # The training data is written to file
                 private$write_file(train_ds, paste0(dir, "/train.txt"), F)
                 # The testing data is written to file

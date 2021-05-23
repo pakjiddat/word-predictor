@@ -2,7 +2,7 @@
 % Please edit documentation in R/data-sampler.R
 \name{DataSampler}
 \alias{DataSampler}
-\title{It is used to generate data samples from text files.}
+\title{It allows generating data samples from text files.}
 \description{
 It provides a method for generating training, testing and
 validation data sets from a given input text file. It also provides a method
@@ -56,7 +56,7 @@ verbose option.
 Generates a sample file of given size from the given
 input file. The file is optionally cleaned and saved.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataSampler$generate_sample(fn = NULL, ss, ic, t, is)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataSampler$generate_sample(fn = NULL, ss, ic, ir, t, is)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -70,10 +70,14 @@ the type parameter.}
 
 \item{\code{ic}}{If the sample file should be cleaned.}
 
+\item{\code{ir}}{If the sample file contents should be randomized.}
+
 \item{\code{t}}{The type of sample. It can be:
-'tr' -> training.
-'te' -> testing.
-'va' -> validation.}
+\itemize{
+\item \strong{tr}. training sample.
+\item \strong{te}. testing sample.
+\item \strong{va}. validation sample.
+}}
 
 \item{\code{is}}{If the sampled data should be saved to a file.}
 }
@@ -86,11 +90,10 @@ the type parameter.}
 \subsection{Method \code{generate_data()}}{
 It generates training, testing and validation data sets
 from the given input file. It first reads the file given as a
-parameter to the current object. It generates random indexes for the
-data. It partitions the data into training, testing and validation
-sets, according to the given parameters. The files are named
-train.txt, test.txt and va.txt. The files are saved to the given
-output folder.
+parameter to the current object. It partitions the data into
+training, testing and validation sets, according to the given
+parameters. The files are named train.txt, test.txt and va.txt. The
+files are saved to the given output folder.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataSampler$generate_data(fn, dir, percs)}\if{html}{\out{</div>}}
 }

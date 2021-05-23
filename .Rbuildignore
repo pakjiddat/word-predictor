@@ -2,5 +2,11 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-tests/testthat/data
-tests/testthat/models
+^tests/teststhat/data1$
+^tests/teststhat/data1/model$
+^tests/teststhat/data2$
+^tests/teststhat/models$
+^tests/teststhat/stats$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

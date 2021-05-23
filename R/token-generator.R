@@ -5,7 +5,7 @@
 #' may be saved to a file in plain text format or as a R object.
 #'
 #' @importFrom SnowballC wordStem
-#' @importFrom dplyr group_by summarize_all
+#' @importFrom dplyr group_by summarize_all %>%
 TokenGenerator <- R6::R6Class(
     "TokenGenerator",
     inherit = TextFileProcessor,
@@ -15,16 +15,16 @@ TokenGenerator <- R6::R6Class(
         #' tokenization options and verbose option.
         #' @param fn The path to the input file.
         #' @param opts The options for generating the ngram tokens.
-        #'   n -> The ngram size.
-        #'   save_ngrams -> If the ngram data should be saved.
-        #'   min_freq -> All ngrams with frequency less than min_freq are
+        #' * **n**. The ngram size.
+        #' * **save_ngrams**. If the ngram data should be saved.
+        #' * **min_freq**. All ngrams with frequency less than min_freq are
         #'     ignored.
-        #'   line_count -> The number of lines to process at a time.
-        #    stem_words -> If words should be transformed to their stems.
-        #'   dir -> The dir where the output file should be saved.
-        #'   format -> The format for the output. There are two options.
-        #'     'plain' -> The data is stored in plain text.
-        #'     'obj' -> The data is stored as a R obj.
+        #' * **line_count**. The number of lines to process at a time.
+        #' * **stem_words**. If words should be transformed to their stems.
+        #' * **dir**. The dir where the output file should be saved.
+        #' * **format**. The format for the output. There are two options.
+        #'     * **plain**. The data is stored in plain text.
+        #'     * **obj**. The data is stored as a R obj.
         #' @param ve Indicates if progress information should be displayed.
         #' @export
         initialize = function(fn = NULL, opts = list(), ve = 0) {
@@ -76,16 +76,16 @@ TokenGenerator <- R6::R6Class(
 
     private = list(
         # @field tg_opts The options for the token generator obj.
-        #   n -> The ngram size.
-        #   save_ngrams -> If the ngram data should be saved.
-        #   min_freq -> All ngrams with frequency less than min_freq are
+        # * **n**. The ngram size.
+        # * **save_ngrams**. If the ngram data should be saved.
+        # * **min_freq**. All ngrams with frequency less than min_freq are
         #     ignored.
-        #   stem_words -> If words should be transformed to their stems.
-        #   line_count -> The number of lines to process at a time.
-        #   dir -> The dir where the output file should be saved.
-        #   format -> The format for the output. There are two options.
-        #     'plain' -> The data is stored in plain text.
-        #     'obj' -> The data is stored as a R obj.
+        # * **stem_words**. If words should be transformed to their stems.
+        # * **line_count**. The number of lines to process at a time.
+        # * **dir**. The dir where the output file should be saved.
+        # * **format**. The format for the output. There are two options.
+        #     * **plain**. The data is stored in plain text.
+        #     * **obj**. The data is stored as a R obj.
         tg_opts = list(
             "n" = 1,
             "save_ngrams" = F,

@@ -31,12 +31,12 @@ TPGenerator <- R6::R6Class(
         #' It initializes the current obj. It is used to set the
         #' transition probabilities options and verbose option.
         #' @param opts The options for generating the transition probabilities.
-        #'   save_tp -> If the data should be saved.
-        #'   n -> The ngram size.
-        #'   dir -> The dir where the output file should be saved.
-        #'   format -> The format for the output. There are two options.
-        #'     'plain' -> The data is stored in plain text.
-        #'     'obj' -> The data is stored as a R obj.
+        #' * **save_tp**. If the data should be saved.
+        #' * **n**. The ngram size.
+        #' * **dir**. The directory containing the input and output files.
+        #' * **format**. The format for the output. There are two options.
+        #'     * **plain**. The data is stored in plain text.
+        #'     * **obj**. The data is stored as a R obj.
         #' @param ve If progress information should be displayed.
         #' @export
         initialize = function(opts = list(), ve = 0) {
@@ -215,12 +215,12 @@ TPGenerator <- R6::R6Class(
     private = list(
         # @field tp_opts The options for generating the transition
         #   probabilities.
-        #   save_tp -> If the data should be saved.
-        #   n -> The ngram number
-        #   dir -> The dir where the output file should be saved.
-        #   format -> The format for the output. There are two options.
-        #     'plain' -> The data is stored in plain text.
-        #     'obj' -> The data is stored as a R obj.
+        # * **save_tp**. If the data should be saved.
+        # * **n**. The ngram number
+        # * **dir**. The directory containing the input and output files.
+        # * **format**. The format for the output. There are two options.
+        #     * **plain**. The data is stored in plain text.
+        #     * **obj**. The data is stored as a R obj.
         tp_opts = list(
             "save_tp" = T,
             "n" = 1,

@@ -1,12 +1,14 @@
 #' Provides data cleaning functionality
 #'
 #' @description
-#' Allows removing unneeded characters from text files.
+#' It provides a memory efficient method for removing unneeded
+#' characters from text files. It is suitable for cleaning large text files.
 #'
 #' @details
-#' It provides a method for cleaning text files. It allows removing bad words,
-#' stop words, non dictionary words, extra space, punctuation and non-alphabet
-#' characters. Converting text to lower case. It supports large text files.
+#' It provides a method for cleaning text files. It allows removing bad
+#' words, stop words, non dictionary words, extra space, punctuation and
+#' non-alphabet characters. Allows conversion to lower case. It supports large
+#' text files.
 #'
 #' @importFrom stringr str_count boundary
 DataCleaner <- R6::R6Class(
@@ -18,21 +20,21 @@ DataCleaner <- R6::R6Class(
         #' and verbose options.
         #' @param fn The path to the file to clean.
         #' @param opts The options for data cleaning.
-        #'   min_words -> The minimum number of words per sentence.
-        #'   line_count -> The number of lines to read and clean at a time.
-        #    save_data -> If the combined processed lines should be saved.
-        #    output_file -> Name of the output file used to store the data.
-        #'   sw_file -> The stop words file path.
-        #    dict_file -> The dictionary file path.
-        #'   bad_file -> The bad words file path.
-        #'   to_lower -> If the words should be converted to lower case.
-        #'   remove_stop -> If stop words should be removed.
-        #'   remove_punct -> If punctuation symbols should be removed.
-        #'   remove_non_dict -> If non dictionary words should be removed.
-        #'   remove_non_alpha -> If non alphabet symbols should be removed.
-        #'   remove_extra_space -> If leading, trailing and double spaces
+        #' * **min_words**. The minimum number of words per sentence.
+        #' * **line_count**. The number of lines to read and clean at a time.
+        #' * **save_data**. If the combined processed lines should be saved.
+        #' * **output_file**. Name of the output file used to store the data.
+        #' * **sw_file**. The stop words file path.
+        #' * **dict_file**. The dictionary file path.
+        #' * **bad_file**. The bad words file path.
+        #' * **to_lower**. If the words should be converted to lower case.
+        #' * **remove_stop**. If stop words should be removed.
+        #' * **remove_punct**. If punctuation symbols should be removed.
+        #' * **remove_non_dict**. If non dictionary words should be removed.
+        #' * **remove_non_alpha**. -> If non alphabet symbols should be removed.
+        #' * **remove_extra_space**. -> If leading, trailing and double spaces
         #'     should be removed.
-        #'   remove_bad -> If bad words should be removed
+        #' * **remove_bad**. If bad words should be removed
         #' @param ve Indicates if progress information should be displayed.
         #' @export
         initialize = function(fn = NULL, opts = list(), ve = 0) {
@@ -76,12 +78,15 @@ DataCleaner <- R6::R6Class(
         },
 
         #' @description
-        #' It removes unneeded characters from the given text with
-        #' several options. It allows removing punctuations, numbers, symbols,
-        #' urls and separators. It allows removing bad words, stop words and
-        #' words not in the given dictionary file. It reads the given file one
-        #' line at a time, removing unneeded characters. After every line_count
-        #' number of lines, the cleaned lines are saved to the output file.
+        #' It provides an efficient method for cleaning text files.
+        #' It removes unneeded characters from the given text file with several
+        #' options. It allows removing punctuations, bad words, stop words,
+        #' non-alphabetical symbols and non-dictionary words. It reads a certain
+        #' number of lines from the given text file. It removes unneeded
+        #' characters from the lines and then saves the lines to an output text
+        #' file. File cleaning progress is displayed if the verbose option was
+        #' set in the class constructor. It is suitable for cleaning large text
+        #' files.
         clean_file = function() {
             # The information message
             msg <- paste0("Cleaning the file: ", private$file_name)
@@ -206,21 +211,21 @@ DataCleaner <- R6::R6Class(
 
     private = list(
         # @field dc_opts The options for the data cleaner object.
-        #   min_words -> The minimum number of words per sentence.
-        #   line_count -> The number of lines to read and clean at a time.
-        #   save_data -> If the combined processed lines should be saved.
-        #   output_file -> Name of the output file used to store the data.
-        #   sw_file -> The stop words file path.
-        #   dict_file -> The dictionary file path.
-        #   bad_file -> The bad words file path.
-        #   to_lower -> If the words should be converted to lower case.
-        #   remove_stop -> If stop words should be removed.
-        #   remove_punct -> If punctuation symbols should be removed.
-        #   remove_non_dict -> If non dictionary words should be removed.
-        #   remove_non_alpha -> If non alphabet symbols should be removed.
-        #   remove_extra_space -> If leading, trailing and double spaces
+        # * **min_words**. The minimum number of words per sentence.
+        # * **line_count**. The number of lines to read and clean at a time.
+        # * **save_data**. If the combined processed lines should be saved.
+        # * **output_file**. Name of the output file used to store the data.
+        # * **sw_file**. The stop words file path.
+        # * **dict_file**. The dictionary file path.
+        # * **bad_file**. The bad words file path.
+        # * **to_lower**. If the words should be converted to lower case.
+        # * **remove_stop**. If stop words should be removed.
+        # * **remove_punct**. If punctuation symbols should be removed.
+        # * **remove_non_dict**. If non dictionary words should be removed.
+        # * **remove_non_alpha**. If non alphabet symbols should be removed.
+        # * **remove_extra_space**. If leading, trailing and double spaces
         #     should be removed.
-        #   remove_bad -> If bad words should be removed
+        # * **remove_bad**. If bad words should be removed
         dc_opts = list(
             "min_words" = 2,
             "line_count" = 1000,
