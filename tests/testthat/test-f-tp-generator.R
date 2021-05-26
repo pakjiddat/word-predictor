@@ -23,4 +23,4 @@ test_that("The combined transition probabilities file is correctly generated", {
         # Check if the file exists
         expect_true(file.exists(fn), label = fn)
     }
-});
+})

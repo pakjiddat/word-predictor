@@ -27,36 +27,20 @@ DataSampler <- R6::R6Class(
             super$initialize(NULL, NULL, ve)
         },
 
-        #' @description Generates a sample file of given size from the given
-        #' input file. The file is optionally cleaned and saved.
+        #' @description
+        #' Generates a sample file of given size from the given input file. The
+        #' file is optionally cleaned and saved to the data directory.
         #' @param fn The input file name. It is the short file name relative to
         #'   the ddir. If not given, then the file name is auto generated from
         #'   the type parameter.
         #' @param ss The number of lines or proportion of lines to sample.
         #' @param ic If the sample file should be cleaned.
         #' @param ir If the sample file contents should be randomized.
-        #' @param t The type of sample. It can be:
-        #' * **tr**. training sample.
-        #' * **te**. testing sample.
-        #' * **va**. validation sample.
+        #' @param ofn The output file name. It will be saved to the ddir.
         #' @param is If the sampled data should be saved to a file.
-        generate_sample = function(fn = NULL, ss, ic, ir, t, is) {
-            # If the type is 'tr'
-            if (t == 'tr') sfn <- 'train'
-            # If the type is 'te'
-            else if (t == 'te') sfn <- 'test'
-            # If the type is 'va'
-            else if (t == 'va') sfn <- 'validate'
-            # If the input file name is not given
-            if (is.null(fn)) {
-                # The input file name
-                fn <- paste0(private$ddir, "/", sfn, ".txt")
-            }
-            # If the input file name is given
-            else {
-                # The full path to the input file
-                fn <- paste0(private$ddir, "/", fn)
-            }
+        generate_sample = function(fn, ss, ic, ir, ofn, is) {
+            # The full path to the input file
+            fn <- paste0(private$ddir, "/", fn)
             # If the input file does not exist
             if (!file.exists(fn)) {
                 # The information message
@@ -64,75 +48,10 @@ DataSampler <- R6::R6Class(
                 # An error is thrown
                 stop(msg)
             }
-            # The sample file name
-            sf <- paste0(private$mdir, "/", sfn, ".txt")
-            # The clean sample file name
-            csf <- paste0(private$mdir, "/", sfn, "-clean.txt")
-            # If the cleaned sample file already exists
-            if (file.exists(csf)) {
-                # The information message
-                msg <- paste0("The cleaned sample file: ", csf,
-                              " already exists")
-                # Information message is shown
-                private$display_msg(msg, 2)
-            }
-            else {
-                # If the sample file does not exist
-                if (!file.exists(sf)) {
-                    # The information message
-                    msg <- paste0("Generating sample file from the file: ", fn)
-                    # Information message is shown
-                    private$display_msg(msg, 2)
-                    # The input file is read
-                    data <- private$read_file(fn, F)
-                    # The number of lines in the main file
-                    lc <- length(data)
-                    # If the data should be randomized
-                    if (ir) {
-                        # The random indexes
-                        i <- sample(1:lc, size = lc)
-                        # The randomized data
-                        data <- data[i]
-                    }
-                    # If the sample size is less than 1
-                    if (ss < 1) {
-                        # The number of lines in the sample file
-                        lc <- round(lc*ss)
-                    }
-                    else {
-                        lc <- ss
-                    }
-                    # The sample file data
-                    data <- data[1:lc]
-                    # If the data should be saved
-                    if (is) {
-                        # The sample file data is saved
-                        private$write_file(data, sf, F)
-                    }
-                }
-                # If the sample file exists
-                else {
-                    # The information message
-                    msg <- paste0("The sample file: ", sf, " already exists")
-                    # Information message is shown
-                    private$display_msg(msg, 2)
-                }
-                # If the sample file should be cleaned
-                if (ic) {
-                    # The data cleaning options
-                    dc_opts <- list()
-                    # The line count is set to 5000
-                    dc_opts[["line_count"]] <- 5000
-                    # The output file name
-                    dc_opts[["output_file"]] <- csf
-                    # If the data should be saved
-                    dc_opts[["save_data"]] <- is
-                    # The data cleaner object is created
-                    dc <- DataCleaner$new(sf, dc_opts, ve = private$ve)
-                    # The sample file is cleaned
-                    data <- dc$clean_file()
-                }
-            }
+            # The output file name path
+            of <- paste0(private$ddir, "/", ofn)
+            # The sample file is generated from the given file
+            data <- private$generate_sf_from_f(fn, ss, ic, ir, of, is)
             # If the data should not be saved
             if (!is) {
                 # The data is returned
@@ -153,7 +72,8 @@ DataSampler <- R6::R6Class(
         generate_data = function(fn, dir, percs) {
             # The information message is shown
             private$display_msg(
-                "Generating training, testing and validation data sets...", 1)
+                "Generating training, testing and validation data sets...", 1
+            )
             # The input file path is generated
             fn <- paste0(private$ddir, "/", fn)
             # If the input file does not exist
@@ -181,18 +101,18 @@ DataSampler <- R6::R6Class(
                 rd <- data[1:lc]
 
                 # The number of lines in train set
-                tr_lc <- round(lc*percs[["train"]])
+                tr_lc <- round(lc * percs[["train"]])
                 # The number of lines in test set
-                te_lc <- round(lc*percs[["test"]])
+                te_lc <- round(lc * percs[["test"]])
                 # The number of lines in validate set
-                va_lc <- round(lc*percs[["validate"]])
+                va_lc <- round(lc * percs[["validate"]])
 
                 # The training set data
                 train_ds <- rd[1:tr_lc]
                 # The testing set data
-                test_ds <- rd[tr_lc:(tr_lc+te_lc)]
+                test_ds <- rd[tr_lc:(tr_lc + te_lc)]
                 # The validation set data
-                validate_ds <- rd[(tr_lc+te_lc):(tr_lc+te_lc+va_lc)]
+                validate_ds <- rd[(tr_lc + te_lc):(tr_lc + te_lc + va_lc)]
                 # The training data is written to file
                 private$write_file(train_ds, paste0(dir, "/train.txt"), F)
                 # The testing data is written to file
@@ -202,11 +122,68 @@ DataSampler <- R6::R6Class(
             }
         }
     ),
-
     private = list(
         # @field ddir The folder containing the data files
         ddir = "./data",
         # @field mdir The folder containing the model files
-        mdir = "./models"
+        mdir = "./models",
+        # @description Generates a sample file of given size from the given
+        # input file. The file is optionally cleaned and saved.
+        # @param fn The input file name. It is the short file name relative to
+        #   the ddir. If not given, then the file name is auto generated from
+        #   the type parameter.
+        # @param ss The number of lines or proportion of lines to sample.
+        # @param ic If the sample file should be cleaned.
+        # @param ir If the sample file contents should be randomized.
+        # @param of The output file path.
+        # @param is If the sampled data should be saved to a file.
+        # @return The sampled data is returned
+        generate_sf_from_f = function(fn = NULL, ss, ic, ir, of, is) {
+            # The information message
+            msg <- paste0("Generating sample file from the file: ", fn)
+            # Information message is shown
+            private$display_msg(msg, 2)
+            # The input file is read
+            data <- private$read_file(fn, F)
+            # The number of lines in the main file
+            lc <- length(data)
+            # If the data should be randomized
+            if (ir) {
+                # The random indexes
+                i <- sample(1:lc, size = lc)
+                # The randomized data
+                data <- data[i]
+            }
+            # If the sample size is less than 1
+            if (ss < 1) {
+                # The number of lines in the sample file
+                lc <- round(lc * ss)
+            }
+            else {
+                lc <- ss
+            }
+            # The sample file data
+            data <- data[1:lc]
+            # If the data should be saved
+            if (is) {
+                # The sample file data is saved
+                private$write_file(data, of, F)
+            }
+
+            # If the sample file should be cleaned
+            if (ic) {
+                # The data cleaning options
+                dc_opts <- list()
+                # The line count is set to 5000
+                dc_opts[["line_count"]] <- 5000
+                # If the data should be saved
+                dc_opts[["save_data"]] <- is
+                # The data cleaner object is created
+                dc <- DataCleaner$new(of, dc_opts, ve = private$ve)
+                # The sample file is cleaned
+                data <- dc$clean_file()
+            }
+            return(data)
+        }
     )
 )

@@ -9,7 +9,6 @@
 #' called before reading a file. The process function is called for processing a
 #' line. The post processing function is called on the processed data. It also
 #' provides a method for generating a sample file from an input text file
-#' @importFrom pryr object_size
 #' @export
 TextFileProcessor <- R6::R6Class(
     "TextFileProcessor",
@@ -22,8 +21,9 @@ TextFileProcessor <- R6::R6Class(
         #' @param ve Indicates if progress information should be displayed.
         initialize = function(fn = NULL, lc = 100, ve = 2) {
             # If the given file name is not NULL and is not valid
-            if (!is.null(fn) && !file.exists(fn))
-                stop("The given file name is not valid")
+            if (!is.null(fn) && !file.exists(fn)) {
+                  stop("The given file name is not valid")
+              }
 
             # The base class attributes are set
             # The file name is set
@@ -132,21 +132,24 @@ TextFileProcessor <- R6::R6Class(
             # All lines are read
             while (TRUE) {
                 # The lines are read
-                lines <- readLines(private$con, n = private$lc,
-                                   skipNul = TRUE)
+                lines <- readLines(private$con,
+                    n = private$lc,
+                    skipNul = TRUE
+                )
                 # If all the lines have been read
                 if (length(lines) == 0) break
                 # The lines are processed
                 p_lines <- process(lines)
                 # If the processed lines are NULL
-                if(is.null(p_lines)) next
+                if (is.null(p_lines)) next
                 # If the data should be saved
                 if (private$opts[["save_data"]]) {
                     # The cleaned data is written to file
                     private$write_file(p_lines, of, is_app)
                     # Debug message
                     private$display_msg(
-                        paste(length(p_lines), "lines were written"), 1)
+                        paste(length(p_lines), "lines were written"), 1
+                    )
                     # Indicates that data should be appended
                     is_app <- T
                 }
@@ -159,9 +162,8 @@ TextFileProcessor <- R6::R6Class(
                 c <- c + 1
                 # Debug message
                 private$display_msg(
-                    paste(private$lc*c, "lines have been processed"), 1)
-
-                # if (c == 2) break;
+                    paste(private$lc * c, "lines have been processed"), 1
+                )
             }
             # The file connection is closed if it is open
             close(private$con)
@@ -197,7 +199,7 @@ TextFileProcessor <- R6::R6Class(
                 data <- read.csv(fn)
             }
             # The data is returned
-            return (data)
+            return(data)
         },
 
         # @description
@@ -217,7 +219,7 @@ TextFileProcessor <- R6::R6Class(
             # The file connection is closed
             close(con)
             # The data is returned
-            return (data)
+            return(data)
         },
 
         # @description
@@ -248,32 +250,6 @@ TextFileProcessor <- R6::R6Class(
                 # The file connection is closed
                 close(con)
             }
-        },
-
-        # @description
-        # Calculates the size of the given object or formats the given bytes
-        # object as a number without units. The returned number is the size in
-        # Mb.
-        # @param obj An object of class bytes or an object whoose size is to be
-        #   found.
-        # @return The size formatted as a string.
-        format_size = function(obj) {
-            # If the obj is not of class bytes
-            if (!("bytes" %in% class(obj))) {
-                # The object size
-                obj_size <- object_size(obj)
-            }
-            else {
-                obj_size <- obj
-            }
-            # The bytes obj is formatted as a string
-            obj_size <- utils:::format.object_size(obj_size, units = "Mb")
-            # The Mb suffix is removed
-            obj_size <- sub(" Mb", "\\1", obj_size)
-            # The object size is converted to a number
-            obj_size <- as.numeric(obj_size)
-
-            return(obj_size)
         },
 
         # @description
@@ -365,15 +341,16 @@ TextFileProcessor <- R6::R6Class(
                 # included with the wordpredictor package
                 rfn <- system.file("extdata", dfn, package = "wordpredictor")
                 # If the file was not found
-                if (!file.exists(rfn))
-                    stop(paste0("The file: ", rfn," does not exist !"))
+                if (!file.exists(rfn)) {
+                      stop(paste0("The file: ", rfn, " does not exist !"))
+                  }
             }
             # If the file name is given but the file does not exist
             else if (!file.exists(fn)) {
                 # An error message is shown
-                stop(paste0("The file: ", fn," does not exist !"))
+                stop(paste0("The file: ", fn, " does not exist !"))
             }
-            return (rfn)
+            return(rfn)
         }
     )
 )

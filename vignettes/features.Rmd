@@ -90,6 +90,8 @@ ds$generate_sample(
 
 Usually we need a train dataset for generating the n-gram model. A test dataset for testing the model and a validation dataset for evaluating the performance of the model. The following example shows how to generate the train, test and validation files. The train file contains the first 80% of the lines, the test set contains the next 10% of the lines. The remaining lines are in the validation set.
 
+The data in the validation file must be different from the data in the train file. Otherwise it can result in overfiting of the model. When a model is overfitted, the model evaluation results will be exaggerated, overly optimistic and unreliable. So care should be taken to ensure that the data in the validation and train files is different.
+
 ```{r data-sampling-2, cache=TRUE}
 # An object of class DataSampler is created
 ds <- DataSampler$new(ddir = ddir2, mdir = ddir2)

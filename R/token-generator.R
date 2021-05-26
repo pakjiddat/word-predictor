@@ -50,30 +50,36 @@ TokenGenerator <- R6::R6Class(
             # If the output file already exists
             if (file.exists(fn)) {
                 # The information message
-                msg <- paste0("The ", private$tg_opts[["n"]],
-                              "-gram file already exists")
+                msg <- paste0(
+                    "The ", private$tg_opts[["n"]],
+                    "-gram file already exists"
+                )
                 # The information message is shown
                 private$display_msg(msg, 1)
                 # If the ngram data should not be saved
                 if (!private$tg_opts[["save_ngrams"]]) {
                     # The ngrams file is read
                     private$p_output <- private$read_data(
-                        fn, private$tg_opts[["format"]], T)
+                        fn, private$tg_opts[["format"]], T
+                    )
                 }
             }
             else {
                 # The information message
-                msg <- paste0("Generating ",
-                              private$tg_opts[["n"]], "-gram tokens...")
+                msg <- paste0(
+                    "Generating ",
+                    private$tg_opts[["n"]], "-gram tokens..."
+                )
                 # The information message is shown
                 private$display_msg(msg, 1)
                 # The base class process_file function is called
-                private$process_file(private$pre_process, private$process,
-                                   private$post_process)
+                private$process_file(
+                    private$pre_process, private$process,
+                    private$post_process
+                )
             }
         }
     ),
-
     private = list(
         # @field tg_opts The options for the token generator obj.
         # * **n**. The ngram size.
@@ -118,8 +124,11 @@ TokenGenerator <- R6::R6Class(
             # The output directory
             dir <- private$tg_opts[["dir"]]
             # The file extension
-            if (fo == "plain") ext <- ".txt"
-            else ext <- ".RDS"
+            if (fo == "plain") {
+                ext <- ".txt"
+            } else {
+                ext <- ".RDS"
+            }
 
             # The file name
             file_name <- paste0(dir, "/n", n, ext)
@@ -131,8 +140,10 @@ TokenGenerator <- R6::R6Class(
         # It saves the ngram tokens and their frequencies to a text file.
         post_process = function() {
             # The information message
-            msg <- paste0("Calculating ",
-                          private$tg_opts[["n"]], "-gram frequencies...")
+            msg <- paste0(
+                "Calculating ",
+                private$tg_opts[["n"]], "-gram frequencies..."
+            )
             # The information message is shown
             private$display_msg(msg, 1)
             # The output is copied to a variable
@@ -140,7 +151,9 @@ TokenGenerator <- R6::R6Class(
             # A frequency column is added
             df$freq <- 1
             # Each prefix is grouped and summed
-            df <- df %>% group_by(pre) %>% summarize_all(sum)
+            df <- df %>%
+                group_by(pre) %>%
+                summarize_all(sum)
             # If the minimum ngram frequency is given
             if (private$tg_opts[["min_freq"]] > -1) {
                 # The information message
@@ -180,7 +193,7 @@ TokenGenerator <- R6::R6Class(
                 # Trailing and leading white space is removed
                 l <- trimws(lines, "both")
                 # Start and end of sentence tags are added
-                l  <- gsub("(^)(.+)($)", "<s>\\2<e>", l)
+                l <- gsub("(^)(.+)($)", "<s>\\2<e>", l)
                 # The lines are split on space
                 w <- strsplit(l, " ")
                 # The words are converted to an atomic vector
@@ -190,25 +203,26 @@ TokenGenerator <- R6::R6Class(
                 # The empty words are removed
                 w <- w[!i]
                 # The indexes for the words
-                indexes <- 1:length(w)
+                indexes <- seq(length(w))
                 # The ngrams are generated
                 l <- sapply(indexes, function(i) {
                     # If the words should be stemmed
                     if (private$tg_opts[["stem_words"]]) {
                         # The ngram prefix words are stemmed. The next word is
                         # not stemmed
-                        v <- c(wordStem(w[i:(i+n-2)]), w[(i+n-1)])
+                        v <- c(wordStem(w[i:(i + n - 2)]), w[(i + n - 1)])
                     }
                     else {
                         # The ngram token
-                        v <- w[i:(i+n-1)]
+                        v <- w[i:(i + n - 1)]
                     }
                     # The ngram token
                     v <- paste0(v, collapse = "_")
                     # The ngram token is returned
                     return(v)
                 },
-                simplify = T)
+                simplify = T
+                )
                 # Invalid ngrams need to be removed
                 # A logical vector indicating position of invalid ngrams
                 i <- grepl(".+<e>.+", l)

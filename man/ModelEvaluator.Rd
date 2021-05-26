@@ -78,7 +78,7 @@ Perplexity with accuracy. All 5 plots are plotted on one page.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{opts}}{The options for compraring model performance.
+\item{\code{opts}}{The options for comparing model performance.
 \itemize{
 \item \strong{save_to}. The graphics device to save the plot to.
 NULL implies plot is printed.

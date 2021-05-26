@@ -76,17 +76,21 @@ Model <- R6::R6Class(
             # The path to the data file
             dfp <- paste0(ddir, "/", df)
             # If the data file does not exist, then an error is thrown
-            if (!file.exists(dfp))
-                stop(paste0("The file: ", dfp, " does not exist !"))
+            if (!file.exists(dfp)) {
+                  stop(paste0("The file: ", dfp, " does not exist !"))
+              }
             # If the data directory does not exist, then an error is thrown
-            if (!dir.exists(ddir))
-                stop(paste0("The dir: ", ddir, " does not exist !"))
+            if (!dir.exists(ddir)) {
+                  stop(paste0("The dir: ", ddir, " does not exist !"))
+              }
             # If the model directory does not exist, then an error is thrown
-            if (!dir.exists(mdir))
-                stop(paste0("The dir: ", mdir, " does not exist !"))
+            if (!dir.exists(mdir)) {
+                  stop(paste0("The dir: ", mdir, " does not exist !"))
+              }
             # The dict words file is checked
             dc_opts[["dict_file"]] <- private$check_file(
-                dc_opts[["dict_file"]], "dict-no-bad.txt")
+                dc_opts[["dict_file"]], "dict-no-bad.txt"
+            )
 
             # The model name is set
             self$name <- name
@@ -109,12 +113,12 @@ Model <- R6::R6Class(
             # If the dc_opts are given
             if (length(dc_opts) > 0) {
                 # The custom dc_opts are merged with the default dc_opts
-                private$dc_opts = modifyList(private$dc_opts, dc_opts)
+                private$dc_opts <- modifyList(private$dc_opts, dc_opts)
             }
             # If the tg_opts are given
             if (length(tg_opts) > 0) {
                 # The custom tg_opts are merged with the default tg_opts
-                private$tg_opts = modifyList(private$tg_opts, tg_opts)
+                private$tg_opts <- modifyList(private$tg_opts, tg_opts)
             }
         },
 
@@ -147,7 +151,7 @@ Model <- R6::R6Class(
             # The number of words
             n <- length(w)
             # The default probability is set
-            private$dp <- 1/(n + vc)
+            private$dp <- 1 / (n + vc)
         },
 
         #' @description

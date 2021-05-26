@@ -9,8 +9,9 @@ test_that("A sample text file is cleaned successfully", {
         fn <- paste0(ddir2, "/", fn, ".txt")
 
         # If the test-clean file exists, then it is removed
-        if (file.exists(cfn))
-            file.remove(cfn)
+        if (file.exists(cfn)) {
+              file.remove(cfn)
+          }
 
         # The data cleaner object is created
         dc <- DataCleaner$new(fn)
@@ -20,8 +21,7 @@ test_that("A sample text file is cleaned successfully", {
         # Check that the file exists
         expect_true(file.exists(cfn))
     }
-});
-
+})
 test_that("Sample line of text are cleaned as expected", {
     # Test data is read
     l <- c(
@@ -37,4 +37,4 @@ test_that("Sample line of text are cleaned as expected", {
     cl <- dc$clean_lines(l)
     # The actual cleaned data is compared with expected data
     expect_equal(cl, res)
-});
+})

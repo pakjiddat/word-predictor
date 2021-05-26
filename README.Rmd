@@ -32,11 +32,19 @@ check_dirs(ddir1, ddir2, mdir, msdir, sdir)
 ```
 
 # Introduction
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
+<!-- badges: end -->
+
 The goal of the **wordpredictor** package is to provide a flexible and easy to use framework for generating [n-gram models](https://en.wikipedia.org/wiki/N-gram) for word prediction.
 
 The package allows generating n-gram models from input text files. It also allows exploring n-grams using plots. Additionally it provides methods for measuring n-gram model performance using [Perplexity](https://en.wikipedia.org/wiki/Perplexity) and accuracy.
 
 The n-gram model may be customized using several options such as n-gram size, data cleaning options and options for tokenization.
+
+## Demo
+
+A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application based on the Shiny package. It allows predicting the next word based on the given set of words. It displays the 10 ten most likely words along with their respective probabilities.
 
 ## Installation
 
@@ -64,6 +72,7 @@ The **wordpredictor** package is based on **R6 classes**. It is easy to customiz
 6. **ModelGenerator**. It allows generating n-gram models using different configuration options.
 7. **ModelEvaluator**. It allows evaluating the performance of n-gram models. 4 metrics are used to compare the performance. These are: Perplexity, accuracy, memory and time taken.
 8. **ModelPredictor**. It allows predicting the next word, given a set of previous words.
+9. **TextFileProcessor**. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files. 
 
 Use the command: **?wordpredictor::class-name** for details on how each class works and the parameter details.
 
@@ -132,7 +141,7 @@ The following example plots the top 10 most occuring bi-grams along with their f
 fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
-da <- DataAnalyzer$new(fn =fn)
+da <- DataAnalyzer$new(fn = fn)
 # The top 10 most occuring features are plotted
 df <- da$plot_n_gram_stats(opts = list(
   "type" = "top_features",

@@ -29,9 +29,9 @@ ModelPredictor <- R6::R6Class(
             # The base class is initialized
             super$initialize(NULL, NULL, ve)
             # If the model file name is not valid, then an error is thrown
-            if (!file.exists(mf))
+            if (!file.exists(mf)) {
                 stop(paste0("Invalid model file: ", mf))
-            else {
+            } else {
                 # The model object is read
                 private$m <- private$read_obj(mf)
             }
@@ -75,9 +75,9 @@ ModelPredictor <- R6::R6Class(
                     # The start index
                     start <- 1
                     # If i > self$model
-                    if (i > n) start <- i-(n-1)
+                    if (i > n) start <- i - (n - 1)
                     # The list of previous words
-                    pw <- words[start:(i-1)]
+                    pw <- words[start:(i - 1)]
                     # If the words should be stemmed
                     if (tg_opts[["stem_words"]]) {
                         # The previous words are stemmed
@@ -89,77 +89,42 @@ ModelPredictor <- R6::R6Class(
                 # The probability product is updated
                 prob_prod <- prob_prod * prob
             }
+            # The inverse of the number of words
+            iwl <- 1 / wl
             # The nth root of the inverse of the probability product is taken
-            p <- round((1/prob_prod)^(1/wl), 0)
+            p <- (1 / prob_prod)
+            p <- p^iwl
+            p <- round(p)
 
             return(p)
         },
 
         #' @description
-        #' Predicts the new word given a list of 1, 2 or 3 previous
-        #' words. It checks the given n words in the transition probabilities
-        #' data. If there is a match, the top 3 next words with highest
-        #' probabilities are returned. If there is no match, then the last n-1
-        #' previous words are checked. This process is continued until the last
-        #' word is checked. If there is no match, then empty result is returned.
+        #' Predicts the new word given a list of 1, 2 or 3 previous words. It
+        #' checks the given n words in the transition probabilities data. If
+        #' there is a match, the top 3 next words with highest probabilities are
+        #' returned. If there is no match, then the last n-1 previous words are
+        #' checked. This process is continued until the last word is checked. If
+        #' there is no match, then empty result is returned. The given words may
+        #' optionally be stemmed.
         #' @param words A character vector of previous words or a single vector
         #'   containing the previous word text.
         #' @param count The number of results to return.
         #' @param dc A DataCleaner object. If it is given, then the given words
-        #'   are cleaned. If the stem_words option was set in the TokenGenerator
-        #'   object configuration for the current model, then the words are
-        #'   converted to their stems.
+        #   are cleaned
         #' @return The top 3 predicted words along with their probabilities.
         predict_word = function(words, count = 3, dc = NULL) {
             # The tp data is fetched from the model object
             tp <- private$m$get_config("tp")
-            # The word list data is fetched from the model object
-            wl <- private$m$get_config("wl")
-            # The options for token generation
-            tg_opts <- private$m$get_config("tg_opts")
-
-            # The words are assigned to temp variable
-            w <- words
-            # If the DataCleaner obj was specified
-            if (!is.null(dc)) {
-                # If the words is a set of vectors
-                if (length(w) > 1) {
-                    # The words are converted to a single line of text
-                    w <- paste0(w, collapse = " ")
-                }
-                # The words are cleaned
-                w <- dc$clean_lines(w)
-                # If the words should be stemmed
-                if (tg_opts[["stem_words"]]) {
-                    # The previous words are stemmed
-                    w <- wordStem(w)
-                }
-            }
-
-            # If the words are in the form of a line
-            if (length(w) == 1) {
-                # The words are split on space
-                w <- strsplit(w, " ")[[1]]
-            }
-
-            # The length of previous words
-            pwl <- length(w)
             # The loop counter
             c <- 1
-            # Indicates if the word was found
-            found <- FALSE
-            # The result
+            # The required results
             result <- list("found" = F, "words" = "", "probs" = "")
-            # If the previous words length is 0
-            if (pwl == 0)
+            # The previous words are fetched
+            pw <- private$get_prev_words(words, dc)
+            # If the previous words are NULL
+            if (is.null(pw)) {
                 return(result)
-            # The last 3 words are extracted.
-            # If the previous word length is more than 3
-            if (pwl > 3) {
-                pw <- w[(pwl-2):pwl]
-            }
-            else {
-                pw <- w
             }
             # The length of previous words
             pwl <- length(pw)
@@ -174,60 +139,19 @@ ModelPredictor <- R6::R6Class(
                 h <- digest2int(k)
                 # The transition probabilities data is checked
                 res <- tp[tp$pre == h, ]
-                # If the prefix was found
-                if (nrow(res) > 0) {
-                    # The word was found
-                    found <- TRUE
-                    # The result is sorted by probability
-                    sres <- res[order(res$prob, decreasing = T),]
-                    # The number of rows in the result set
-                    rcount <- nrow(sres)
-                    # If the number of results is more than the required number
-                    # of results
-                    if (rcount > count) {
-                        # The result count is set to the required number of
-                        # results
-                        rc <- count
-                    }
-                    else {
-                        # The result count is set to the number of results
-                        rc <- rcount
-                    }
-                    # The required word probabilities
-                    probs <- sres$prob[1:rc]
-                    # The next words indexes
-                    ind <- sres$nw[1:rc]
-                    # The required words
-                    nw <- as.character(wl$pre[ind])
-
-                    # The result is updated
-                    result[["words"]] <- nw
-                    result[["probs"]] <- probs
-                    result[["found"]] <- T
-                    # The information message
-                    msg <- paste0("The ngram key: ", k, " was found")
-                    # Information message is shown
-                    private$display_msg(msg, 3)
-                    # The loop ends
-                    break;
-                }
-                else {
-                    # The information message
-                    msg <- paste0("The ngram key: ", k, " was not found")
-                    # Information message is shown
-                    private$display_msg(msg, 3)
-                    # The result is updated
-                    result[["found"]] <- F
-                }
+                # The results are checked
+                result <- private$check_results(res, count, k)
+                # If the data was found
+                if (result[["found"]]) break
                 # The information message
-                msg <- paste0("Backing off to ", (i) ,"-gram")
+                msg <- paste0("Backing off to ", (i), "-gram")
                 # Information message is shown
-                private$display_msg(msg, 3);
+                private$display_msg(msg, 3)
                 # The counter is increased by 1
-                c <- c + 1;
+                c <- c + 1
             }
 
-            return(result);
+            return(result)
         },
 
         #' @description
@@ -254,14 +178,12 @@ ModelPredictor <- R6::R6Class(
             tp <- private$m$get_config("tp")
             # The word list data is fetched from the model object
             wl <- private$m$get_config("wl")
-            # The options for token generation
-            tg_opts <- private$m$get_config("tg_opts")
             # The default probability is fetched from the model object
             dp <- private$m$get_config("dp")
-
             # If the default probability is not set, then an error is raised
-            if (is.null(dp))
-                stop("The default probability is not set !")
+            if (is.null(dp)) {
+                stop("The default probability is not set in the model file !")
+            }
             # The length of previous words
             pwl <- length(pw)
             # The probability of the word given the previous words. It is
@@ -277,53 +199,61 @@ ModelPredictor <- R6::R6Class(
             if (is.na(nw)) {
                 # The information message
                 msg <- paste0(
-                    "The next word: ", word, " was not found")
+                    "The next word: ", word, " was not found"
+                )
                 # Information message is shown
                 private$display_msg(msg, 3)
+                # The default probability is returned
+                return(prob)
             }
-            # If the previous word count is more than 0
-            else if (pwl > 0) {
-                # The previous words are checked
-                for (i in pwl:1) {
-                    # The previous words to check
-                    tpw <- pw[c:pwl]
-                    # The key to use for the transition matrix
-                    k <- paste(tpw, collapse = "_")
-                    # The key is converted to a numeric hash
-                    h <- digest2int(k)
-                    # The transition probabilities data is checked
-                    res <- tp[tp$pre == h & tp$nw == nw, ]
-                    # If the prefix was found
-                    if (nrow(res) > 0) {
-                        # The word was found
-                        found <- TRUE
-                        # The probability is set
-                        prob <- as.numeric(res$prob)
-                        # The information message
-                        msg <- paste0("The ngram key: ",
-                                      k, " and the next word: ",
-                                      word, " were found")
-                        # Information message is shown
-                        private$display_msg(msg, 3)
-                        # The loop ends
-                        break
-                    }
-                    else {
-                        # The information message
-                        msg <- paste0("The ngram key: ",
-                                      k, " and the next word: ",
-                                      word, " were not found")
-                        # Information message is shown
-                        private$display_msg(msg, 3)
-                    }
+            # If the previous word count is 0
+            if (pwl == 0) {
+                return(prob)
+            }
+
+            # The previous words are checked
+            for (i in pwl:1) {
+                # The previous words to check
+                tpw <- pw[c:pwl]
+                # The key to use for the transition matrix
+                k <- paste(tpw, collapse = "_")
+                # The key is converted to a numeric hash
+                h <- digest2int(k)
+                # The transition probabilities data is checked
+                res <- tp[tp$pre == h & tp$nw == nw, ]
+                # If the prefix was found
+                if (nrow(res) > 0) {
+                    # The word was found
+                    found <- TRUE
+                    # The probability is set
+                    prob <- as.numeric(res$prob)
                     # The information message
-                    msg <- paste0("Backing off to ", (i) ,"-gram")
+                    msg <- paste0(
+                        "The ngram key: ", k,
+                        " and the next word: ", word, " were found"
+                    )
                     # Information message is shown
                     private$display_msg(msg, 3)
-                    # The counter is increased by 1
-                    c <- c + 1
+                    # The loop ends
+                    break
                 }
+                else {
+                    # The information message
+                    msg <- paste0(
+                        "The ngram key: ", k,
+                        " and the next word: ", word, " were not found"
+                    )
+                    # Information message is shown
+                    private$display_msg(msg, 3)
+                }
+                # The information message
+                msg <- paste0("Backing off to ", (i), "-gram")
+                # Information message is shown
+                private$display_msg(msg, 3)
+                # The counter is increased by 1
+                c <- c + 1
             }
+
             # If the word was not found then the probability of the word is
             # checked in the n1-gram
             if (!found) {
@@ -341,9 +271,116 @@ ModelPredictor <- R6::R6Class(
             return(prob)
         }
     ),
-
     private = list(
         # @field m The model object.
-        m = NULL
+        m = NULL,
+        # @description
+        # Fetches the list of previous words from the given list of words.
+        # @param words A character vector of previous words or a single vector
+        #   containing the previous word text.
+        # @param dc A DataCleaner object. If it is given, then the given words
+        #   are cleaned.
+        # @return The list of previous words.
+        get_prev_words = function(words, dc) {
+            # The options for token generation
+            tg_opts <- private$m$get_config("tg_opts")
+            # The words are assigned to temp variable
+            w <- words
+            # If the DataCleaner obj was specified
+            if (!is.null(dc)) {
+                # If the words is a set of vectors
+                if (length(w) > 1) {
+                    # The words are converted to a single line of text
+                    w <- paste0(w, collapse = " ")
+                }
+                # The words are cleaned
+                w <- dc$clean_lines(w)
+            }
+
+            # If the words should be stemmed
+            if (tg_opts[["stem_words"]]) {
+                # The previous words are stemmed
+                w <- wordStem(w)
+            }
+
+            # If the words are in the form of a line
+            if (length(w) == 1) {
+                # The words are split on space
+                w <- strsplit(w, " ")[[1]]
+            }
+
+            # The length of previous words
+            pwl <- length(w)
+            # If the previous words length is 0
+            if (pwl == 0) {
+                return(NULL)
+            }
+            # If the previous word length is more than 3
+            if (pwl > 3) {
+                # The last 3 words are extracted.
+                pw <- w[(pwl - 2):pwl]
+            }
+            else {
+                pw <- w
+            }
+        },
+        # @description
+        # Checks the result from the tp table
+        # @param res The rows from the combined tp table.
+        # @param count The number of results to return.
+        # @param k The key string used to search the tp table.
+        # @return The results of checking tp table.
+        check_results = function(res, count, k) {
+            # The word list data is fetched from the model object
+            wl <- private$m$get_config("wl")
+            # The word was found
+            found <- FALSE
+            # The required results
+            result <- list("found" = F, "words" = "", "probs" = "")
+            # If the prefix was found
+            if (nrow(res) > 0) {
+                # The word was found
+                found <- TRUE
+                # The result is sorted by probability
+                sres <- res[order(res$prob, decreasing = T), ]
+                # The number of rows in the result set
+                rcount <- nrow(sres)
+                # If the number of results is more than the required number
+                # of results
+                if (rcount > count) {
+                    # The result count is set to the required number of
+                    # results
+                    rc <- count
+                }
+                else {
+                    # The result count is set to the number of results
+                    rc <- rcount
+                }
+                # The required word probabilities
+                probs <- sres$prob[1:rc]
+                # The next words indexes
+                ind <- sres$nw[1:rc]
+                # The required words
+                nw <- as.character(wl$pre[ind])
+
+                # The result is updated
+                result[["words"]] <- nw
+                result[["probs"]] <- probs
+                result[["found"]] <- T
+                # The information message
+                msg <- paste0("The ngram key: ", k, " was found")
+                # Information message is shown
+                private$display_msg(msg, 3)
+            }
+            else {
+                # The information message
+                msg <- paste0("The ngram key: ", k, " was not found")
+                # Information message is shown
+                private$display_msg(msg, 3)
+                # The result is updated
+                result[["found"]] <- F
+            }
+            return(result)
+        }
     )
 )

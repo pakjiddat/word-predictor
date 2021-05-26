@@ -11,7 +11,7 @@ test_that("Performance of token generating function is acceptable", {
             file.remove(tfn)
         }
         # The ngram number is set
-        tg_opts = list("n" = i, "save_ngrams" = T, "dir" = ddir2)
+        tg_opts <- list("n" = i, "save_ngrams" = T, "dir" = ddir2)
         # The TokenGenerator object is created
         tg <- TokenGenerator$new(fn, tg_opts)
         # The ngram tokens are generated
@@ -19,8 +19,7 @@ test_that("Performance of token generating function is acceptable", {
         # The existance of the file is checked
         expect_true(file.exists(tfn))
     }
-});
-
+})
 test_that("Frequency of the generated tokens is calculated correctly", {
     # Each ngram file is checked
     for (n in 1:4) {
@@ -48,8 +47,10 @@ test_that("Frequency of the generated tokens is calculated correctly", {
         words <- words[indexes]
         # The frequencies to check
         freq <- freq[indexes]
+        # The word indexes
+        wi <- seq_len(length(words))
         # The frequency of each word is checked
-        for (i in 1:length(words)) {
+        for (i in wi) {
             # The regular expression for matching the word
             r <- stringr:::regex(paste0("\\b", words[i], "\\b"), uword = T)
             # The number of occurances of the word
@@ -58,4 +59,4 @@ test_that("Frequency of the generated tokens is calculated correctly", {
             expect_equal(count, freq[i], label = paste0("word: ", words[i]))
         }
     }
-});
+})

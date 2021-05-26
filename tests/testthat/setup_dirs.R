@@ -21,10 +21,10 @@ check_dirs <- function(ddir1, ddir2, mdir, msdir, sdir) {
     # If the input.txt file does not exist
     if (!file.exists(ifn)) {
         # The url of the input.txt file
-        url <- paste0("https://drive.google.com/file")
-        url <- paste0(url, "/d/1Ddggtt1vXlq46-ymGJvpooM4oh_vnsdL/view?usp=sharing")
+        url <- paste0("https://drive.google.com/uc?export=download")
+        url <- paste0(url, "&id=1Ddggtt1vXlq46-ymGJvpooM4oh_vnsdL")
         # The input.txt file is downloaded from Google Drive to ddir1
-        download.file(url, ifn)
+        download.file(url, ifn, quiet = T)
         # The input.txt file is also copied to ddir2
         file.copy(ifn, ddir2)
     }

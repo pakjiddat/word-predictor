@@ -18,8 +18,8 @@
 #' returns the percentage of correct and incorrect predictions.
 #' @importFrom patchwork plot_annotation
 #' @importFrom ggplot2 ggplot aes geom_point geom_smooth coord_cartesian labs
-#' @importFrom pryr object_size
 #' @importFrom stringr str_split
+#' @importFrom pryr object_size
 ModelEvaluator <- R6::R6Class(
     "ModelEvaluator",
     inherit = TextFileProcessor,
@@ -36,9 +36,9 @@ ModelEvaluator <- R6::R6Class(
             # If the model file is not NULL
             if (!is.null(mf)) {
                 # If the model file name is not valid, then an error is thrown
-                if (!file.exists(mf))
+                if (!file.exists(mf)) {
                     stop(paste0("Invalid model file: ", mf))
-                else {
+                } else {
                     # The model file is set
                     private$mf <- mf
                     # The ModelPredictor class object is created
@@ -68,17 +68,16 @@ ModelEvaluator <- R6::R6Class(
             fl <- dir(opts[["mdir"]], full.names = T)
             # Each model file in the directory is read
             for (fn in fl) {
-                # If the file name is a directory
-                if (dir.exists(fn)) next
+                # If the file name does not contain .RDS
+                if (!endsWith(fn, ".RDS")) next
                 # The model file is read
                 m <- private$read_obj(fn)
                 # The performance stats for the model
                 pstats <- m$pstats
                 # The memory used by the object is formated
-                mu <- as.numeric(pstats$m)
-                mu <- mu/(10^6)
+                mu <- pstats$m / (10^6)
                 # The temporary performance stats
-                tstats = data.frame(
+                tstats <- data.frame(
                     "n" = m$name,
                     "m" = mu,
                     "t" = pstats$t,
@@ -130,36 +129,46 @@ ModelEvaluator <- R6::R6Class(
             private$display_msg("Plotting performance stats...", 1)
 
             # The x values. Each value in the range is the model number
-            x_vals <- 1:length(data$n)
+            x_vals <- seq_len(length(data$n))
             # The data frames
             df1 <- data.frame(x = x_vals, y = data$m)
             df2 <- data.frame(x = x_vals, y = data$t)
             df3 <- data.frame(x = x_vals, y = data$p)
             df4 <- data.frame(x = x_vals, y = data$a)
-            df5 <- data.frame(x = x_vals, y = data$p)
+            df5 <- data.frame(x = data$a, y = data$p)
             # The options for plot 1
-            popts <- list("x_lab" = "model",
-                          "y_lab" = "memory")
+            popts <- list(
+                "x_lab" = "model",
+                "y_lab" = "memory"
+            )
             # Plot 1
             p1 <- private$plot_graph(df1, popts)
             # The options for plot 2
-            popts <- list("x_lab" = "model",
-                          "y_lab" = "time")
+            popts <- list(
+                "x_lab" = "model",
+                "y_lab" = "time"
+            )
             # Plot 2
             p2 <- private$plot_graph(df2, popts)
             # The options for plot 3
-            popts <- list("x_lab" = "model",
-                          "y_lab" = "perplexity")
+            popts <- list(
+                "x_lab" = "model",
+                "y_lab" = "perplexity"
+            )
             # Plot 3
             p3 <- private$plot_graph(df3, popts)
             # The options for plot 4
-            popts <- list("x_lab" = "model",
-                          "y_lab" = "accuracy")
+            popts <- list(
+                "x_lab" = "model",
+                "y_lab" = "accuracy"
+            )
             # Plot 4
             p4 <- private$plot_graph(df4, popts)
             # The options for plot 5
-            popts <- list("x_lab" = "accuracy",
-                          "y_lab" = "perplexity")
+            popts <- list(
+                "x_lab" = "accuracy",
+                "y_lab" = "perplexity"
+            )
             # Plot 5
             p5 <- private$plot_graph(df5, popts)
             # The plots are displayed on a single page
@@ -168,11 +177,13 @@ ModelEvaluator <- R6::R6Class(
             mn <- paste0(data$n, collapse = ", ")
             # The subtitle
             st <- paste0(
-                "The performance of following models is compared: ", mn)
+                "The performance of following models is compared: ", mn
+            )
             # Main title is added
             p <- (patchwork + plot_annotation(
                 "title" = "Performance comparision of n-gram models",
-                "subtitle" = st))
+                "subtitle" = st
+            ))
             return(p)
         },
 
@@ -202,7 +213,7 @@ ModelEvaluator <- R6::R6Class(
             })
 
             # The y-axis values are updated
-            pstats[["m"]] <- object_size(m)
+            pstats[["m"]] <- as.numeric(object_size(m))
             pstats[["t"]] <- tt[[3]]
             pstats[["p"]] <- istats$mean
             pstats[["a"]] <- estats$valid_perc
@@ -231,7 +242,7 @@ ModelEvaluator <- R6::R6Class(
             # The validation data is read
             data <- private$read_lines(fn, lc)
             # The list of perplexities
-            pl <- c();
+            pl <- c()
             # The loop counter
             c <- 1
             # The Perplexity of each sentence in the test data is calculated
@@ -242,11 +253,12 @@ ModelEvaluator <- R6::R6Class(
                 p <- private$mp$calc_perplexity(words)
                 # The information message
                 msg <- paste0(
-                    "Perplexity of the sentence '", line, "' is: ", p)
+                    "Perplexity of the sentence '", line, "' is: ", p
+                )
                 # The information message is shown
                 private$display_msg(msg, 2)
                 # The list of perplexities is updated
-                pl <- c(pl, p);
+                pl <- c(pl, p)
                 # If the counter is divisible by 10
                 if (c %% 10 == 0) {
                     # The information message
@@ -261,9 +273,10 @@ ModelEvaluator <- R6::R6Class(
             stats <- list(
                 "min" = min(pl),
                 "max" = max(pl),
-                "mean" = mean(pl));
+                "mean" = mean(pl)
+            )
 
-            return(stats);
+            return(stats)
         },
 
         #' @description
@@ -295,7 +308,7 @@ ModelEvaluator <- R6::R6Class(
                 # The word to predict
                 w <- words[length(words)]
                 # The previous words used to predict the word
-                pw <- words[1:length(words)-1]
+                pw <- words[seq_len(length(words) - 1)]
                 # If the words should be stemmed
                 if (tg_opts[["stem_words"]]) {
                     # The previous words are stemmed
@@ -305,17 +318,19 @@ ModelEvaluator <- R6::R6Class(
                 res <- private$mp$predict_word(pw, F)
                 # If the predicted word matches the actual word
                 if (w %in% res["words"]) {
-                    stats[["valid"]] <- stats[["valid"]] + 1;
+                    stats[["valid"]] <- stats[["valid"]] + 1
                     # The information message
                     private$display_msg(
-                        paste0("The word: ", w, " was predicted"), 3)
+                        paste0("The word: ", w, " was predicted"), 3
+                    )
                 }
                 # If the predicted word does not match
                 else {
-                    stats[["invalid"]] <- stats[["invalid"]] + 1;
+                    stats[["invalid"]] <- stats[["invalid"]] + 1
                     # The information message
                     private$display_msg(
-                        paste0("The word: ", w, " could not be predicted"), 3)
+                        paste0("The word: ", w, " could not be predicted"), 3
+                    )
                 }
                 # The counter is increased by 1
                 c <- c + 1
@@ -328,16 +343,19 @@ ModelEvaluator <- R6::R6Class(
                 }
             }
 
+            # The valid stats
+            v <- stats[["valid"]]
+            # The invalid stats
+            i <- stats[["invalid"]]
+
             # The precentage of valid
-            stats[["valid_perc"]] <-
-                (stats[["valid"]]/(stats[["valid"]] + stats[["invalid"]]))*100
+            stats[["valid_perc"]] <- (v / (v + i)) * 100
             # The precentage of invalid
-            stats[["invalid_perc"]] <- 100-stats[["valid_perc"]]
+            stats[["invalid_perc"]] <- 100 - stats[["valid_perc"]]
 
             return(stats)
         }
     ),
-
     private = list(
         # @field mf The model file name.
         mf = NULL,
@@ -356,10 +374,11 @@ ModelEvaluator <- R6::R6Class(
             # y-max
             y_max <- max(data$y)
             # The graph is plotted
-            p <- ggplot(data, aes(x, y)) + geom_point() +
-                geom_smooth(method='lm', formula= y~x) +
+            p <- ggplot(data, aes(x, y)) +
+                geom_point() +
+                geom_smooth(method = "lm", formula = y ~ x) +
                 labs(x = opts[["x_lab"]], y = opts[["y_lab"]]) +
-                coord_cartesian(ylim = c(0,y_max))
+                coord_cartesian(ylim = c(0, y_max))
             return(p)
         }
     )

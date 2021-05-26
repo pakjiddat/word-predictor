@@ -26,7 +26,7 @@ DataAnalyzer <- R6::R6Class(
             # The processed output is initialized
             private$p_output <- data.frame()
             # The verbose options is set
-            private$ve = ve
+            private$ve <- ve
         },
 
         #' @description
@@ -47,9 +47,9 @@ DataAnalyzer <- R6::R6Class(
         #' @return A data frame containing the stats.
         plot_n_gram_stats = function(opts) {
             # The opts is merged with the da_opts attribute
-            private$da_opts = modifyList(private$da_opts, opts)
+            private$da_opts <- modifyList(private$da_opts, opts)
             # The da_opts is merged with the base class opts attribute
-            private$opts = modifyList(private$opts, private$da_opts)
+            private$opts <- modifyList(private$opts, private$da_opts)
             # The ngram data is read
             df <- private$read_obj(private$fn)
             # The information message is shown
@@ -63,7 +63,9 @@ DataAnalyzer <- R6::R6Class(
                 # The percentage frequencies is calculated
                 for (i in 1:private$opts[["n"]]) {
                     # The percentage of tokens with frequency i
-                    x[i] <- round(100*(nrow(df[df$freq == i,])/nrow(df)), 2)
+                    x[i] <- 100 * (nrow(df[df$freq == i, ]) / nrow(df))
+                    # The percentage is rounded to 2 decimal places
+                    x[i] <- round(x[i], 2)
                 }
                 # A data frame is created
                 df <- data.frame("freq" = x, "pre" = y)
@@ -71,7 +73,8 @@ DataAnalyzer <- R6::R6Class(
                 labels <- list(
                     y = "Percentage of total",
                     x = "Word Frequency",
-                    title = "Coverage")
+                    title = "Coverage"
+                )
             }
             # If the top_features option was specified
             else if (private$opts[["type"]] == "top_features") {
@@ -79,14 +82,15 @@ DataAnalyzer <- R6::R6Class(
                 labels <- list(
                     y = "Frequency",
                     x = "Feature",
-                    title = paste("Top", private$opts[["n"]], "Features"))
+                    title = paste("Top", private$opts[["n"]], "Features")
+                )
             }
             # The freq column is converted to numeric
             df$freq <- as.numeric(df$freq)
             # The pre column is converted to character
             df$pre <- as.character(df$pre)
             # The data frame is sorted in descending order
-            df <- (df[order(df$freq, decreasing = T),])
+            df <- (df[order(df$freq, decreasing = T), ])
             # The top n terms are extracted
             df <- df[1:private$opts[["n"]], ]
             # The chart is plotted
@@ -125,7 +129,7 @@ DataAnalyzer <- R6::R6Class(
             # If a directory name was passed
             if (dir.exists(res)) {
                 # All files in the directory are fetched
-                fl = dir(res, full.names = T, pattern = "*.txt")
+                fl <- dir(res, full.names = T, pattern = "*.txt")
             }
             # If a file name was passed
             else if (file.exists(res)) {
@@ -181,19 +185,22 @@ DataAnalyzer <- R6::R6Class(
                 # The file stats are appended
                 fstats <- rbind(fstats, tstats)
 
-                if (temp_max > ostats["max_ll"])
+                if (temp_max > ostats["max_ll"]) {
                     ostats["max_ll"] <- temp_max
-                if (temp_min > ostats["min_ll"])
+                }
+                if (temp_min > ostats["min_ll"]) {
                     ostats["min_ll"] <- temp_min
-                if (temp_mean > ostats["mean_ll"])
+                }
+                if (temp_mean > ostats["mean_ll"]) {
                     ostats["mean_ll"] <- temp_mean
+                }
             }
             # The total size is formatted
             ostats["total_s"] <-
                 utils:::format.object_size(ostats["total_s"], "auto")
 
             # The required stats
-            stats = list("file_stats" = fstats, "overall_stats" = ostats)
+            stats <- list("file_stats" = fstats, "overall_stats" = ostats)
             # The required stats are returned
             return(stats)
         },
@@ -211,10 +218,11 @@ DataAnalyzer <- R6::R6Class(
             df <- private$read_obj(fn)
             # If the prefix is not given
             if (is.null(pre)) {
+                seq_l
                 # The sample indexes
-                i <- sample(1:nrow(df), c)
+                i <- sample(seq_len(nrow(df)), c)
                 # The ngram samples
-                s <- df[i,]
+                s <- df[i, ]
             }
             else {
                 # The ngram samples
@@ -223,7 +231,6 @@ DataAnalyzer <- R6::R6Class(
             return(s)
         }
     ),
-
     private = list(
         # @field da_opts The options for data analyzer object.
         # * **type**. The type of plot to display. The options are:

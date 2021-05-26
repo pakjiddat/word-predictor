@@ -99,12 +99,13 @@ The perplexity of the given list of words.
 \if{html}{\out{<a id="method-predict_word"></a>}}
 \if{latex}{\out{\hypertarget{method-predict_word}{}}}
 \subsection{Method \code{predict_word()}}{
-Predicts the new word given a list of 1, 2 or 3 previous
-words. It checks the given n words in the transition probabilities
-data. If there is a match, the top 3 next words with highest
-probabilities are returned. If there is no match, then the last n-1
-previous words are checked. This process is continued until the last
-word is checked. If there is no match, then empty result is returned.
+Predicts the new word given a list of 1, 2 or 3 previous words. It
+checks the given n words in the transition probabilities data. If
+there is a match, the top 3 next words with highest probabilities are
+returned. If there is no match, then the last n-1 previous words are
+checked. This process is continued until the last word is checked. If
+there is no match, then empty result is returned. The given words may
+optionally be stemmed.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ModelPredictor$predict_word(words, count = 3, dc = NULL)}\if{html}{\out{</div>}}
 }
@@ -117,10 +118,7 @@ containing the previous word text.}
 
 \item{\code{count}}{The number of results to return.}
 
-\item{\code{dc}}{A DataCleaner object. If it is given, then the given words
-are cleaned. If the stem_words option was set in the TokenGenerator
-object configuration for the current model, then the words are
-converted to their stems.}
+\item{\code{dc}}{A DataCleaner object. If it is given, then the given words}
 }
 \if{html}{\out{</div>}}
 }

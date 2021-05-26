@@ -28,7 +28,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: digest, ggplot2, R6, patchwork, stringr, dplyr, pryr, SnowballC, utils
+Imports: digest, ggplot2, R6, patchwork, stringr, dplyr, SnowballC, utils
 Suggests: 
     testthat,
     covr,

@@ -53,10 +53,10 @@ verbose option.
 \if{html}{\out{<a id="method-generate_sample"></a>}}
 \if{latex}{\out{\hypertarget{method-generate_sample}{}}}
 \subsection{Method \code{generate_sample()}}{
-Generates a sample file of given size from the given
-input file. The file is optionally cleaned and saved.
+Generates a sample file of given size from the given input file. The
+file is optionally cleaned and saved to the data directory.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataSampler$generate_sample(fn = NULL, ss, ic, ir, t, is)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataSampler$generate_sample(fn, ss, ic, ir, ofn, is)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -72,12 +72,7 @@ the type parameter.}
 
 \item{\code{ir}}{If the sample file contents should be randomized.}
 
-\item{\code{t}}{The type of sample. It can be:
-\itemize{
-\item \strong{tr}. training sample.
-\item \strong{te}. testing sample.
-\item \strong{va}. validation sample.
-}}
+\item{\code{ofn}}{The output file name. It will be saved to the ddir.}
 
 \item{\code{is}}{If the sampled data should be saved to a file.}
 }

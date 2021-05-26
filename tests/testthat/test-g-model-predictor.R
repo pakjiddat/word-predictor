@@ -7,12 +7,12 @@ test_that("Word probability is correctly calculated", {
     # and "are"
     prob <- mp$get_word_prob(word = "you", pw = c("how", "are"))
     # Check that probability is correct
-    expect_equal(round(prob, 4), 0.5)
+    expect_equal(round(prob, 3), 0.571)
     # The probability that the next word is "you" given the previous words "how"
     # and "is"
     prob <- mp$get_word_prob(word = "you", pw = c("how", "is"))
     # Check that probability is correct
-    expect_equal(round(prob, 4), 0.0012)
+    expect_equal(round(prob, 3), 0.001)
 })
 
 test_that("The next word is correctly predicted", {
@@ -24,8 +24,8 @@ test_that("The next word is correctly predicted", {
     nws <- mp$predict_word("how are", count = 10)
     # Check that the most likely next word is "you"
     expect_equal(nws[["words"]][1], "you")
-    # Check that the most likely next word has probability 0.5
-    expect_equal(round(nws[["probs"]][1], 4), 0.5)
+    # Check that the most likely next word has probability 0.571
+    expect_equal(round(nws[["probs"]][1], 3), 0.571)
 })
 
 test_that("Perplexity is correctly calculated", {
@@ -40,5 +40,5 @@ test_that("Perplexity is correctly calculated", {
     # The Perplexity of the sentence is calculated
     p <- mp$calc_perplexity(w)
     # Check that perplexity is correct
-    expect_equal(p, 43)
+    expect_equal(p, 70)
 })

@@ -67,14 +67,16 @@ ModelGenerator <- R6::R6Class(
 
         #' @description
         #' It generates the model using the current object's attributes.
-        generate_model = function() {
+        #' @param rf If the existing model files should be removed.
+        generate_model = function(rf = F) {
             # The information message is displayed
             private$display_msg("Generating n-gram model...", 1)
 
-            # All files in the model directory are removed
-            ir <- private$remove_model_files()
-            # If the model file already exists
-            if (!ir) return(FALSE)
+            # If the existing model files should be removed
+            if (rf) {
+                # All existing model files are removed
+                private$remove_files()
+            }
             # The cleaned sampled data file is generated
             private$generate_sample()
             # The data files are generated
@@ -87,7 +89,6 @@ ModelGenerator <- R6::R6Class(
             private$save_model()
         }
     ),
-
     private = list(
         # @field m The model object.
         m = NULL,
@@ -111,26 +112,13 @@ ModelGenerator <- R6::R6Class(
         },
 
         # @description
-        # Removes all files in the model directory.
-        # @return TRUE is returned if model files were removed. FALSE is
-        #   returned if the model file already exists.
-        remove_model_files = function() {
+        # Removes all files in the model directory. Also removes
+        # the train.txt and train-clean.txt files from the data directory.
+        remove_files = function() {
             # The model directory path
             mdir <- private$m$get_config("mdir")
-            # The model file name
-            ofn <- private$m$get_config("fn")
-            # The output  file path
-            ofp <- paste0(mdir, "/", ofn)
-            # If the model file already exists
-            if (file.exists(ofp)) {
-                # The information message
-                msg <- paste0("The model file: ", ofp, " already exists.")
-                # The information message is displayed
-                private$display_msg(msg, 1)
-                # The function returns FALSE
-                return(F)
-            }
-
+            # The model directory path
+            ddir <- private$m$get_config("ddir")
             # The information message is displayed
             private$display_msg(
                 "Removing all files in the model directory...", 1)
@@ -139,8 +127,6 @@ ModelGenerator <- R6::R6Class(
                 # The file is removed
                 file.remove(fn)
             }
-            # The function returns TRUE
-            return(T)
         },
 
         # @description
@@ -154,18 +140,16 @@ ModelGenerator <- R6::R6Class(
             ssize <- private$m$get_config("ssize")
             # The data directory path
             ddir <- private$m$get_config("ddir")
-            # The model directory path
-            mdir <- private$m$get_config("mdir")
             # The path to the input data file name
             dfp <- paste0(ddir, "/", df)
             # The object size is formatted
-            obj_size <- file.size(dfp)/10^6
+            obj_size <- file.size(dfp) / 10^6
             # The proportion of data to sample
-            prop <- (ssize/obj_size)
+            prop <- (ssize / obj_size)
             # The DataSampler object is created
-            ds <- DataSampler$new(ddir = ddir, mdir = ddir,  ve = private$ve)
+            ds <- DataSampler$new(ddir = ddir, ve = private$ve)
             # Sample is taken and cleaned
-            ds$generate_sample(df, prop, T, F, 'tr', T)
+            ds$generate_sample(df, prop, T, F, "train.txt", T)
         },
 
         # @description
@@ -179,7 +163,7 @@ ModelGenerator <- R6::R6Class(
             # The model directory path
             mdir <- private$m$get_config("mdir")
             # The DataSampler object is created
-            ds <- DataSampler$new(ddir = ddir, mdir = mdir,  ve = private$ve)
+            ds <- DataSampler$new(ddir = ddir, mdir = mdir, ve = private$ve)
             # The training, testing and validation data sets are generated
             ds$generate_data("train-clean.txt", mdir, list(
                 train = .8,
@@ -204,7 +188,7 @@ ModelGenerator <- R6::R6Class(
                 "dir" = mdir
             )
             # The TPGenerator object is created
-            tp <- TPGenerator$new(tp_opts)
+            tp <- TPGenerator$new(tp_opts, private$ve)
             # The transition probabilities are generated
             tp$generate_tp()
         },

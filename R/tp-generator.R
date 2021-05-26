@@ -70,8 +70,11 @@ TPGenerator <- R6::R6Class(
             # The n-gram number
             nmax <- private$tp_opts[["n"]]
             # The file extension
-            if (fo == "plain") ext <- ".txt"
-            else ext <- ".RDS"
+            if (fo == "plain") {
+                ext <- ".txt"
+            } else {
+                ext <- ".RDS"
+            }
 
             # The short output file name
             fn <- paste0("model-", nmax, ext)
@@ -119,9 +122,11 @@ TPGenerator <- R6::R6Class(
                 }
                 # The processed output is set to the combined tp data
                 private$p_output <-
-                    data.frame("pre" = c_pre,
-                               "nw" = c_nw,
-                               "prob" = c_prob)
+                    data.frame(
+                        "pre" = c_pre,
+                        "nw" = c_nw,
+                        "prob" = c_prob
+                    )
 
                 # If the data should be saved
                 if (private$tp_opts[["save_tp"]]) {
@@ -176,9 +181,9 @@ TPGenerator <- R6::R6Class(
                     # The word list is set to the data frame
                     private$wl <- df
                     # A probabilities column is added
-                    private$wl$prob = (private$wl$freq/sum(private$wl$freq))
+                    private$wl$prob <- (private$wl$freq / sum(private$wl$freq))
                     # The probabilities are rounded to 8 decimal places
-                    private$wl$prob = round(private$wl$prob, 8)
+                    private$wl$prob <- round(private$wl$prob, 8)
                     # The frequency column is removed
                     private$wl$freq <- NULL
                 }
@@ -188,15 +193,17 @@ TPGenerator <- R6::R6Class(
                     # The lines are split on "prefix_nextword:frequency"
                     m <- str_match(df$pre, "(.+)_(.+)")
                     # The hash of the prefix is taken
-                    np <- digest2int(m[,2])
+                    np <- digest2int(m[, 2])
                     # The next word id based on index position
-                    nw <- match(m[,3], private$wl$pre)
+                    nw <- match(m[, 3], private$wl$pre)
                     # The next word frequencies
                     nf <- df$freq
                     # The data is added to a data frame
-                    df <- data.frame("pre" = np,
-                                     "nw" = nw,
-                                     "freq" = nf)
+                    df <- data.frame(
+                        "pre" = np,
+                        "nw" = nw,
+                        "freq" = nf
+                    )
                     # The processed output is set to the data frame
                     private$p_output <- df
                     # The next word probabilities are generated
@@ -211,7 +218,6 @@ TPGenerator <- R6::R6Class(
             }
         }
     ),
-
     private = list(
         # @field tp_opts The options for generating the transition
         #   probabilities.
@@ -249,7 +255,7 @@ TPGenerator <- R6::R6Class(
                     group_by(pre) %>%
                     mutate(prob = sum(freq))
                 # Each frequency is divided by the sum to give the probability.
-                df$prob <- round(df$freq/df$prob, 8)
+                df$prob <- round(df$freq / df$prob, 8)
                 # The output is set to the updated variable
                 private$p_output <- df
             }
@@ -266,8 +272,11 @@ TPGenerator <- R6::R6Class(
             # The format
             fo <- private$tp_opts[["format"]]
             # The file extension
-            if (fo == "plain") ext <- ".txt"
-            else ext <- ".RDS"
+            if (fo == "plain") {
+                ext <- ".txt"
+            } else {
+                ext <- ".RDS"
+            }
             # If the output file name is required
             if (is_output) {
                 # If n = 1
@@ -313,8 +322,11 @@ TPGenerator <- R6::R6Class(
                 data <- private$p_output
             }
             # If the file name is given as parameter then it is used
-            if (!is.null(fn)) fn <- paste0(od, "/", fn)
-            else fn <- private$get_file_name(T)
+            if (!is.null(fn)) {
+                fn <- paste0(od, "/", fn)
+            } else {
+                fn <- private$get_file_name(T)
+            }
             # The data is written
             private$write_data(data, fn, fo, F)
         },
@@ -327,12 +339,16 @@ TPGenerator <- R6::R6Class(
                 # The format
                 fo <- private$tp_opts[["format"]]
                 # The file extension
-                if (fo == "plain") ext <- ".txt"
-                else ext <- ".RDS"
+                if (fo == "plain") {
+                    ext <- ".txt"
+                } else {
+                    ext <- ".RDS"
+                }
                 # The 1-gram words file name
                 fn <- paste0(private$tp_opts[["dir"]], "/words", ext)
                 # The words are read
-                private$wl <- private$read_data(fn, private$tp_opts[["format"]], F)
+                private$wl <- private$read_data(
+                    fn, private$tp_opts[["format"]], F)
             }
         }
     )

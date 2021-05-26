@@ -3,6 +3,11 @@
 
 # Introduction
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
+<!-- badges: end -->
+
 The goal of the **wordpredictor** package is to provide a flexible and
 easy to use framework for generating [n-gram
 models](https://en.wikipedia.org/wiki/N-gram) for word prediction.
@@ -14,6 +19,13 @@ methods for measuring n-gram model performance using
 
 The n-gram model may be customized using several options such as n-gram
 size, data cleaning options and options for tokenization.
+
+## Demo
+
+A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application
+based on the Shiny package. It allows predicting the next word based on
+the given set of words. It displays the 10 ten most likely words along
+with their respective probabilities.
 
 ## Installation
 
@@ -53,6 +65,9 @@ customize and improve. It provides the following classes:
     Perplexity, accuracy, memory and time taken.
 8.  **ModelPredictor**. It allows predicting the next word, given a set
     of previous words.
+9.  **TextFileProcessor**. The base class for all the other classes. It
+    allows provides methods for reading and writing files and processing
+    large text files.
 
 Use the command: **?wordpredictor::class-name** for details on how each
 class works and the parameter details.
@@ -133,7 +148,7 @@ their frequencies:
 fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
-da <- DataAnalyzer$new(fn =fn)
+da <- DataAnalyzer$new(fn = fn)
 # The top 10 most occuring features are plotted
 df <- da$plot_n_gram_stats(opts = list(
   "type" = "top_features",
