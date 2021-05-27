@@ -83,7 +83,7 @@ ds$generate_sample(
     ss = prop,
     ic = F,
     ir = T,
-    t = "tr",
+    ofn = "train.txt",
     is = T
 )
 ```
@@ -137,22 +137,25 @@ dc$clean_file()
 The **clean_file** method reads a certain number of lines at a time, cleans the lines of text and saves them to an output text file. It is useful for cleaning large text files.
 
 ### Tokenization
-The next step is to generate n-gram tokens from the cleaned text file. The **TokenGenerator** class allows generating n-gram tokens of given size from a given input text file. The following example shows how to generate n-grams tokens of size 3:
+The next step is to generate n-gram tokens from the cleaned text file. The **TokenGenerator** class allows generating n-gram tokens of given size from a given input text file. The following example shows how to generate n-grams tokens of size 1,2,3 and 4:
 
 ```{r tokenization-1, cache=TRUE}
 # The test file path
 fn <- paste0(ddir2, "/test.txt")
-# The ngram number is set
-tg_opts = list("n" = 3, "save_ngrams" = T, dir = mdir)
-# The TokenGenerator object is created
-tg <- TokenGenerator$new(fn, tg_opts)
-# The ngram tokens are generated
-tg$generate_tokens()
+# The n-grams are generated
+for (n in 1:4) {
+  # The ngram number is set
+  tg_opts = list("n" = n, "save_ngrams" = T, dir = ddir2)
+  # The TokenGenerator object is created
+  tg <- TokenGenerator$new(fn, tg_opts)
+  # The ngram tokens are generated
+  tg$generate_tokens()
+}
 ```
 
-The above code generates the file **n3.RDS** in the model directory. This file contains 3-gram tokens along with their frequencies. N-gram files of size 1, 2, 3, 4 and so on can be generated in this way. The larger the n-gram size, the higher the memory requirement for the n-gram model. Usually n-grams of size 4 are generated.
+The above code generates the files **n1.RDS, n2.RDS, n3.RDS and n4.RDS** in the data directory. This files contains n-gram tokens along with their frequencies. N-grams of larger size provide more context. Usually n-grams of size 4 are generated.
 
-Two important customization options supported by the class are **min_freq** and **stem_words**. **min_freq** sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than **min_freq** are excluded. When the **stem_words** option is used, n-gram prefix components are stemmed. The next word is not transformed.
+Two important customization options supported by the **TokenGenerator** class are **min_freq** and **stem_words**. **min_freq** sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than **min_freq** are excluded. When the **stem_words** option is used, n-gram prefix components are stemmed. The next word is not transformed.
 
 The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occuring n-gram tokens:
 

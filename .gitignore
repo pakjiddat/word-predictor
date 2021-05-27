@@ -10,5 +10,6 @@ inst/doc
 docs
 vignettes/features_cache
 vignettes/overview_cache
+vignettes/man
 cran-comments.md
 README_cache

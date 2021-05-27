@@ -10,8 +10,7 @@ Provides basic structure for processing text files.
 It provides pre-processing, processing and post-processing functions, which
 need to be overridden by derived classes. The pre-processing function is
 called before reading a file. The process function is called for processing a
-line. The post processing function is called on the processed data. It also
-provides a method for generating a sample file from an input text file
+line. The post processing function is called on the processed data.
 }
 \section{Methods}{
 \subsection{Public methods}{

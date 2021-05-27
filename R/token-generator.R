@@ -98,7 +98,7 @@ TokenGenerator <- R6::R6Class(
             "stem_words" = F,
             "min_freq" = -1,
             "line_count" = 5000,
-            "dir" = "./data/model",
+            "dir" = NULL,
             "format" = "obj"
         ),
 
