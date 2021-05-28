@@ -29,7 +29,7 @@ Model <- R6::R6Class(
 
         #' @description
         #' It initializes the current object. It is used to set the
-        #' maximum ngram number, sample size, input file name, data cleaner
+        #' maximum n-gram number, sample size, input file name, data cleaner
         #' options, tokenization options, combined transition probabilities file
         #' name and verbose.
         #' @param name The model name.
@@ -38,7 +38,7 @@ Model <- R6::R6Class(
         #' @param df The path of the file used to generate the model. If
         #'   the data was cleaned, then df is the path to the cleaned
         #'   file.
-        #' @param n The maximum ngram number supported by the model.
+        #' @param n The maximum n-gram number supported by the model.
         #' @param ssize The sample size in Mb.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
@@ -96,7 +96,7 @@ Model <- R6::R6Class(
             self$name <- name
             # The model description is set
             self$desc <- desc
-            # The ngram number is set
+            # The n-gram number is set
             private$n <- n
             # The sample size is set
             private$ssize <- ssize
@@ -180,7 +180,7 @@ Model <- R6::R6Class(
         #   number of words in the sentence, V is the number of words in the
         #   vocabulary.
         dp = NULL,
-        # @field n The maximum number of ngrams supported by the model.
+        # @field n The maximum number of n-grams supported by the model.
         n = 4,
         # @field dc_opts The options for the data cleaner object.
         # * **min_words**. The minimum number of words per sentence.
@@ -211,9 +211,9 @@ Model <- R6::R6Class(
             "remove_bad" = F
         ),
         # @field tg_opts The options for the token generator obj.
-        # * **n**. The ngram size.
-        # * **save_ngrams**. If the ngram data should be saved.
-        # * **min_freq**. All ngrams with frequency less than min_freq are
+        # * **n**. The n-gram size.
+        # * **save_ngrams**. If the n-gram data should be saved.
+        # * **min_freq**. All n-grams with frequency less than min_freq are
         #     ignored.
         # * **line_count**. The number of lines to process at a time.
         # * **stem_words**. If words should be converted to their stem.

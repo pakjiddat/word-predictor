@@ -17,7 +17,7 @@ ModelGenerator <- R6::R6Class(
     public = list(
         #' @description
         #' It initializes the current object. It is used to set the
-        #' maximum ngram number, sample size, input file name, data cleaner
+        #' maximum n-gram number, sample size, input file name, data cleaner
         #' options, tokenization options, combined transition probabilities file
         #' name and verbose.
         #' @param name The model name.
@@ -27,7 +27,7 @@ ModelGenerator <- R6::R6Class(
         #'   data was cleaned, then df is the path to the cleaned file. It
         #'   should be the short file name. It should be present in the data
         #'   directory.
-        #' @param n The maximum ngram number supported by the model.
+        #' @param n The maximum n-gram number supported by the model.
         #' @param ssize The sample size in Mb.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
@@ -207,13 +207,13 @@ ModelGenerator <- R6::R6Class(
             tg_opts$dir <- mdir
             # The clean train data file name
             fn <- paste0(mdir, "/train.txt")
-            # For each ngram number, the ngram token file is generated
+            # For each n-gram number, the n-gram token file is generated
             for (i in 1:n) {
-                # The ngram number is set
+                # The n-gram number is set
                 tg_opts$n <- i
                 # The TokenGenerator object is created
                 tg <- TokenGenerator$new(fn, tg_opts, private$ve)
-                # The ngram tokens are generated
+                # The n-gram tokens are generated
                 tg$generate_tokens()
             }
         }

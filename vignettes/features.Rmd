@@ -46,7 +46,7 @@ The following steps are involved in generating n-gram models:
 ### Data Exploration
 The first step in generating a n-gram model is data exploration. This involves determining the type of textual content and various text related statistics. The type of text may be news content, blog posts, Twitter feeds, product reviews, customer chat history etc. Example of text related statistics are line count, word count, average line length and input file size.
 
-It is also important to determine the un-wanted words and symbols in the data such as vulgar words, punctuation symbols, non-alphabetical symbols etc. The **wordpredictor** package provides the **DataAnalyzer** class which can be used to find out statistics about the input data. The following example shows how to get statistics on all text files within a folder:
+It is also important to determine the unwanted words and symbols in the data such as vulgar words, punctuation symbols, non-alphabetical symbols etc. The **wordpredictor** package provides the **DataAnalyzer** class which can be used to find out statistics about the input data. The following example shows how to get statistics on all text files within a folder:
 
 ```{r data-exploration, cache=TRUE}
 # The DataAnalyzer object is created
@@ -88,9 +88,9 @@ ds$generate_sample(
 )
 ```
 
-Usually we need a train dataset for generating the n-gram model. A test dataset for testing the model and a validation dataset for evaluating the performance of the model. The following example shows how to generate the train, test and validation files. The train file contains the first 80% of the lines, the test set contains the next 10% of the lines. The remaining lines are in the validation set.
+Usually we need a train data set for generating the n-gram model. A test data set for testing the model and a validation data set for evaluating the performance of the model. The following example shows how to generate the train, test and validation files. The train file contains the first 80% of the lines, the test set contains the next 10% of the lines. The remaining lines are in the validation set.
 
-The data in the validation file must be different from the data in the train file. Otherwise it can result in overfiting of the model. When a model is overfitted, the model evaluation results will be exaggerated, overly optimistic and unreliable. So care should be taken to ensure that the data in the validation and train files is different.
+The data in the validation file must be different from the data in the train file. Otherwise it can result in over-fitting of the model. When a model is over-fitted, the model evaluation results will be exaggerated, overly optimistic and unreliable. So care should be taken to ensure that the data in the validation and train files is different.
 
 ```{r data-sampling-2, cache=TRUE}
 # An object of class DataSampler is created
@@ -110,9 +110,9 @@ ds$generate_data(
 In the above example, **ddir** parameter is the data directory containing the **input.txt** file. **mdir** parameter is the output directory that will contain the generated test, validation and train data files.
 
 ### Data Cleaning
-The next step is to remove un-wanted symbols and words from the input text file. This reduces the memory requirement of the n-gram model and makes it more efficient. Example of un-wanted words are vulgar words and words that are not part of the vacabulary. Punctuation, numbers, non-printable characters, extra spaces may also be removed.
+The next step is to remove unwanted symbols and words from the input text file. This reduces the memory requirement of the n-gram model and makes it more efficient. Example of unwanted words are vulgar words and words that are not part of the vocabulary. Punctuation, numbers, non-printable characters, extra spaces may also be removed.
 
-The **wordpredictor** package provides the **DataCleaner** class which can be used to remove un-wanted words and symbols from text files. The following example shows how to clean a given text file:
+The **wordpredictor** package provides the **DataCleaner** class which can be used to remove unwanted words and symbols from text files. The following example shows how to clean a given text file:
 
 ```{r data-cleaning, cache=TRUE}
 # The data file path
@@ -157,7 +157,7 @@ The above code generates the files **n1.RDS, n2.RDS, n3.RDS and n4.RDS** in the 
 
 Two important customization options supported by the **TokenGenerator** class are **min_freq** and **stem_words**. **min_freq** sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than **min_freq** are excluded. When the **stem_words** option is used, n-gram prefix components are stemmed. The next word is not transformed.
 
-The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occuring n-gram tokens:
+The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occurring n-gram tokens:
 
 ```{r tokenization-2, cache=TRUE, fig.width=5, fig.height=3}
 # The ngram file name

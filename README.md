@@ -53,7 +53,7 @@ customize and improve. It provides the following classes:
 1.  **DataAnalyzer**. It allows analyzing n-grams.
 2.  **DataCleaner**. It allows cleaning text files. It supports several
     data cleaning options.
-3.  **DataSampler**. It allows generating sample files of specifed size
+3.  **DataSampler**. It allows generating sample files of specified size
     from a text file. It also allows generating train, test and
     validation sample files from a given input text file.
 4.  **TokenGenerator**. It allows generating n-gram tokens of given
@@ -142,8 +142,8 @@ of the model is 4. So 4 n-gram files are generated in the model folder.
 These files are: **n1.RDS, n2.RDS, n3.RDS and n4.RDS**. The **n2.RDS**
 file contains n-grams of size 2.
 
-The following example plots the top 10 most occuring bi-grams along with
-their frequencies:
+The following example plots the top 10 most occurring bi-grams along
+with their frequencies:
 
 ``` r
 # The file name
@@ -151,7 +151,7 @@ fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
 da <- DataAnalyzer$new(fn = fn)
-# The top 10 most occuring features are plotted
+# The top 10 most occurring features are plotted
 df <- da$plot_n_gram_stats(opts = list(
   "type" = "top_features",
   "n" = 10,
@@ -171,7 +171,7 @@ fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
 da <- DataAnalyzer$new(fn = fn)
-# The top 10 most occuring features are plotted
+# The top 10 most occurring features are plotted
 df <- da$plot_n_gram_stats(opts = list(
   "type" = "coverage",
   "n" = 10,
@@ -266,7 +266,7 @@ compare the performance of multiple models. When evaluating the
 performance of a model, intrinsic and extrinsic evaluation is performed.
 
 Intrinsic evaluation measures the Perplexity score for each sentence in
-a valiation text file. It returns the minimum, maximum and mean
+a validation text file. It returns the minimum, maximum and mean
 Perplexity score for the sentences.
 
 Extrinsic evaluation measures the accuracy score for the sentences in a
@@ -319,7 +319,7 @@ performance evaluation and word prediction.
 
 The n-gram language model requires a lot of memory for storing the
 n-grams. The **wordpredictor** package has been tested on a machine with
-dual core processor and 4 Gb of RAM. It works well for input data files
+dual core processor and 4 GB of RAM. It works well for input data files
 of size less than 40 Mb and n-gram size 4. For larger data files and
 n-gram size, more memory and CPU power will be needed.
 
@@ -328,7 +328,7 @@ n-gram size, more memory and CPU power will be needed.
 The **wordpredictor** package may be extended by adding support for
 different smoothing techniques such as
 [Good-Turing](https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation),
-[Katz-Backoff](https://en.wikipedia.org/wiki/Katz%27s_back-off_model)
+[Katz-Back-off](https://en.wikipedia.org/wiki/Katz%27s_back-off_model)
 and handling of [Out Of Vocabulary
 Words](https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words).
 
@@ -340,12 +340,12 @@ n-grams](https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams).
 The **wordpredictor** package is used for predicting words. It may be
 extended to support other use cases such as spelling correction,
 biological sequence analysis, data compression and more. This will
-require further performance optimizations.
+require further performance optimization.
 
 The source code is organized using R6 classes. It is easy to extend.
 Contributions are welcome \!.
 
-## Acknowledments
+## Acknowledgments
 
 I was motivated to develop the **wordpredictor** package after taking
 the courses in the [Data Science

@@ -1,7 +1,7 @@
-#' It generates ngrams of given size from an input text file
+#' It generates n-grams of given size from an input text file
 #'
 #' @description
-#' It generates ngram tokens along with their frequencies. The data
+#' It generates n-gram tokens along with their frequencies. The data
 #' may be saved to a file in plain text format or as a R object.
 #'
 #' @importFrom SnowballC wordStem
@@ -14,10 +14,10 @@ TokenGenerator <- R6::R6Class(
         #' It initializes the current obj. It is used to set the file name,
         #' tokenization options and verbose option.
         #' @param fn The path to the input file.
-        #' @param opts The options for generating the ngram tokens.
-        #' * **n**. The ngram size.
-        #' * **save_ngrams**. If the ngram data should be saved.
-        #' * **min_freq**. All ngrams with frequency less than min_freq are
+        #' @param opts The options for generating the n-gram tokens.
+        #' * **n**. The n-gram size.
+        #' * **save_ngrams**. If the n-gram data should be saved.
+        #' * **min_freq**. All n-grams with frequency less than min_freq are
         #'     ignored.
         #' * **line_count**. The number of lines to process at a time.
         #' * **stem_words**. If words should be transformed to their stems.
@@ -37,10 +37,10 @@ TokenGenerator <- R6::R6Class(
         },
 
         #' @description
-        #' It generates ngram tokens and their frequencies from the
+        #' It generates n-gram tokens and their frequencies from the
         #' given file name. The tokens may be saved to a text file as plain text
         #' or a R object.
-        #' @return The data frame containing ngram tokens along with their
+        #' @return The data frame containing n-gram tokens along with their
         #'   frequencies.
         generate_tokens = function() {
             # The processed output is initialized
@@ -56,9 +56,9 @@ TokenGenerator <- R6::R6Class(
                 )
                 # The information message is shown
                 private$display_msg(msg, 1)
-                # If the ngram data should not be saved
+                # If the n-gram data should not be saved
                 if (!private$tg_opts[["save_ngrams"]]) {
-                    # The ngrams file is read
+                    # The n-grams file is read
                     private$p_output <- private$read_data(
                         fn, private$tg_opts[["format"]], T
                     )
@@ -82,9 +82,9 @@ TokenGenerator <- R6::R6Class(
     ),
     private = list(
         # @field tg_opts The options for the token generator obj.
-        # * **n**. The ngram size.
-        # * **save_ngrams**. If the ngram data should be saved.
-        # * **min_freq**. All ngrams with frequency less than min_freq are
+        # * **n**. The n-gram size.
+        # * **save_ngrams**. If the n-gram data should be saved.
+        # * **min_freq**. All n-grams with frequency less than min_freq are
         #     ignored.
         # * **stem_words**. If words should be transformed to their stems.
         # * **line_count**. The number of lines to process at a time.
@@ -105,19 +105,19 @@ TokenGenerator <- R6::R6Class(
         # @description
         # Performs processing for the \code{generate_tokens} function. It
         # processes the given line of text. It converts each line of text into
-        # ngrams of the given size. The frequency of each ngram is updated.
+        # n-grams of the given size. The frequency of each n-gram is updated.
         # @param lines The lines of text.
         process = function(lines) {
-            # Ngrams are extracted from each line
+            # n-grams are extracted from each line
             ngrams <- private$generate_ngrams(lines)
-            # The ngram words are appended to the processed output
+            # The n-gram words are appended to the processed output
             private$p_output <- c(private$p_output, ngrams)
         },
 
         # @description
-        # It returns the name of the output ngram file.
+        # It returns the name of the output n-gram file.
         get_file_name = function() {
-            # The ngram number
+            # The n-gram number
             n <- private$tg_opts[["n"]]
             # The format
             fo <- private$tg_opts[["format"]]
@@ -137,7 +137,7 @@ TokenGenerator <- R6::R6Class(
         },
 
         # @description
-        # It saves the ngram tokens and their frequencies to a text file.
+        # It saves the n-gram tokens and their frequencies to a text file.
         post_process = function() {
             # The information message
             msg <- paste0(
@@ -154,20 +154,20 @@ TokenGenerator <- R6::R6Class(
             df <- df %>%
                 group_by(pre) %>%
                 summarize_all(sum)
-            # If the minimum ngram frequency is given
+            # If the minimum n-gram frequency is given
             if (private$tg_opts[["min_freq"]] > -1) {
                 # The information message
-                msg <- paste0("Removing low frequency ngrams...")
+                msg <- paste0("Removing low frequency n-grams...")
                 # The information message is shown
                 private$display_msg(msg, 2)
-                # All ngrams with frequency less than min_freq are ignored
+                # All n-grams with frequency less than min_freq are ignored
                 df <- df[df$freq >= private$tg_opts[["min_freq"]], ]
             }
             # The column names are set
             colnames(df) <- c("pre", "freq")
             # The output is set to the updated variable
             private$p_output <- df
-            # If the ngram data should be saved
+            # If the n-gram data should be saved
             if (private$tg_opts[["save_ngrams"]]) {
                 # The required file name
                 fn <- private$get_file_name()
@@ -176,17 +176,17 @@ TokenGenerator <- R6::R6Class(
                 # The n-gram data frame is written to file
                 private$write_data(private$p_output, fn, fo, F)
             }
-            # If ngram data should not be saved
+            # If n-gram data should not be saved
             else {
                 return(private$p_output)
             }
         },
 
         # @description
-        # It generates ngram frequencies for the given lines of text.
+        # It generates n-gram frequencies for the given lines of text.
         # @param lines The lines of text to process
         generate_ngrams = function(lines) {
-            # The ngram number
+            # The n-gram number
             n <- private$tg_opts[["n"]]
             # If n > 1
             if (n > 1) {
@@ -204,29 +204,29 @@ TokenGenerator <- R6::R6Class(
                 w <- w[!i]
                 # The indexes for the words
                 indexes <- seq(length(w))
-                # The ngrams are generated
+                # The n-grams are generated
                 l <- sapply(indexes, function(i) {
                     # If the words should be stemmed
                     if (private$tg_opts[["stem_words"]]) {
-                        # The ngram prefix words are stemmed. The next word is
+                        # The n-gram prefix words are stemmed. The next word is
                         # not stemmed
                         v <- c(wordStem(w[i:(i + n - 2)]), w[(i + n - 1)])
                     }
                     else {
-                        # The ngram token
+                        # The n-gram token
                         v <- w[i:(i + n - 1)]
                     }
-                    # The ngram token
+                    # The n-gram token
                     v <- paste0(v, collapse = "_")
-                    # The ngram token is returned
+                    # The n-gram token is returned
                     return(v)
                 },
                 simplify = T
                 )
-                # Invalid ngrams need to be removed
-                # A logical vector indicating position of invalid ngrams
+                # Invalid n-grams need to be removed
+                # A logical vector indicating position of invalid n-grams
                 i <- grepl(".+<e>.+", l)
-                # The list of valid ngrams
+                # The list of valid n-grams
                 l <- l[!i]
                 # The start of sentence tokens are removed
                 l <- gsub("<s>", "", l)

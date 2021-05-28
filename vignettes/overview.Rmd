@@ -50,7 +50,7 @@ Maximum Likelihood Estimation (MLE) is used to calculate the probability of a wo
 
 The n-gram model is generated in steps. In the first step, the input data is cleaned. Unwanted symbols and words are removed from the input data.
 
-In the next step, the cleaned data file is read. N-grams are extracted from the file, starting from 1-grams upto the configured n-gram size. The 1-gram, 2-gram, 3-gram etc tokens are saved in separate files along with the frequency. So the 3-gram file contains all extracted 3-grams and their respective frequencies.
+In the next step, the cleaned data file is read. N-grams are extracted from the file, starting from 1-grams up to the configured n-gram size. The 1-gram, 2-gram, 3-gram etc tokens are saved in separate files along with the frequency. So the 3-gram file contains all extracted 3-grams and their respective frequencies.
 
 The next step is to generate transition probability tables for each n-gram file. For the 1-gram file the transition probability table is simply the list of unique words along with the word frequencies. For the other n-gram files, the transition probability table is a data frame with 3 columns. The hash of n-gram prefixes, the next word id and the next word probability.
 
@@ -84,9 +84,9 @@ If the word was found in the 1-gram list, then the probability of the word is ca
 
 If the word was not found in the 1-gram list, then the model uses a default probability as the probability of the word. The default probability is calculated using [Laplace Smoothing](https://towardsdatascience.com/n-gram-language-models-af6085435eeb#:~:text=Laplace%20Smoothing,algorithm%20is%20called%20Laplace%20smoothing.). Laplace Smoothing involves adding 1 to the frequency count of each word in the vocabulary.
 
-Essentially this means that the total number of words in the dataset are increased by vc, where vc is the number of words in the vocabulary. The **wordpredictor** package uses the file **/usr/share/dict/cracklib-small** as the dictionary file. This file is preinstalled in most Linux distributions.
+Essentially this means that the total number of words in the data set are increased by vc, where vc is the number of words in the vocabulary. The **wordpredictor** package uses the file **/usr/share/dict/cracklib-small** as the dictionary file. This file is pre-installed in most Linux distributions.
 
-In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs zero times, after Laplace Smoothing it will have a count of 1. So the default probability is calculated as: P(unk) = 1/(N+VC), where N is the total number of words in the dataset and VC is the number of words in the vocabulary. This default probability is assigned to unknown words. Alternative methods to Laplace Smoothing are **Add-k smoothing**, **Kneser-Ney smoothing** and **Good-Turing Smoothing**.
+In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs zero times, after Laplace Smoothing it will have a count of 1. So the default probability is calculated as: P(unk) = 1/(N+VC), where N is the total number of words in the data set and VC is the number of words in the vocabulary. This default probability is assigned to unknown words. Alternative methods to Laplace Smoothing are **Add-k smoothing**, **Kneser-Ney smoothing** and **Good-Turing Smoothing**.
 
 Extrinsic evaluation involves calculating the accuracy score. The model tries to predict the last word of a sentence. If the actual last word was one of the 3 words predicted by the model, then the prediction is considered to be accurate. The accuracy score is the number of sentences that were correctly predicted.
 

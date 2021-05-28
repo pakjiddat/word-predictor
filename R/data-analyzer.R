@@ -8,7 +8,7 @@
 #' It provides a method that returns text file information. The text
 #' file information includes total number of lines, max, min and mean line
 #' length and file size. It provides a method that reads an input text
-#' file containing token frequencies. It displays the most occuring tokens.
+#' file containing token frequencies. It displays the most occurring tokens.
 #' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes ggsave
 DataAnalyzer <- R6::R6Class(
     "DataAnalyzer",
@@ -30,16 +30,16 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' It reads ngram token frequencies from an input text
-        #' file. The ngram frequencies are then displayed in a bar plot. The
+        #' It reads n-gram token frequencies from an input text
+        #' file. The n-gram frequencies are then displayed in a bar plot. The
         #' type of plot is specified by the type option. 'top_features' displays
-        #' the top n most occuring tokens along with their frequencies.
+        #' the top n most occurring tokens along with their frequencies.
         #' 'coverage' displays the number of words along with their frequencies.
         #' The plot stats are returned by the function as a data frame.
         #' @param opts The options for analyzing the data.
         #' * **type**. The type of plot to display. The options are:
         #'   'top_features', 'coverage'.
-        #' * **n**. For 'top_features', it is the number of top most occuring
+        #' * **n**. For 'top_features', it is the number of top most occurring
         #'   tokens. For 'coverage' it is the first n frequencies.
         #' * **save_to**. The graphics devices to save the plot to.
         #'   NULL implies plot is printed.
@@ -50,7 +50,7 @@ DataAnalyzer <- R6::R6Class(
             private$da_opts <- modifyList(private$da_opts, opts)
             # The da_opts is merged with the base class opts attribute
             private$opts <- modifyList(private$opts, private$da_opts)
-            # The ngram data is read
+            # The n-gram data is read
             df <- private$read_obj(private$fn)
             # The information message is shown
             private$display_msg("Displaying Plot...", 1)
@@ -206,13 +206,13 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' Returns the given number of ngrams and their
-        #' frequencies. If the prefix parameter is not given, then the ngrams
-        #' are randomly chosen. Otherise ngrams starting with the given regular
+        #' Returns the given number of n-grams and their
+        #' frequencies. If the prefix parameter is not given, then the n-grams
+        #' are randomly chosen. Otherwise n-grams starting with the given regular
         #' expression are returned.
-        #' @param fn The ngram file name.
-        #' @param c The number of ngrams to return.
-        #' @param pre The ngram prefix, given as a regular expression.
+        #' @param fn The n-gram file name.
+        #' @param c The number of n-grams to return.
+        #' @param pre The n-gram prefix, given as a regular expression.
         get_ngrams = function(fn, c = NULL, pre = NULL) {
             # The data is read
             df <- private$read_obj(fn)
@@ -221,11 +221,11 @@ DataAnalyzer <- R6::R6Class(
                 seq_l
                 # The sample indexes
                 i <- sample(seq_len(nrow(df)), c)
-                # The ngram samples
+                # The n-gram samples
                 s <- df[i, ]
             }
             else {
-                # The ngram samples
+                # The n-gram samples
                 s <- df[grepl(pre, df$pre), ]
             }
             return(s)
@@ -235,7 +235,7 @@ DataAnalyzer <- R6::R6Class(
         # @field da_opts The options for data analyzer object.
         # * **type**. The type of plot to display. The options are:
         #     'top_features', 'coverage'.
-        # * **n**. For 'top_features', it is the number of top most occuring
+        # * **n**. For 'top_features', it is the number of top most occurring
         #     tokens.
         da_opts = list(
             "type" = "top_features",
@@ -250,7 +250,7 @@ DataAnalyzer <- R6::R6Class(
         # @param labels The main title, x and y axis labels.
         # @return The ggplot object is returned.
         display_plot = function(df, labels) {
-            # The ngram names and their frequencies are plotted
+            # The n-gram names and their frequencies are plotted
             g <- ggplot(data = df, aes(x = reorder(pre, freq), y = freq)) +
                 geom_bar(stat = "identity", fill = "red") +
                 ggtitle(labels[["title"]]) +

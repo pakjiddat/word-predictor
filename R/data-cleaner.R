@@ -83,7 +83,7 @@ DataCleaner <- R6::R6Class(
         #' @description
         #' It provides an efficient method for cleaning text files.
         #' It removes unneeded characters from the given text file with several
-        #' options. It allows removing punctuations, bad words, stop words,
+        #' options. It allows removing punctuation, bad words, stop words,
         #' non-alphabetical symbols and non-dictionary words. It reads a certain
         #' number of lines from the given text file. It removes unneeded
         #' characters from the lines and then saves the lines to an output text

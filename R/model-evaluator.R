@@ -53,7 +53,7 @@ ModelEvaluator <- R6::R6Class(
         #' It compares the performance of the models in the given
         #' folder. The performance of the model is compared for the 4 metric
         #' which are time taken, memory used, Perplexity and accuracy. The
-        #' performance comparision is displayed on plots. 4 plots are displayed.
+        #' performance comparison is displayed on plots. 4 plots are displayed.
         #' One for each performance metric. A fifth plot shows the variation of
         #' Perplexity with accuracy. All 5 plots are plotted on one page.
         #' @param opts The options for comparing model performance.
@@ -181,7 +181,7 @@ ModelEvaluator <- R6::R6Class(
             )
             # Main title is added
             p <- (patchwork + plot_annotation(
-                "title" = "Performance comparision of n-gram models",
+                "title" = "Performance comparison of n-gram models",
                 "subtitle" = st
             ))
             return(p)

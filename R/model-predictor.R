@@ -9,7 +9,7 @@
 #' @details
 #' It provides a method that performs intrinsic model evaluation based
 #' on Perplexity. It also provides a method that performs extrinsic model
-#' evalation based on accuracy. It provides a method for determining how much
+#' evaluation based on accuracy. It provides a method for determining how much
 #' memory and time is needed to generate a model for different input data sizes.
 #' It provides a method for determining how much memory is needed by the final
 #' model.
@@ -128,8 +128,8 @@ ModelPredictor <- R6::R6Class(
             }
             # The length of previous words
             pwl <- length(pw)
-            # Each ngram in the previous word list is checked starting from
-            # largest ngram
+            # Each n-gram in the previous word list is checked starting from
+            # largest n-gram
             for (i in pwl:1) {
                 # The previous words to check
                 tpw <- pw[c:pwl]
@@ -156,7 +156,7 @@ ModelPredictor <- R6::R6Class(
 
         #' @description
         #' Calculates the probability of the given word given the
-        #' previous model-1 words, where model is the maximum ngram number. It
+        #' previous model-1 words, where model is the maximum n-gram number. It
         #' looks up the probability of a word given n previous words. The
         #' previous n words are converted to numeric hash using digest2int
         #' function. The hash is looked up in a data frame of transition
@@ -166,11 +166,11 @@ ModelPredictor <- R6::R6Class(
         #' returned. If it was not found, then the hash of the n-1 previous
         #' words is taken and the processed is repeated. If the data was not
         #' found in the data frame, then the word probability is returned. This
-        #' is known as backoff. If the word probability could not be found then
+        #' is known as back-off. If the word probability could not be found then
         #' the default probability is returned. The default probability is
         #' calculated as 1/(N+V), Where N = number of words in corpus and V is
         #' the number of dictionary words.
-        #' @param word The word whoose probability is to be calculated.
+        #' @param word The word whose probability is to be calculated.
         #' @param pw The previous words.
         #' @return The probability of the word given the previous words.
         get_word_prob = function(word, pw) {
@@ -229,7 +229,7 @@ ModelPredictor <- R6::R6Class(
                     prob <- as.numeric(res$prob)
                     # The information message
                     msg <- paste0(
-                        "The ngram key: ", k,
+                        "The n-gram key: ", k,
                         " and the next word: ", word, " were found"
                     )
                     # Information message is shown
@@ -240,7 +240,7 @@ ModelPredictor <- R6::R6Class(
                 else {
                     # The information message
                     msg <- paste0(
-                        "The ngram key: ", k,
+                        "The n-gram key: ", k,
                         " and the next word: ", word, " were not found"
                     )
                     # Information message is shown
@@ -368,13 +368,13 @@ ModelPredictor <- R6::R6Class(
                 result[["probs"]] <- probs
                 result[["found"]] <- T
                 # The information message
-                msg <- paste0("The ngram key: ", k, " was found")
+                msg <- paste0("The n-gram key: ", k, " was found")
                 # Information message is shown
                 private$display_msg(msg, 3)
             }
             else {
                 # The information message
-                msg <- paste0("The ngram key: ", k, " was not found")
+                msg <- paste0("The n-gram key: ", k, " was not found")
                 # Information message is shown
                 private$display_msg(msg, 3)
                 # The result is updated
