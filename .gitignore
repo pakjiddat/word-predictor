@@ -7,7 +7,6 @@ tests/testthat/data1
 tests/testthat/data2
 tests/testthat/models
 inst/doc
-docs
 vignettes/features_cache
 vignettes/overview_cache
 vignettes/man
