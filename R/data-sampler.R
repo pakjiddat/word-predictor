@@ -97,7 +97,7 @@ DataSampler <- R6::R6Class(
                 data <- private$read_file(fn, F)
                 # The number of lines in the data
                 lc <- length(data)
-                # The required data data
+                # The required data
                 rd <- data[1:lc]
 
                 # The number of lines in train set

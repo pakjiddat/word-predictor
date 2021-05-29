@@ -32,19 +32,16 @@ check_dirs <- function(ddir1, ddir2, mdir, msdir, sdir) {
         ofn <- vals[[1]][2]
         # The output folder name
         odn <- paste0(bdir, "/", vals[[1]][3])
+        # The file mode
+        m <- vals[[1]][4]
         # If the file does not exist
         if (!file.exists(paste0(odn, "/", ofn))) {
             # The file is downloaded from Google Drive to the given directory
-            download.file(url, paste0(odn, "/", ofn), quiet = T)
-        }
-        # If the optional copy folder name is given
-        if (!is.na(vals[[1]][4])) {
-            # The optional extra folder to copy the file to
-            ocdn <- paste0(bdir, "/", vals[[1]][4])
-            ## If the file does not exist
-            if (!file.exists(paste0(ocdn, "/", ofn))) {
-                # The file is also copied to the extra dir
-                file.copy(paste0(odn, "/", ofn), ocdn)
+            c <- download.file(url, paste0(odn, "/", ofn), quiet = T, mode = m)
+            # If the status code is non zero
+            if (c != 0) {
+                # An error message is shown
+                stop(paste0("The url: ", url, " could not be downloaded"))
             }
         }
     }

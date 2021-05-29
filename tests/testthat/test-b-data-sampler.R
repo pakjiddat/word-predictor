@@ -26,12 +26,16 @@ test_that("Sample file of correct size is generated", {
         ofn = "train.txt",
         is = T
     )
-    # Check that sample file exists
-    expect_true(file.exists(tfn))
+    # The DataAnalyzer object is created
+    da <- DataAnalyzer$new()
+    # The file info is fetched
+    fi <- da$get_file_info(tfn)
+    # Check that sample file has the correct number of lines
+    expect_equal(fi[["file_stats"]][1, 2], 25618)
 })
 
 
-test_that("Test, Train and Validation files of correct size are generated", {
+test_that("Test, Train and Validation files are generated", {
     # The files to clean
     fns <- c("train", "test", "validate")
     # Each file is removed

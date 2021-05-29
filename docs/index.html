@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Word Predictor</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@
 <li>
 <strong>DataCleaner</strong>. It allows cleaning text files. It supports several data cleaning options.</li>
 <li>
-<strong>DataSampler</strong>. It allows generating sample files of specifed size from a text file. It also allows generating train, test and validation sample files from a given input text file.</li>
+<strong>DataSampler</strong>. It allows generating sample files of specified size from a text file. It also allows generating train, test and validation sample files from a given input text file.</li>
 <li>
 <strong>TokenGenerator</strong>. It allows generating n-gram tokens of given size.</li>
 <li>
@@ -200,14 +200,14 @@
 <a href="#analyzing-n-grams" class="anchor"></a>Analyzing N-grams</h2>
 <p>The <strong>wordpredictor</strong> package includes a class called <strong>DataAnalyzer</strong>, that can be used to get an idea of the frequency distribution of n-grams in a model. The model generation process described above, creates an n-gram file in the model directory.</p>
 <p>For each n-gram number less than or equal to the n-gram size of the model, a n-gram file is generated. In the example above the n-gram size of the model is 4. So 4 n-gram files are generated in the model folder. These files are: <strong>n1.RDS, n2.RDS, n3.RDS and n4.RDS</strong>. The <strong>n2.RDS</strong> file contains n-grams of size 2.</p>
-<p>The following example plots the top 10 most occuring bi-grams along with their frequencies:</p>
+<p>The following example plots the top 10 most occurring bi-grams along with their frequencies:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The file name</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span><span class="op">)</span>
-<span class="co"># The top 10 most occuring features are plotted</span>
+<span class="co"># The top 10 most occurring features are plotted</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="st">"type"</span> <span class="op">=</span> <span class="st">"top_features"</span>,
   <span class="st">"n"</span> <span class="op">=</span> <span class="fl">10</span>,
@@ -222,7 +222,7 @@
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span><span class="op">)</span>
-<span class="co"># The top 10 most occuring features are plotted</span>
+<span class="co"># The top 10 most occurring features are plotted</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="st">"type"</span> <span class="op">=</span> <span class="st">"coverage"</span>,
   <span class="st">"n"</span> <span class="op">=</span> <span class="fl">10</span>,
@@ -298,7 +298,7 @@
 <h2 class="hasAnchor">
 <a href="#evaluating-model-performance" class="anchor"></a>Evaluating model performance</h2>
 <p>The <strong>wordpredictor</strong> package allows evaluating n-gram model performance. It can measure the performance of a single model as well as compare the performance of multiple models. When evaluating the performance of a model, intrinsic and extrinsic evaluation is performed.</p>
-<p>Intrinsic evaluation measures the Perplexity score for each sentence in a valiation text file. It returns the minimum, maximum and mean Perplexity score for the sentences.</p>
+<p>Intrinsic evaluation measures the Perplexity score for each sentence in a validation text file. It returns the minimum, maximum and mean Perplexity score for the sentences.</p>
 <p>Extrinsic evaluation measures the accuracy score for the sentences in a validation text file. It tries to predict the last word of each sentence. If the word was correctly predicted, then the accuracy count is increased. The extrinsic evaluation returns the number of valid and invalid predictions.</p>
 <p>The following example shows how to evaluate the performance of a model:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -335,19 +335,19 @@
 <div id="limitations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#limitations" class="anchor"></a>Limitations</h2>
-<p>The n-gram language model requires a lot of memory for storing the n-grams. The <strong>wordpredictor</strong> package has been tested on a machine with dual core processor and 4 Gb of RAM. It works well for input data files of size less than 40 Mb and n-gram size 4. For larger data files and n-gram size, more memory and CPU power will be needed.</p>
+<p>The n-gram language model requires a lot of memory for storing the n-grams. The <strong>wordpredictor</strong> package has been tested on a machine with dual core processor and 4 GB of RAM. It works well for input data files of size less than 40 Mb and n-gram size 4. For larger data files and n-gram size, more memory and CPU power will be needed.</p>
 </div>
 <div id="future-work" class="section level2">
 <h2 class="hasAnchor">
 <a href="#future-work" class="anchor"></a>Future Work</h2>
-<p>The <strong>wordpredictor</strong> package may be extended by adding support for different smoothing techniques such as <a href="https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation">Good-Turing</a>, <a href="https://en.wikipedia.org/wiki/Katz%27s_back-off_model">Katz-Backoff</a> and handling of <a href="https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words">Out Of Vocabulary Words</a>.</p>
+<p>The <strong>wordpredictor</strong> package may be extended by adding support for different smoothing techniques such as <a href="https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation">Good-Turing</a>, <a href="https://en.wikipedia.org/wiki/Katz%27s_back-off_model">Katz-Back-off</a> and handling of <a href="https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words">Out Of Vocabulary Words</a>.</p>
 <p>Support for different types of n-gram models such as <a href="https://en.wikipedia.org/wiki/N-gram#Skip-gram">Skip-Grams</a> and <a href="https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams">Syntatic n-grams</a>.</p>
-<p>The <strong>wordpredictor</strong> package is used for predicting words. It may be extended to support other use cases such as spelling correction, biological sequence analysis, data compression and more. This will require further performance optimizations.</p>
+<p>The <strong>wordpredictor</strong> package is used for predicting words. It may be extended to support other use cases such as spelling correction, biological sequence analysis, data compression and more. This will require further performance optimization.</p>
 <p>The source code is organized using R6 classes. It is easy to extend. Contributions are welcome !.</p>
 </div>
-<div id="acknowledments" class="section level2">
+<div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
-<a href="#acknowledments" class="anchor"></a>Acknowledments</h2>
+<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
 <p>I was motivated to develop the <strong>wordpredictor</strong> package after taking the courses in the <a href="https://www.coursera.org/specializations/jhu-data-science">Data Science Specialization</a> offered by John Hopkins university on Coursera. I would like to thank the course instructors for making the courses interesting and motivating for the students.</p>
 </div>
 </div>

@@ -6,7 +6,7 @@ test_that("Correct file information is returned", {
     # The file info is fetched
     fi <- da$get_file_info(cfn)
     # The file size is checked
-    expect_equal(fi[["file_stats"]][1, 6], "1022.1 Kb")
+    expect_equal(fi[["file_stats"]][1, 2], 12562)
 })
 test_that("plot_data function works", {
     # The n-gram file name
@@ -23,8 +23,8 @@ test_that("plot_data function works", {
     ))
     # Checks that the top feature is of_the
     expect_equal(df$pre[1], "of_the")
-    # Checks that the top feature frequency is 3627
-    expect_equal(df$freq[1], 3627)
+    # Checks that the top feature frequency is 4307
+    expect_equal(df$freq[1], 4307)
     # Check that the plot file was successfully created
     expect_true(file.exists(paste0(sdir, "/top_features.png")))
 
@@ -37,8 +37,8 @@ test_that("plot_data function works", {
     ))
     # Checks that the most occuring words are those with frequency 1
     expect_equal(df$pre[1], "1")
-    # Checks that words with frequency 1 make up 76.2% of all words
-    expect_equal(round(df$freq[1], 1), 76.2)
+    # Checks that words with frequency 1 make up 75.6% of all words
+    expect_equal(round(df$freq[1], 1), 75.6)
     # Check that the plot file was successfully created
     expect_true(file.exists(paste0(sdir, "/coverage.png")))
 })
@@ -54,5 +54,5 @@ test_that("ngrams with correct frequency are returned", {
     # The frequency of the bi-gram "great_deal"
     f <- as.numeric(df[df$pre == "great_deal", "freq"])
     # The frequency is checked
-    expect_equal(f, 24)
+    expect_equal(f, 29)
 })

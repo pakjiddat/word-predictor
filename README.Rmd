@@ -50,13 +50,13 @@ A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application based on th
 
 ## Installation
 
-You can install the released version of wordpredictor from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of wordpredictor from CRAN with:
 
 ``` r
 install.packages("wordpredictor")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")
@@ -138,7 +138,7 @@ For each n-gram number less than or equal to the n-gram size of the model, a n-g
 
 The following example plots the top 10 most occurring bi-grams along with their frequencies:
 
-```{r analyze-ngrams-1, fig.width=5, fig.height=3}
+```{r analyze-ngrams-1, fig.width=6, fig.height=4}
 # The file name
 fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
@@ -155,7 +155,7 @@ df <- da$plot_n_gram_stats(opts = list(
 
 The following example plots the n-gram frequency coverage. It shows the percentage of n-grams with frequency 1, 2 ... 10.
 
-```{r analyze-ngrams-2, cache=TRUE, fig.width=5, fig.height=3}
+```{r analyze-ngrams-2, cache=TRUE, fig.width=6, fig.height=4}
 # The file name
 fn <- paste0(ddir1, "/model/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
@@ -264,7 +264,7 @@ stats <- me$evaluate_performance(lc = 20, fn = vfn)
 
 The following example shows how to compare the performance of several n-gram models.
 
-```{r evaluate-performance-2, cache=TRUE, results='hide', fig.width=5, fig.height=3}
+```{r evaluate-performance-2, cache=TRUE, results='hide', fig.width=6, fig.height=4}
 # The model file name
 mfn <- paste0(ddir1, "/model/def-model.RDS")
 # ModelEvaluator class object is created

@@ -54,7 +54,7 @@ performance stats.
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the
-maximum ngram number, sample size, input file name, data cleaner
+maximum n-gram number, sample size, input file name, data cleaner
 options, tokenization options, combined transition probabilities file
 name and verbose.
 \subsection{Usage}{
@@ -64,7 +64,7 @@ name and verbose.
   fn = NULL,
   df = NULL,
   n = 4,
-  ssize = 30,
+  ssize = 0.3,
   ddir = "./data",
   mdir = "./models",
   dc_opts = list(),
@@ -86,9 +86,9 @@ name and verbose.
 the data was cleaned, then df is the path to the cleaned
 file.}
 
-\item{\code{n}}{The maximum ngram number supported by the model.}
+\item{\code{n}}{The maximum n-gram number supported by the model.}
 
-\item{\code{ssize}}{The sample size in Mb.}
+\item{\code{ssize}}{The sample size as a proportion of the input file.}
 
 \item{\code{ddir}}{The data directory.}
 

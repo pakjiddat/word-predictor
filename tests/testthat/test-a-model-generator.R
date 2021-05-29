@@ -7,7 +7,7 @@ test_that("Generation of n-gram Model words", {
         fn = "def-model.RDS",
         df = "input.txt",
         n = 4,
-        ssize = 5,
+        ssize = 0.5,
         ddir = ddir1,
         mdir = mdir,
         dc_opts = list(),

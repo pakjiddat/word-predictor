@@ -39,7 +39,7 @@ Model <- R6::R6Class(
         #'   the data was cleaned, then df is the path to the cleaned
         #'   file.
         #' @param n The maximum n-gram number supported by the model.
-        #' @param ssize The sample size in Mb.
+        #' @param ssize The sample size as a proportion of the input file.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
         #' @param dc_opts The data cleaner options.
@@ -51,7 +51,7 @@ Model <- R6::R6Class(
                               fn = NULL,
                               df = NULL,
                               n = 4,
-                              ssize = 30,
+                              ssize = 0.3,
                               ddir = "./data",
                               mdir = "./models",
                               dc_opts = list(),
@@ -231,8 +231,8 @@ Model <- R6::R6Class(
             "dir" = "./data/models",
             "format" = "obj"
         ),
-        # @field ssize The sample size in Mb.
-        ssize = 30,
+        # @field ssize The sample size as a proportion of the input file.
+        ssize = 0.3,
         # @field ddir The folder containing the data files
         ddir = "./data",
         # @field mdir The folder containing the model files

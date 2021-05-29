@@ -2,9 +2,9 @@
 % Please edit documentation in R/token-generator.R
 \name{TokenGenerator}
 \alias{TokenGenerator}
-\title{It generates ngrams of given size from an input text file}
+\title{It generates n-grams of given size from an input text file}
 \description{
-It generates ngram tokens along with their frequencies. The data
+It generates n-gram tokens along with their frequencies. The data
 may be saved to a file in plain text format or as a R object.
 }
 \section{Super class}{
@@ -39,11 +39,11 @@ tokenization options and verbose option.
 \describe{
 \item{\code{fn}}{The path to the input file.}
 
-\item{\code{opts}}{The options for generating the ngram tokens.
+\item{\code{opts}}{The options for generating the n-gram tokens.
 \itemize{
-\item \strong{n}. The ngram size.
-\item \strong{save_ngrams}. If the ngram data should be saved.
-\item \strong{min_freq}. All ngrams with frequency less than min_freq are
+\item \strong{n}. The n-gram size.
+\item \strong{save_ngrams}. If the n-gram data should be saved.
+\item \strong{min_freq}. All n-grams with frequency less than min_freq are
 ignored.
 \item \strong{line_count}. The number of lines to process at a time.
 \item \strong{stem_words}. If words should be transformed to their stems.
@@ -64,7 +64,7 @@ ignored.
 \if{html}{\out{<a id="method-generate_tokens"></a>}}
 \if{latex}{\out{\hypertarget{method-generate_tokens}{}}}
 \subsection{Method \code{generate_tokens()}}{
-It generates ngram tokens and their frequencies from the
+It generates n-gram tokens and their frequencies from the
 given file name. The tokens may be saved to a text file as plain text
 or a R object.
 \subsection{Usage}{
@@ -72,7 +72,7 @@ or a R object.
 }
 
 \subsection{Returns}{
-The data frame containing ngram tokens along with their
+The data frame containing n-gram tokens along with their
 frequencies.
 }
 }

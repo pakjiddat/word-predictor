@@ -68,7 +68,7 @@ model file name and verbose options.
 It compares the performance of the models in the given
 folder. The performance of the model is compared for the 4 metric
 which are time taken, memory used, Perplexity and accuracy. The
-performance comparision is displayed on plots. 4 plots are displayed.
+performance comparison is displayed on plots. 4 plots are displayed.
 One for each performance metric. A fifth plot shows the variation of
 Perplexity with accuracy. All 5 plots are plotted on one page.
 \subsection{Usage}{

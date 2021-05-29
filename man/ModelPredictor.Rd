@@ -12,7 +12,7 @@ determining how much memory is used by the final model.
 \details{
 It provides a method that performs intrinsic model evaluation based
 on Perplexity. It also provides a method that performs extrinsic model
-evalation based on accuracy. It provides a method for determining how much
+evaluation based on accuracy. It provides a method for determining how much
 memory and time is needed to generate a model for different input data sizes.
 It provides a method for determining how much memory is needed by the final
 model.
@@ -131,7 +131,7 @@ The top 3 predicted words along with their probabilities.
 \if{latex}{\out{\hypertarget{method-get_word_prob}{}}}
 \subsection{Method \code{get_word_prob()}}{
 Calculates the probability of the given word given the
-previous model-1 words, where model is the maximum ngram number. It
+previous model-1 words, where model is the maximum n-gram number. It
 looks up the probability of a word given n previous words. The
 previous n words are converted to numeric hash using digest2int
 function. The hash is looked up in a data frame of transition
@@ -141,7 +141,7 @@ were found, then the probability of the previous word and hash is
 returned. If it was not found, then the hash of the n-1 previous
 words is taken and the processed is repeated. If the data was not
 found in the data frame, then the word probability is returned. This
-is known as backoff. If the word probability could not be found then
+is known as back-off. If the word probability could not be found then
 the default probability is returned. The default probability is
 calculated as 1/(N+V), Where N = number of words in corpus and V is
 the number of dictionary words.
@@ -152,7 +152,7 @@ the number of dictionary words.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{word}}{The word whoose probability is to be calculated.}
+\item{\code{word}}{The word whose probability is to be calculated.}
 
 \item{\code{pw}}{The previous words.}
 }

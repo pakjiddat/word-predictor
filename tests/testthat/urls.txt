@@ -1,5 +1,6 @@
-https://drive.google.com/uc?export=download&id=1mHNvA-r8g2e4dupDVsBwFoaqt7TiPng7 a-model.RDS ./models
-https://drive.google.com/uc?export=download&id=1v0BDWNZcgAYEzIrrXxmgNJAgtuLnQsjc b-model.RDS ./models
-https://drive.google.com/uc?export=download&id=1qZia9leWWNFMrzA4LQBdx9zBvFm0_U5L c-model.RDS ./models
-https://drive.google.com/uc?export=download&id=1I0Njl7YCD-e_GaDnbRBBDC-hy7TESh7X d-model.RDS ./models
-https://drive.google.com/uc?export=download&id=1Ddggtt1vXlq46-ymGJvpooM4oh_vnsdL input.txt data1 data2
+https://drive.google.com/uc?export=download&id=1mHNvA-r8g2e4dupDVsBwFoaqt7TiPng7 a-model.RDS ./models wb
+https://drive.google.com/uc?export=download&id=1v0BDWNZcgAYEzIrrXxmgNJAgtuLnQsjc b-model.RDS ./models wb
+https://drive.google.com/uc?export=download&id=1qZia9leWWNFMrzA4LQBdx9zBvFm0_U5L c-model.RDS ./models wb
+https://drive.google.com/uc?export=download&id=1I0Njl7YCD-e_GaDnbRBBDC-hy7TESh7X d-model.RDS ./models wb
+https://drive.google.com/uc?export=download&id=1Ddggtt1vXlq46-ymGJvpooM4oh_vnsdL input.txt data1 w
+https://drive.google.com/uc?export=download&id=1Ddggtt1vXlq46-ymGJvpooM4oh_vnsdL input.txt data2 w

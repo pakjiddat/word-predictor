@@ -11,11 +11,11 @@ test_that("Intrinsic evaluation works", {
     # The stats are rounded
     stats$mean <- round(stats$mean)
     # Check that mean Perplexity is correct
-    expect_equal(stats$mean, 458)
+    expect_equal(stats$mean, 436)
     # Check that max Perplexity is correct
-    expect_equal(stats$max, 1335)
+    expect_equal(stats$max, 1162)
     # Check that min Perplexity is correct
-    expect_equal(stats$min, 67)
+    expect_equal(stats$min, 69)
 })
 
 test_that("Extrinsic evaluation works", {
@@ -29,9 +29,9 @@ test_that("Extrinsic evaluation works", {
     # The intrinsic evaluation is performed
     stats <- me$extrinsic_evaluation(lc = 100, fn = vfn)
     # Check that percentage of valid predictions is correct
-    expect_equal(stats$valid_perc, 3)
+    expect_equal(stats$valid_perc, 5)
     # Check that percentage of invalid predictions is correct
-    expect_equal(stats$invalid_perc, 97)
+    expect_equal(stats$invalid_perc, 95)
 })
 
 
@@ -48,9 +48,9 @@ test_that("Performance evaluation works", {
     # The Model object is read
     m <- readRDS(mfn)
     # Check that accuracy is correct
-    expect_equal(m$pstats$a, 10)
+    expect_equal(m$pstats$a, 5)
     # Check that mean Perplexity is correct
-    expect_equal(round(m$pstats$p), 458)
+    expect_equal(round(m$pstats$p), 436)
     # Check that time taken is less than 100 sec
     expect_lt(m$pstats$t, 100)
     # Check that memory used is less than 45 Mb

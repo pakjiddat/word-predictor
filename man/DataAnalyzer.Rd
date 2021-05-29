@@ -11,7 +11,7 @@ and number of words. It displays bar plots showing n-gram frequencies.
 It provides a method that returns text file information. The text
 file information includes total number of lines, max, min and mean line
 length and file size. It provides a method that reads an input text
-file containing token frequencies. It displays the most occuring tokens.
+file containing token frequencies. It displays the most occurring tokens.
 }
 \section{Super class}{
 \code{\link[wordpredictor:TextFileProcessor]{wordpredictor::TextFileProcessor}} -> \code{DataAnalyzer}
@@ -56,10 +56,10 @@ and verbose options.
 \if{html}{\out{<a id="method-plot_n_gram_stats"></a>}}
 \if{latex}{\out{\hypertarget{method-plot_n_gram_stats}{}}}
 \subsection{Method \code{plot_n_gram_stats()}}{
-It reads ngram token frequencies from an input text
-file. The ngram frequencies are then displayed in a bar plot. The
+It reads n-gram token frequencies from an input text
+file. The n-gram frequencies are then displayed in a bar plot. The
 type of plot is specified by the type option. 'top_features' displays
-the top n most occuring tokens along with their frequencies.
+the top n most occurring tokens along with their frequencies.
 'coverage' displays the number of words along with their frequencies.
 The plot stats are returned by the function as a data frame.
 \subsection{Usage}{
@@ -73,7 +73,7 @@ The plot stats are returned by the function as a data frame.
 \itemize{
 \item \strong{type}. The type of plot to display. The options are:
 'top_features', 'coverage'.
-\item \strong{n}. For 'top_features', it is the number of top most occuring
+\item \strong{n}. For 'top_features', it is the number of top most occurring
 tokens. For 'coverage' it is the first n frequencies.
 \item \strong{save_to}. The graphics devices to save the plot to.
 NULL implies plot is printed.
@@ -110,9 +110,9 @@ A data frame containing the text file statistics.
 \if{html}{\out{<a id="method-get_ngrams"></a>}}
 \if{latex}{\out{\hypertarget{method-get_ngrams}{}}}
 \subsection{Method \code{get_ngrams()}}{
-Returns the given number of ngrams and their
-frequencies. If the prefix parameter is not given, then the ngrams
-are randomly chosen. Otherise ngrams starting with the given regular
+Returns the given number of n-grams and their
+frequencies. If the prefix parameter is not given, then the n-grams
+are randomly chosen. Otherwise n-grams starting with the given regular
 expression are returned.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataAnalyzer$get_ngrams(fn, c = NULL, pre = NULL)}\if{html}{\out{</div>}}
@@ -121,11 +121,11 @@ expression are returned.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{fn}}{The ngram file name.}
+\item{\code{fn}}{The n-gram file name.}
 
-\item{\code{c}}{The number of ngrams to return.}
+\item{\code{c}}{The number of n-grams to return.}
 
-\item{\code{pre}}{The ngram prefix, given as a regular expression.}
+\item{\code{pre}}{The n-gram prefix, given as a regular expression.}
 }
 \if{html}{\out{</div>}}
 }

@@ -31,14 +31,13 @@ with their respective probabilities.
 
 ## Installation
 
-You can install the released version of wordpredictor from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of wordpredictor from CRAN with:
 
 ``` r
 install.packages("wordpredictor")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")

@@ -28,7 +28,7 @@ ModelGenerator <- R6::R6Class(
         #'   should be the short file name. It should be present in the data
         #'   directory.
         #' @param n The maximum n-gram number supported by the model.
-        #' @param ssize The sample size in Mb.
+        #' @param ssize The sample size as a proportion of the input file.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
         #' @param dc_opts The data cleaner options.
@@ -40,7 +40,7 @@ ModelGenerator <- R6::R6Class(
                               fn = NULL,
                               df = NULL,
                               n = 4,
-                              ssize = 30,
+                              ssize = 0.3,
                               ddir = "./data",
                               mdir = "./models",
                               dc_opts = list(),
@@ -117,8 +117,6 @@ ModelGenerator <- R6::R6Class(
         remove_files = function() {
             # The model directory path
             mdir <- private$m$get_config("mdir")
-            # The model directory path
-            ddir <- private$m$get_config("ddir")
             # The information message is displayed
             private$display_msg(
                 "Removing all files in the model directory...", 1)
@@ -140,16 +138,10 @@ ModelGenerator <- R6::R6Class(
             ssize <- private$m$get_config("ssize")
             # The data directory path
             ddir <- private$m$get_config("ddir")
-            # The path to the input data file name
-            dfp <- paste0(ddir, "/", df)
-            # The object size is formatted
-            obj_size <- file.size(dfp) / 10^6
-            # The proportion of data to sample
-            prop <- (ssize / obj_size)
             # The DataSampler object is created
             ds <- DataSampler$new(ddir = ddir, ve = private$ve)
             # Sample is taken and cleaned
-            ds$generate_sample(df, prop, T, F, "train.txt", T)
+            ds$generate_sample(df, ssize, T, F, "train.txt", T)
         },
 
         # @description
