@@ -118,21 +118,29 @@ DataCleaner <- R6::R6Class(
             # If a line does not end with a ".", then "." is appended to the
             # line
             l <- gsub("(.+[^\\.])$", "\\1.", l)
+            # The information message
+            private$display_msg(l, 4)
             # The "." character is replaced with the string "specialdotsep"
             l <- gsub("\\.", " specialdotsep ", l)
+            # The information message
+            private$display_msg(l, 4)
             # If the words should be converted to lower case
             if (private$dc_opts[["to_lower"]]) {
                 # The information message
                 private$display_msg("Converting lines to lower case...", 3)
                 # The line is converted to lower case
                 l <- tolower(l)
+                # The information message
+                private$display_msg(l, 4)
             }
             # If punctuation symbols should be removed
             if (private$dc_opts[["remove_punct"]]) {
                 # The information message
                 private$display_msg("Removing punctuation symbols...", 3)
                 # The pattern for removing all punctuation symbols
-                l <- gsub("[[:punct:]]+", "", l)
+                l <- gsub("[[:punct:]\u2026\u2019\u201c\u201d]", "", l)
+                # The information message
+                private$display_msg(l, 4)
             }
             # If non alphabet symbols should be removed
             if (private$dc_opts[["remove_non_alpha"]]) {
@@ -140,6 +148,8 @@ DataCleaner <- R6::R6Class(
                 private$display_msg("Removing non alphabet symbols...", 3)
                 # Words containing non alphabetical characters are removed
                 l <- gsub("([^[:alpha:]\\s])", "", l, perl = T)
+                # The information message
+                private$display_msg(l, 4)
             }
 
             # If stop words should be removed
@@ -151,6 +161,8 @@ DataCleaner <- R6::R6Class(
                 swp <- paste("\\b(", sw, ")\\b", sep = "")
                 # The stop words are removed
                 l <- gsub(swp, "", l)
+                # The information message
+                private$display_msg(l, 4)
             }
 
             # The words in the lines are extracted
@@ -159,6 +171,8 @@ DataCleaner <- R6::R6Class(
             words <- unlist(words)
             # If non dictionary words should be removed
             if (private$dc_opts[["remove_non_dict"]]) {
+                # The information message
+                private$display_msg("Removing non dictionary words..", 3)
                 # The "specialdotsep" string is added to list of dictionary
                 # words
                 dw <- c(private$dw, "specialdotsep")
@@ -172,13 +186,19 @@ DataCleaner <- R6::R6Class(
                 # The list of all words of length 2 or more including "a" and
                 # "i"
                 words <- words[i1 | i2]
+                # The information message
+                private$display_msg(words, 4)
             }
             # If bad words should be removed
             if (private$dc_opts[["remove_bad"]]) {
+                # The information message
+                private$display_msg("Removing bad words..", 3)
                 # The "specialdotsep" string is added to list of bad words
                 bw <- c(private$bw, "specialdotsep")
                 # The bad words are removed from the data
                 words <- words[!words %in% bw]
+                # The information message
+                private$display_msg(words, 4)
             }
             # The words are combined with space
             l <- paste(words, collapse = " ")
@@ -188,6 +208,8 @@ DataCleaner <- R6::R6Class(
             l <- strsplit(l, split = "\\.")
             # The sentences are converted to an atomic list
             l <- unlist(l)
+            # The information message
+            private$display_msg(l, 4)
             # If each sentence should have a minimum number of words
             if (private$dc_opts[["min_words"]] > -1) {
                 # The number of words in each sentence
@@ -195,20 +217,27 @@ DataCleaner <- R6::R6Class(
                 # The lines containing less than min_words number of words are
                 # removed
                 l <- l[wc >= private$dc_opts[["min_words"]]]
+                # The information message
+                private$display_msg(l, 4)
             }
 
             # Consecutive 'a' and 'i' are replaced with single 'a' or 'i'
             l <- gsub("(a\\s){2,}", "\\1 ", l)
             l <- gsub("(i\\s){2,}", "\\1 ", l)
             l <- gsub("a$", "", l)
-
+            # The information message
+            private$display_msg(l, 4)
             # If extra spaces should be removed
             if (private$dc_opts[["remove_extra_space"]]) {
                 # Multiple spaces are replaced by single space
                 l <- gsub("\\s{2,}", " ", l)
                 # Leading and trailing whitespaces are removed
                 l <- trimws(l)
+                # The information message
+                private$display_msg(l, 4)
             }
+            # The information message
+            private$display_msg(l, 4)
 
             return(l)
         }

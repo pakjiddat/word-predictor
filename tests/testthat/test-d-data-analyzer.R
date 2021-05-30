@@ -1,12 +1,12 @@
 test_that("Correct file information is returned", {
-    # The cleaned test file name
-    cfn <- paste0(ddir2, "/test-clean.txt")
+    # The test file name
+    cfn <- paste0(ddir2, "/test.txt")
     # The DataAnalyzer object is created
     da <- DataAnalyzer$new()
     # The file info is fetched
     fi <- da$get_file_info(cfn)
-    # The file size is checked
-    expect_equal(fi[["file_stats"]][1, 2], 12562)
+    # The line count is checked
+    expect_equal(fi$file_stats$total_lc, 5125)
 })
 test_that("plot_data function works", {
     # The n-gram file name

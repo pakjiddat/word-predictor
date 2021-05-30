@@ -6,9 +6,7 @@
 tests/testthat/data1
 tests/testthat/data2
 tests/testthat/models
-inst/doc
 vignettes/features_cache
 vignettes/overview_cache
 vignettes/man
-cran-comments.md
 README_cache
