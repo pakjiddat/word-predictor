@@ -1,10 +1,12 @@
 #' It allows generating data samples from text files.
 #'
 #' @description
-#' It provides a method for generating training, testing and
-#' validation data sets from a given input text file. It also provides a method
-#' for generating a sample file of given size or number of lines from an input
-#' text file.
+#' It provides a method for generating training, testing and validation data
+#' sets from a given input text file.
+#'
+#' It also provides a method for generating a sample file of given size or
+#' number of lines from an input text file. The contents of the sample file may
+#' be cleaned or randomized.
 DataSampler <- R6::R6Class(
     "DataSampler",
     inherit = TextFileProcessor,
@@ -29,7 +31,9 @@ DataSampler <- R6::R6Class(
 
         #' @description
         #' Generates a sample file of given size from the given input file. The
-        #' file is optionally cleaned and saved to the data directory.
+        #' file is saved to the directory given by the ddir object attribute.
+        #' Once the file has been generated, its contents may be cleaned or
+        #' randomized.
         #' @param fn The input file name. It is the short file name relative to
         #'   the ddir. If not given, then the file name is auto generated from
         #'   the type parameter.
@@ -38,7 +42,8 @@ DataSampler <- R6::R6Class(
         #' @param ir If the sample file contents should be randomized.
         #' @param ofn The output file name. It will be saved to the ddir.
         #' @param is If the sampled data should be saved to a file.
-        generate_sample = function(fn, ss, ic, ir, ofn, is) {
+        #' @param dc_opts The options for cleaning the data.
+        generate_sample = function(fn, ss, ic, ir, ofn, is, dc_opts = NULL) {
             # The full path to the input file
             fn <- paste0(private$ddir, "/", fn)
             # If the input file does not exist
@@ -51,7 +56,7 @@ DataSampler <- R6::R6Class(
             # The output file name path
             of <- paste0(private$ddir, "/", ofn)
             # The sample file is generated from the given file
-            data <- private$generate_sf_from_f(fn, ss, ic, ir, of, is)
+            data <- private$generate_sf_from_f(fn, ss, ic, ir, of, is, dc_opts)
             # If the data should not be saved
             if (!is) {
                 # The data is returned
@@ -63,9 +68,9 @@ DataSampler <- R6::R6Class(
         #' It generates training, testing and validation data sets
         #' from the given input file. It first reads the file given as a
         #' parameter to the current object. It partitions the data into
-        #' training, testing and validation sets, according to the given
-        #' parameters. The files are named train.txt, test.txt and va.txt. The
-        #' files are saved to the given output folder.
+        #' training, testing and validation sets, according to the perc
+        #' parameter. The files are named train.txt, test.txt and va.txt and are
+        #' saved to the given output folder.
         #' @param fn The input file name. It should be relative to the ddir.
         #' @param dir The name of the output folder.
         #' @param percs The size of the training, testing and validation sets.
@@ -137,8 +142,9 @@ DataSampler <- R6::R6Class(
         # @param ir If the sample file contents should be randomized.
         # @param of The output file path.
         # @param is If the sampled data should be saved to a file.
+        # @param dc_opts The options for cleaning the data.
         # @return The sampled data is returned
-        generate_sf_from_f = function(fn = NULL, ss, ic, ir, of, is) {
+        generate_sf_from_f = function(fn = NULL, ss, ic, ir, of, is, dc_opts = NULL) {
             # The information message
             msg <- paste0("Generating sample file from the file: ", fn)
             # Information message is shown
@@ -172,10 +178,6 @@ DataSampler <- R6::R6Class(
 
             # If the sample file should be cleaned
             if (ic) {
-                # The data cleaning options
-                dc_opts <- list()
-                # The line count is set to 5000
-                dc_opts[["line_count"]] <- 5000
                 # If the data should be saved
                 dc_opts[["save_data"]] <- is
                 # The data cleaner object is created

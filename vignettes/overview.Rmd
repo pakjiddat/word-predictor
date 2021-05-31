@@ -54,11 +54,13 @@ In the next step, the cleaned data file is read. N-grams are extracted from the 
 
 The next step is to generate transition probability tables for each n-gram file. For the 1-gram file the transition probability table is simply the list of unique words along with the word frequencies. For the other n-gram files, the transition probability table is a data frame with 3 columns. The hash of n-gram prefixes, the next word id and the next word probability.
 
-The n-gram prefix is the set of n-1 components before the last component. The n-1 components are combined using "_" and converted to a numeric hash value using the [digest2Int](https://www.rdocumentation.org/packages/digest/versions/0.6.27/topics/digest2int) method of the **digest** package.
+The n-gram prefix is the set of n-1 components before the last component. The n-1 components are combined using "_" and converted to a numeric hash value using the digest2Int method of the [digest](https://cran.r-project.org/web/packages/digest/index.html) package.
 
 The next word id is the numeric index of the next word in the list of 1-grams. The next word probability is the probability of the next word given the previous n-1 words. It is calculated using Maximum Likelihood Estimation (MLE) as described above.
 
-Instead of storing the n-gram prefix strings, a single number is saved. Also instead of storing the next word, the numeric index of the next word is saved. This saves a lot of memory and allows more data to be stored, which improves the n-gram model's efficiency. In R, a number requires a fixed amount of storage, which about 56 bytes. In contrast the memory required to store a string increases with the string size.
+Instead of storing the n-gram prefix strings, a single number is saved. Also instead of storing the next word, the numeric index of the next word is saved. This saves a lot of memory and allows more data to be stored, which improves the n-gram model's efficiency.
+
+In R, a number requires a fixed amount of storage, which about 56 bytes. In contrast the memory required to store a string increases with the number of characters in the string.
 
 The data frames that represent each transition probability table are combined into a single data frame. The combined transition probability table is used to make word predictions.
 
@@ -67,7 +69,7 @@ To predict a word, the word along with the n-1 previous words are used as input.
 
 The model looks up the next word text that corresponds to the next word ids. The result is the top 3 most likely next words along with their probabilities.
 
-If the hash was not found, then the hash of the n-2 previous words is calculated and looked up in the combined transition probabilities table. Essentially this means looking up the transition probability for the n-2-grams.
+If the hash was not found, then the hash of the n-2 previous words is calculated and looked up in the combined transition probabilities table.
 
 This process is repeated until there are no previous words. When this happens, the model returns a "word not found" message.
 
@@ -76,17 +78,19 @@ This method of checking the transition probabilities of lower level n-grams is c
 ## Predicting the model performance
 The **wordpredictor** package provides methods for performing **intrinsic** and **extrinsic** evaluation of the n-gram model.
 
-Intrinsic evaluation involves calculating the mean Perplexity score for all sentences in a validation text file. The Perplexity for a sentence is calculated by taking the N-th root of the inverse of the product of probabilities of all words in a sentence.
+The **wordpredictor** package performs intrinsic evaluation by calculating the mean Perplexity score for all sentences in a validation text file. The Perplexity for a sentence is calculated by taking the N-th root of the inverse of the product of probabilities of all words in a sentence. N is the number of words in the sentence.
 
-N is the number of words in the sentence. The probability of a word is calculated by considering all n-1 words before that word. If the word was not found in the transition probabilities table, then the n-2 words are looked up. This process is repeated until there are no previous words.
+The probability of a word is calculated by considering all n-1 words before that word. If the word was not found in the transition probabilities table, then the n-2 words are looked up. This process is repeated until there are no previous words.
 
 If the word was found in the 1-gram list, then the probability of the word is calculated by simply dividing the number of times the word occurs by the total number words.
 
-If the word was not found in the 1-gram list, then the model uses a default probability as the probability of the word. The default probability is calculated using [Laplace Smoothing](https://towardsdatascience.com/n-gram-language-models-af6085435eeb#:~:text=Laplace%20Smoothing,algorithm%20is%20called%20Laplace%20smoothing.). Laplace Smoothing involves adding 1 to the frequency count of each word in the vocabulary.
+If the word was not found in the 1-gram list, then the model uses a default probability as the probability of the word. The default probability is calculated using [Laplace Smoothing](https://towardsdatascience.com/n-gram-language-models-af6085435eeb#:~:text=Laplace%20Smoothing,algorithm%20is%20called%20Laplace%20smoothing.).
 
-Essentially this means that the total number of words in the data set are increased by vc, where vc is the number of words in the vocabulary. The **wordpredictor** package uses the file **/usr/share/dict/cracklib-small** as the dictionary file. This file is pre-installed in most Linux distributions.
+Laplace Smoothing involves adding 1 to the frequency count of each word in the vocabulary. Essentially this means that the total number of words in the data set are increased by vc, where vc is the number of words in the vocabulary. 
 
 In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs zero times, after Laplace Smoothing it will have a count of 1. So the default probability is calculated as: P(unk) = 1/(N+VC), where N is the total number of words in the data set and VC is the number of words in the vocabulary. This default probability is assigned to unknown words. Alternative methods to Laplace Smoothing are **Add-k smoothing**, **Kneser-Ney smoothing** and **Good-Turing Smoothing**.
+
+The **wordpredictor** package uses the file **/usr/share/dict/cracklib-small** as the dictionary file. This file is pre-installed in most Linux distributions.
 
 Extrinsic evaluation involves calculating the accuracy score. The model tries to predict the last word of a sentence. If the actual last word was one of the 3 words predicted by the model, then the prediction is considered to be accurate. The accuracy score is the number of sentences that were correctly predicted.
 
@@ -125,7 +129,7 @@ mg$generate_model()
 ## Evaluating the model performance
 The **wordpredictor** package provides the **ModelEvaluator** class for evaluating the performance of the generated n-gram model.
 
-The following example performs Intrinsic evaluation. It measures the Perplexity score for each sentence in the **validation.txt** file. It returns the minimum, mean and maximum Perplexity score for each line.
+The following example performs intrinsic evaluation. It measures the Perplexity score for each sentence in the **validation.txt** file. It returns the minimum, mean and maximum Perplexity score for each line.
 
 ```{r model-evaluation-1, cache=TRUE}
 # The model file name
@@ -138,7 +142,7 @@ me <- ModelEvaluator$new(mf = mfn)
 stats <- me$intrinsic_evaluation(lc = 20, fn = vfn)
 ```
 
-The following example performs Extrinsic evaluation. It measures the accuracy score for each sentence in **validation.txt** file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The Extrinsic evaluation returns the number of correct and incorrect predictions.
+The following example performs extrinsic evaluation. It measures the accuracy score for each sentence in **validation.txt** file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The extrinsic evaluation returns the number of correct and incorrect predictions.
 
 ```{r model-evaluation-2, cache=TRUE}
 # The model file name

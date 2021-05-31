@@ -22,13 +22,6 @@ methods for measuring n-gram model performance using
 The n-gram model may be customized using several options such as n-gram
 size, data cleaning options and options for tokenization.
 
-## Demo
-
-A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application
-based on the Shiny package. It allows predicting the next word based on
-the given set of words. It displays the 10 ten most likely words along
-with their respective probabilities.
-
 ## Installation
 
 You can install the released version of wordpredictor from CRAN with:
@@ -307,6 +300,20 @@ me$compare_performance(opts = list(
 ```
 
 ![](man/figures/README-evaluate-performance-2-1.png)<!-- -->
+
+## Demo
+
+A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application
+based on the Shiny package. It allows predicting the next word based on
+the given set of words. It displays the 10 ten most likely words along
+with their respective probabilities.
+
+The demo app is based on Shiny platform. It consists of two files.
+[server.r](https://gist.github.com/pakjiddat/43c61c54b645e5bd0096d6fd75e58127)
+and
+[ui.r](https://gist.github.com/pakjiddat/96727c1df77755e5bcf8a7d4ff731dea).
+The n-gram model file must be present in the same folder as the two
+files. It can be generated using the ModelGenerator class.
 
 ## Benefits
 

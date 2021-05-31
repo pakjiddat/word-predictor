@@ -1,18 +1,10 @@
-#' It is used to evaluate the accuracy and performance of the model.
+#' It allows predicting text, calculating word probabilities and Perplexity
 #'
 #' @description
-#' It provides methods that perform extrinsic and intrinsic model
-#' evaluation. It also provides methods for determining the memory and time
-#' requirements for generating the model. It also provides a method for
-#' determining how much memory is used by the final model.
-#'
-#' @details
-#' It provides a method that performs intrinsic model evaluation based
-#' on Perplexity. It also provides a method that performs extrinsic model
-#' evaluation based on accuracy. It provides a method for determining how much
-#' memory and time is needed to generate a model for different input data sizes.
-#' It provides a method for determining how much memory is needed by the final
-#' model.
+#' It provides a method for predicting the new word given a set of
+#' previous words. It also provides a method for calculating the Perplexity
+#' score for a set of words. Furthermore it provides a method for calculating
+#' the probability of a given word and set of previous words.
 #' @importFrom digest digest2int
 #' @importFrom SnowballC wordStem
 ModelPredictor <- R6::R6Class(
@@ -51,7 +43,8 @@ ModelPredictor <- R6::R6Class(
         #' calculated. The probabilities are multiplied and then inverted. The
         #' nth root of the result is the perplexity, where n is the number of
         #' words in the sentence. If the stem_words tokenization option was
-        #' specified, then the previous words are converted to their stem.
+        #' specified when creating the given model file, then the previous words
+        #' are converted to their stems.
         #' @param words The list of words.
         #' @return The perplexity of the given list of words.
         calc_perplexity = function(words) {
@@ -100,12 +93,13 @@ ModelPredictor <- R6::R6Class(
         },
 
         #' @description
-        #' Predicts the new word given a list of 1, 2 or 3 previous words. It
-        #' checks the given n words in the transition probabilities data. If
-        #' there is a match, the top 3 next words with highest probabilities are
-        #' returned. If there is no match, then the last n-1 previous words are
-        #' checked. This process is continued until the last word is checked. If
-        #' there is no match, then empty result is returned. The given words may
+        #' Predicts the next word given a list of previous words. It
+        #' checks the last n previous words in the transition probabilities
+        #' data, where n is equal to 1 - n-gram size of model. If there is a
+        #' match, the top 3 next words with highest probabilities are returned.
+        #' If there is no match, then the last n-1 previous words are checked.
+        #' This process is continued until the last word is checked. If there is
+        #' no match, then empty result is returned. The given words may
         #' optionally be stemmed.
         #' @param words A character vector of previous words or a single vector
         #'   containing the previous word text.
@@ -156,20 +150,19 @@ ModelPredictor <- R6::R6Class(
 
         #' @description
         #' Calculates the probability of the given word given the
-        #' previous model-1 words, where model is the maximum n-gram number. It
-        #' looks up the probability of a word given n previous words. The
-        #' previous n words are converted to numeric hash using digest2int
-        #' function. The hash is looked up in a data frame of transition
-        #' probabilities. The word is converted to a number by checking its
-        #' position in a list of unique words. If the hash and the word position
-        #' were found, then the probability of the previous word and hash is
-        #' returned. If it was not found, then the hash of the n-1 previous
-        #' words is taken and the processed is repeated. If the data was not
-        #' found in the data frame, then the word probability is returned. This
-        #' is known as back-off. If the word probability could not be found then
-        #' the default probability is returned. The default probability is
-        #' calculated as 1/(N+V), Where N = number of words in corpus and V is
-        #' the number of dictionary words.
+        #' previous words. The last n words are converted to numeric hash using
+        #' digest2int function. All other words are ignored. n is equal to 1 -
+        #' size of the n-gram model. The hash is looked up in a data frame of
+        #' transition probabilities. The last word is converted to a number by
+        #' checking its position in a list of unique words. If the hash and the
+        #' word position were found, then the probability of the previous word
+        #' and hash is returned. If it was not found, then the hash of the n-1
+        #' previous words is taken and the processed is repeated. If the data
+        #' was not found in the data frame, then the word probability is
+        #' returned. This is known as back-off. If the word probability could
+        #' not be found then the default probability is returned. The default
+        #' probability is calculated as 1/(N+V), Where N = number of words in
+        #' corpus and V is the number of dictionary words.
         #' @param word The word whose probability is to be calculated.
         #' @param pw The previous words.
         #' @return The probability of the word given the previous words.

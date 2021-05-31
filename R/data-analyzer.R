@@ -1,14 +1,22 @@
-#' Allows analyzing n-gram data
+#' It allows analyzing input text files and n-gram token files
 #'
 #' @description
-#' It provides information on text files, such as number of lines
-#' and number of words. It displays bar plots showing n-gram frequencies.
+#' It provides a method that returns information about text files, such as
+#' number of lines and number of words. It also provides a method that displays
+#' bar plots of n-gram frequencies. Additionally it provides a method for
+#' searching for n-grams in a n-gram token file. This file is generated using
+#' the TokenGenerator class.
 #'
 #' @details
 #' It provides a method that returns text file information. The text
 #' file information includes total number of lines, max, min and mean line
-#' length and file size. It provides a method that reads an input text
-#' file containing token frequencies. It displays the most occurring tokens.
+#' length and file size.
+#'
+#' It also provides a method that generates a bar plot showing the most common
+#' n-gram tokens.
+#'
+#' Another method is provided which returns a list of n-grams that match the
+#' given regular expression.
 #' @importFrom ggplot2 ggplot geom_bar ggtitle coord_flip ylab xlab aes ggsave
 DataAnalyzer <- R6::R6Class(
     "DataAnalyzer",
@@ -30,12 +38,17 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' It reads n-gram token frequencies from an input text
-        #' file. The n-gram frequencies are then displayed in a bar plot. The
-        #' type of plot is specified by the type option. 'top_features' displays
-        #' the top n most occurring tokens along with their frequencies.
-        #' 'coverage' displays the number of words along with their frequencies.
-        #' The plot stats are returned by the function as a data frame.
+        #' It allows generating two type of n-gram plots. It first reads n-gram
+        #' token frequencies from an input text file. The n-gram frequencies are
+        #' displayed in a bar plot.
+        #'
+        #' The type of plot is specified by the type option. The type options
+        #' can have the values 'top_features' or 'coverage'. 'top_features'
+        #' displays the top n most occurring tokens along with their
+        #' frequencies. 'coverage' displays the number of words along with their
+        #' frequencies.
+        #'
+        #' The plot stats are returned as a data frame.
         #' @param opts The options for analyzing the data.
         #' * **type**. The type of plot to display. The options are:
         #'   'top_features', 'coverage'.
@@ -120,7 +133,10 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' Generates and returns information about text files.
+        #' It generates information about text files. It takes as input a file
+        #' or a directory containing text files. For each file it calculates the
+        #' total number of lines, maximum, minimum and mean line lengths and the
+        #' total file size. The file information is returned as a data frame.
         #' @param res The name of a directory or a file name.
         #' @return A data frame containing the text file statistics.
         get_file_info = function(res) {
@@ -206,10 +222,12 @@ DataAnalyzer <- R6::R6Class(
         },
 
         #' @description
-        #' Returns the given number of n-grams and their
-        #' frequencies. If the prefix parameter is not given, then the n-grams
-        #' are randomly chosen. Otherwise n-grams starting with the given regular
-        #' expression are returned.
+        #' It extracts a given number of n-grams and their frequencies from a
+        #' n-gram token file.
+        #'
+        #' The prefix parameter specifies the regular expression for matching
+        #' n-grams. If this parameter is not specified then the given number of
+        #' n-grams are randomly chosen.
         #' @param fn The n-gram file name.
         #' @param c The number of n-grams to return.
         #' @param pre The n-gram prefix, given as a regular expression.

@@ -1,21 +1,26 @@
-#' It performs extrinsic and intrinsic evaluation of a n-gram model
+#' It performs performance evaluation of n-gram models
 #'
 #' @description
 #' It provides methods for performing extrinsic and intrinsic
-#' evaluation. Intrinsic evaluation is based on calculation of Perplexity.
-#' Extrinsic evaluation involves determining the percentage of correct next word
+#' evaluation of a n-gram model. It also provides a method for comparing
+#' performance of multiple n-gram models.
+#'
+#' Intrinsic evaluation is based on calculation of Perplexity. Extrinsic
+#' evaluation involves determining the percentage of correct next word
 #' predictions.
 #'
 #' @details
-#' Before performing the intrinsic and extrinsic model evaluation, a
-#' validation file must be first generated. This can be done using the Generator
-#' class. Each line in the validation file is evaluated. For intrinsic
-#' evaluation Perplexity for the line is calculated. An overall summary of the
-#' Perplexity calculations is returned. It includes the min, max and mean
-#' Perplexity. For extrinsic evaluation, next word prediction is performed on
-#' each line. If the actual next word is one of the three predicted next words,
-#' then the prediction is considered to be accurate. The extrinsic evaluation
-#' returns the percentage of correct and incorrect predictions.
+#' Before performing the intrinsic and extrinsic model evaluation, a validation
+#' file must be first generated. This can be done using the DataSampler class.
+#'
+#' Each line in the validation file is evaluated. For intrinsic evaluation
+#' Perplexity for the line is calculated. An overall summary of the Perplexity
+#' calculations is returned. It includes the min, max and mean Perplexity.
+#'
+#' For extrinsic evaluation, next word prediction is performed on each line. If
+#' the actual next word is one of the three predicted next words, then the
+#' prediction is considered to be accurate. The extrinsic evaluation returns the
+#' percentage of correct and incorrect predictions.
 #' @importFrom patchwork plot_annotation
 #' @importFrom ggplot2 ggplot aes geom_point geom_smooth coord_cartesian labs
 #' @importFrom stringr str_split
@@ -50,12 +55,15 @@ ModelEvaluator <- R6::R6Class(
         },
 
         #' @description
-        #' It compares the performance of the models in the given
-        #' folder. The performance of the model is compared for the 4 metric
-        #' which are time taken, memory used, Perplexity and accuracy. The
-        #' performance comparison is displayed on plots. 4 plots are displayed.
-        #' One for each performance metric. A fifth plot shows the variation of
-        #' Perplexity with accuracy. All 5 plots are plotted on one page.
+        #' It compares the performance of the models in the given folder.
+        #'
+        #' The performance of the model is compared for the 4 metric which are
+        #' time taken, memory used, Perplexity and accuracy. The performance
+        #' comparison is displayed on plots.
+        #'
+        #' 4 plots are displayed. One for each performance metric. A fifth plot
+        #' shows the variation of Perplexity with accuracy. All 5 plots are
+        #' plotted on one page.
         #' @param opts The options for comparing model performance.
         #' * **save_to**. The graphics device to save the plot to.
         #'     NULL implies plot is printed.
@@ -118,10 +126,12 @@ ModelEvaluator <- R6::R6Class(
         },
 
         #' @description
-        #' It plots the given stats on 5 plots. The plots are
-        #' displayed on a single page. The 4 performance metrics which are time
-        #' taken, memory, Perplexity and accuracy are plotted against the model
-        #' name. Another plot compares Perplexity with accuracy for each model.
+        #' It plots the given stats on 5 plots. The plots are displayed on a
+        #' single page.
+        #'
+        #' The 4 performance metrics which are time taken, memory, Perplexity
+        #' and accuracy are plotted against the model name. Another plot
+        #' compares Perplexity with accuracy for each model.
         #' @param data The data to plot
         #' @return The ggplot object is returned.
         plot_stats = function(data) {
@@ -189,10 +199,21 @@ ModelEvaluator <- R6::R6Class(
 
 
         #' @description
-        #' It performs intrinsic and extrinsic evaluation for the
-        #' given model. It also measures the memory usage and time taken. The
-        #' performance metrics are displayed in 5 plots on one page. Performance
-        #' statistics are saved to the model object.
+        #' It performs intrinsic and extrinsic evaluation for the given model
+        #' and validation text file. The given number of lines in the validation
+        #' file are used in the evaluation
+        #'
+        #' It performs two types of evaluations. One is intrinsic evaluation,
+        #' based on Perplexity, the other is extrinsic evaluation based on
+        #' accuracy.
+        #'
+        #' It returns the results of evaluation. 4 evaluation metrics are
+        #' returned. Perplexity, accuracy, memory and time taken. Memory is the
+        #' size of the model object. Time taken is the time needed for
+        #' performing both evaluations.
+        #'
+        #' The results of the model evaluation are saved within the model object
+        #' and also returned.
         #' @param lc The number of lines of text in the validation file to be
         #'   used for the evaluation.
         #' @param fn The name of the validation file. If it does not exist, then

@@ -1,13 +1,13 @@
-#' It is used to generate n-gram models for the given data file.
+#' It is used to generate n-gram models from a text file
 #'
 #' @description
-#' It provides methods that are used for generating n-gram models.
-#' The n-gram models may be customized by specifying the data cleaning and
-#' tokenization options.
+#' It provides a method for generating n-gram models. The n-gram models may be
+#' customized by specifying data cleaning and tokenization options.
 #'
 #' @details
 #' It provides a method that generates a n-gram model. The n-gram model
 #' may be customized by specifying the data cleaning and tokenization options.
+#'
 #' The data cleaning options include removal of punctuation, stop words, extra
 #' space, non-dictionary words and bad words. The tokenization options include
 #' n-gram number and word stemming.
@@ -16,18 +16,15 @@ ModelGenerator <- R6::R6Class(
     inherit = TextFileProcessor,
     public = list(
         #' @description
-        #' It initializes the current object. It is used to set the
-        #' maximum n-gram number, sample size, input file name, data cleaner
-        #' options, tokenization options, combined transition probabilities file
-        #' name and verbose.
+        #' It initializes the current object. It is used to set the maximum
+        #' n-gram number, sample size, input file name, data cleaner options,
+        #' tokenization options and verbose option.
         #' @param name The model name.
         #' @param desc The model description.
-        #' @param fn The model file name. If not set, then model.RDS is used.
-        #' @param df The path of the file used to generate the model. If the
-        #'   data was cleaned, then df is the path to the cleaned file. It
-        #'   should be the short file name. It should be present in the data
-        #'   directory.
-        #' @param n The maximum n-gram number supported by the model.
+        #' @param fn The model file name.
+        #' @param df The path of the input text file. It should be the short
+        #'   file name and should be present in the data directory.
+        #' @param n The n-gram size of the model.
         #' @param ssize The sample size as a proportion of the input file.
         #' @param ddir The data directory.
         #' @param mdir The model directory.
@@ -66,7 +63,9 @@ ModelGenerator <- R6::R6Class(
         },
 
         #' @description
-        #' It generates the model using the current object's attributes.
+        #' It generates the model using the parameters passed to
+        #' the object's constructor. It generates a n-gram model file and saves
+        #' it to the model directory.
         #' @param rf If the existing model files should be removed.
         generate_model = function(rf = F) {
             # The information message is displayed

@@ -16,3 +16,4 @@
 ^\.lintr$
 ^vignettes/features_cache$
 ^vignettes/overview_cache$
+^CRAN-RELEASE$

@@ -6,16 +6,16 @@
 #' information. The class provides methods for loading and saving the model.
 #'
 #' @details
-#' The attributes of this class are used to store n-gram model
-#' information such as model name, model description, model file name, n-gram
-#' number, transition probabilities data, default probability, n-gram
-#' configuration options such as data cleaning and tokenization options, word
-#' list, model path, data directory path and performance stats. The model is
-#' saved to a single file as a R object. A model file contains all the
-#' information required by the model. The model object is used by other model
-#' classes that perform operations on the model such as evaluation of model
-#' performance, making word predictions based on the model and plotting model
-#' performance stats.
+#' The attributes of this class are used to store n-gram model information such
+#' as model name, model description, model file name, n-gram size, transition
+#' probabilities data, default probability for words, data cleaning and
+#' tokenization options, word list, model path, data directory path and
+#' performance stats. The model is saved to a single file as a R object.
+#'
+#' A model file contains all the information required by the model. The model
+#' object is used as input by classes that perform operations on the model such
+#' as evaluation of model performance, text predictions and comparision of model
+#' performance.
 Model <- R6::R6Class(
     "Model",
     inherit = TextFileProcessor,

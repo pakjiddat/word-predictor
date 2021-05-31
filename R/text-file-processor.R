@@ -1,13 +1,14 @@
 #' Base class for text file processing
 #'
 #' @description
-#' Provides basic structure for processing text files.
+#' Provides a basic structure for processing text files.
 #'
 #' @details
-#' It provides pre-processing, processing and post-processing functions, which
+#' It provides pre-processing, processing and post-processing methods, which
 #' need to be overridden by derived classes. The pre-processing function is
 #' called before reading a file. The process function is called for processing a
-#' line. The post processing function is called on the processed data.
+#' given number of lines. The post processing function is called on the
+#' processed data.
 #' @export
 TextFileProcessor <- R6::R6Class(
     "TextFileProcessor",

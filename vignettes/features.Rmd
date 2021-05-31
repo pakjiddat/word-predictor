@@ -35,7 +35,7 @@ check_dirs(ddir1, ddir2, mdir, msdir, sdir)
 ```
 
 ## Introduction
-This document describes all the features provided by the **wordpredictor** package. It first describes how to generate n-gram models. Next it describes how to evaluate the performance of the model. Finally it describes how to make word predictions using the model.
+This document describes all the features provided by the **wordpredictor** package. It first describes how to generate n-gram models. Next it describes how to evaluate the performance of the n-gram models. Finally it describes how to make word predictions using the n-gram model.
 
 ## Model Generation
 
@@ -110,7 +110,7 @@ ds$generate_data(
 In the above example, **ddir** parameter is the data directory containing the **input.txt** file. **mdir** parameter is the output directory that will contain the generated test, validation and train data files.
 
 ### Data Cleaning
-The next step is to remove unwanted symbols and words from the input text file. This reduces the memory requirement of the n-gram model and makes it more efficient. Example of unwanted words are vulgar words and words that are not part of the vocabulary. Punctuation, numbers, non-printable characters, extra spaces may also be removed.
+The next step is to remove unwanted symbols and words from the input text file. This reduces the memory requirement of the n-gram model and makes it more efficient. Example of unwanted words are vulgar words, words that are not part of the vocabulary, punctuation, numbers, non-printable characters and extra spaces.
 
 The **wordpredictor** package provides the **DataCleaner** class which can be used to remove unwanted words and symbols from text files. The following example shows how to clean a given text file:
 
@@ -134,7 +134,7 @@ dc <- DataCleaner$new(fn, dc_opts)
 dc$clean_file()
 ```
 
-The **clean_file** method reads a certain number of lines at a time, cleans the lines of text and saves them to an output text file. It is useful for cleaning large text files.
+The **clean_file** method reads a certain number of lines at a time, cleans the lines of text and saves them to an output text file. It can be used for cleaning large text files.
 
 ### Tokenization
 The next step is to generate n-gram tokens from the cleaned text file. The **TokenGenerator** class allows generating n-gram tokens of given size from a given input text file. The following example shows how to generate n-grams tokens of size 1,2,3 and 4:
@@ -153,9 +153,11 @@ for (n in 1:4) {
 }
 ```
 
-The above code generates the files **n1.RDS, n2.RDS, n3.RDS and n4.RDS** in the data directory. This files contains n-gram tokens along with their frequencies. N-grams of larger size provide more context. Usually n-grams of size 4 are generated.
+The above code generates the files **n1.RDS, n2.RDS, n3.RDS and n4.RDS** in the data directory. These files contains n-gram tokens along with their frequencies. N-grams of larger size provide more context. Usually n-grams of size 4 are generated.
 
-Two important customization options supported by the **TokenGenerator** class are **min_freq** and **stem_words**. **min_freq** sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than **min_freq** are excluded. When the **stem_words** option is used, n-gram prefix components are stemmed. The next word is not transformed.
+Two important customization options supported by the **TokenGenerator** class are **min_freq** and **stem_words**. **min_freq** sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than **min_freq** are excluded.
+
+The **stem_words** option is used to transform n-gram prefix components to their stems. The next word is not transformed.
 
 The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occurring n-gram tokens:
 
@@ -205,11 +207,11 @@ print(df)
 ```
 
 ### Transition Probabilities
-The next step in generating the n-gram model is to generate transition probabilities from the n-gram files. The **TPGenerator** class is used to generate the transition probabilities. For each n-gram token file a corresponding transition probabilities file is generated.
+The next step in generating the n-gram model is to generate transition probabilities (tp) from the n-gram files. The **TPGenerator** class is used to generate the tps. For each n-gram token file a corresponding tp file is generated.
 
-The transition probabilities files are then combined into a single file containing transition probability data for n-grams of size 1, 2, 3, 4 etc.
+The tp files are then combined into a single file containing tp data for n-grams of size 1, 2, 3, 4 etc.
 
-The following example shows how to generate combined transition probabilities for n-grams of size 1, 2, 3 and 4:
+The following example shows how to generate combined tps for n-grams of size 1, 2, 3 and 4:
 
 ```{r transition-probabilities, cache=TRUE}
 # The TPGenerator object is created
@@ -218,10 +220,10 @@ tp <- TPGenerator$new(opts = list(n = 4, dir = ddir2))
 tp$generate_tp()
 ```
 
-The above code produces the final **model-4.RDS**.
+The above code produces the file **model-4.RDS**.
 
 ### The model file
-The final step is to generate a n-gram model file from the files generated in the previous steps. The **Model** class contains the method **load_model**, which reads the combined transition probabilities files and other files that are used by the model. An instance of the **Model** class represents the n-gram model.
+The final step is to generate a n-gram model file from the files generated in the previous steps. The **Model** class contains the method **load_model**, which reads the combined tps files and other files that are used by the model. An instance of the **Model** class represents the n-gram model.
 
 ### Generating the model in one step
 All the previous steps may be combined into a single step. The **ModelGenerator** class allows generating the final n-gram model using a single method call. The following example generates a n-gram model using default data cleaning and tokenization options:

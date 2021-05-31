@@ -9,20 +9,9 @@ Authors@R:
            role = c("aut", "cre"),
            email = "pakjiddat@gmail.com",
            comment = c(ORCID = "0000-0002-7543-7405"))
-Description: It allows developing n-gram models for predicting text. It allows 
-    cleaning input text using various options such as removal of stop words, 
-    profanity, non-dictionary words, punctuation, stop words and stemming. 
-    It generates n-gram tokens of a given size from a text file. It also 
-    generates transition probability data for the n-grams. This data is used 
-    to predict the next word given a set of words. The model's performance can 
-    be evaluation using Perplexity (intrinsic evaluation) and 
-    accuracy (extrinsic evaluation). The package also provides methods for 
-    analyzing the n-gram model using bar plots. For example it displays plots 
-    of n-gram frequencies and plots of model performance. It provides methods 
-    for generating the n-gram model step by step or by using a single method. 
-    The performance of the generated model may be evaluated and displayed in 
-    plots. The generated model can be easily exported as a R object and used 
-    in applications. The package is implemented using R6 classes.
+Description: It allows developing n-gram models for text prediction. 
+    It provides methods for data cleaning, data sampling, tokenization, 
+    model generation, model evaluation and word prediction.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

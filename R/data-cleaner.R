@@ -5,10 +5,10 @@
 #' characters from text files. It is suitable for cleaning large text files.
 #'
 #' @details
-#' It provides a method for cleaning text files. It allows removing bad
-#' words, stop words, non dictionary words, extra space, punctuation and
-#' non-alphabet characters. Allows conversion to lower case. It supports large
-#' text files.
+#' It provides a method for cleaning text files. It allows removing bad words,
+#' stop words, non dictionary words, extra space, punctuation and non-alphabet
+#' characters. It also allows conversion to lower case. It supports large text
+#' files.
 #'
 #' @importFrom stringr str_count boundary
 DataCleaner <- R6::R6Class(
