@@ -1,34 +1,49 @@
 test_that("Performance of token generating function is acceptable", {
+    # The required files
+    wp$rf <- c("test-clean.txt")
+    options("wordpredictor" = wp)
+    source("./inc.R")
+
     # The test file name
-    fn <- paste0(ddir2, "/test-clean.txt")
+    fn <- paste0(ed, "/test-clean.txt")
     # Token generation for each ngram is checked
     for (i in 1:4) {
         # The output ngram file name
-        tfn <- paste0(ddir2, "/n", i, ".RDS")
-        # If the file exists
-        if (file.exists(tfn)) {
-            # The file is removed
-            file.remove(tfn)
-        }
+        tfn <- paste0(ed, "/n", i, ".RDS")
         # The ngram number is set
-        tg_opts <- list("n" = i, "save_ngrams" = T, "dir" = ddir2)
+        tg_opts <- list("n" = i, "save_ngrams" = T, "dir" = ed)
         # The TokenGenerator object is created
-        tg <- TokenGenerator$new(fn, tg_opts)
+        tg <- TokenGenerator$new(fn, tg_opts, ve = wp$ve)
         # The ngram tokens are generated
         tg$generate_tokens()
         # The existance of the file is checked
         expect_true(file.exists(tfn))
     }
+
+    # The cleanup action is performed
+    source("./cu.R")
 })
+
 test_that("Frequency of the generated tokens is calculated correctly", {
+    # The required files
+    wp$rf <- c(
+        "test-clean.txt",
+        "n1.RDS",
+        "n2.RDS",
+        "n3.RDS",
+        "n4.RDS"
+    )
+    options("wordpredictor" = wp)
+    source("./inc.R")
+
     # Each ngram file is checked
     for (n in 1:4) {
         # The ngram file name
-        fn <- paste0(ddir2, "/n", n, ".RDS")
+        fn <- paste0(ed, "/n", n, ".RDS")
         # The ngram file is read
         df <- readRDS(fn)
         # The input file name
-        fn <- paste0(ddir2, "/test-clean.txt")
+        fn <- paste0(ed, "/test-clean.txt")
         # The file connection
         con <- file(fn)
         # The original input text file is read
@@ -59,4 +74,7 @@ test_that("Frequency of the generated tokens is calculated correctly", {
             expect_equal(count, freq[i], label = paste0("word: ", words[i]))
         }
     }
+
+    # The cleanup action is performed
+    source("./cu.R")
 })

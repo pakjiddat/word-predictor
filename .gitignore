@@ -3,10 +3,8 @@
 .Rdata
 .httr-oauth
 .DS_Store
-tests/testthat/data1
-tests/testthat/data2
-tests/testthat/models
 vignettes/features_cache
 vignettes/overview_cache
 vignettes/man
 README_cache
+inst/extdata

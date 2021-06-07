@@ -1,29 +1,34 @@
-#' Base class for text file processing
+#' Base class for all other classes
 #'
 #' @description
-#' Provides a basic structure for processing text files.
+#' Provides a basic structure for processing text files. Also provides methods
+#' for reading and writing files and objects.
 #'
 #' @details
 #' It provides pre-processing, processing and post-processing methods, which
-#' need to be overridden by derived classes. The pre-processing function is
-#' called before reading a file. The process function is called for processing a
-#' given number of lines. The post processing function is called on the
-#' processed data.
+#' need to be overridden by derived classes.
+#'
+#' The pre-processing function is called before reading a file. The process
+#' function is called for processing a given number of lines. The post
+#' processing function is called on the processed data.
+#'
+#' Also provides methods for reading and writing text files and R objects. All
+#' class methods are private.
 #' @export
-TextFileProcessor <- R6::R6Class(
-    "TextFileProcessor",
+Base <- R6::R6Class(
+    "Base",
     public = list(
         #' @description
         #' It initializes the current object. It is used to set the file name
         #' and verbose options.
         #' @param fn The path to the file to clean.
         #' @param lc The number of lines to read and clean at a time.
-        #' @param ve Indicates if progress information should be displayed.
+        #' @param ve The level of detail in the information messages.
         initialize = function(fn = NULL, lc = 100, ve = 2) {
             # If the given file name is not NULL and is not valid
             if (!is.null(fn) && !file.exists(fn)) {
-                  stop("The given file name is not valid")
-              }
+                private$dm("The given file name is not valid", md = -1, ty = "e")
+            }
 
             # The base class attributes are set
             # The file name is set
@@ -147,8 +152,9 @@ TextFileProcessor <- R6::R6Class(
                     # The cleaned data is written to file
                     private$write_file(p_lines, of, is_app)
                     # Debug message
-                    private$display_msg(
-                        paste(length(p_lines), "lines were written"), 1
+                    private$dm(
+                        length(p_lines), "lines were written\n",
+                        md = 1
                     )
                     # Indicates that data should be appended
                     is_app <- T
@@ -160,9 +166,10 @@ TextFileProcessor <- R6::R6Class(
                 }
                 # The loop counter is increased by 1
                 c <- c + 1
-                # Debug message
-                private$display_msg(
-                    paste(private$lc * c, "lines have been processed"), 1
+                # The information message is displayed
+                private$dm(
+                    private$lc * c, "lines have been processed\n",
+                    md = 1
                 )
             }
             # The file connection is closed if it is open
@@ -182,10 +189,8 @@ TextFileProcessor <- R6::R6Class(
         # @param is_csv If the data is a csv file
         # @return The file data
         read_file = function(fn, is_csv) {
-            # The information message
-            msg <- paste0("Reading file: ", fn)
             # Information message is shown
-            private$display_msg(msg, 1)
+            private$dm("Reading file:", fn, md = 1)
             # If the file is not a csv file
             if (!is_csv) {
                 # File is opened for reading
@@ -198,6 +203,8 @@ TextFileProcessor <- R6::R6Class(
             else {
                 data <- read.csv(fn)
             }
+            # The information message is shown
+            private$dm(" \u2714\n", md = 1)
             # The data is returned
             return(data)
         },
@@ -208,16 +215,16 @@ TextFileProcessor <- R6::R6Class(
         # @param lc The number of lines to read.
         # @return The file data
         read_lines = function(fn, lc) {
-            # The information message
-            msg <- paste0("Reading file: ", fn)
             # Information message is shown
-            private$display_msg(msg, 1)
+            private$dm("Reading file:", fn, md = 1)
             # File is opened for reading
             con <- file(fn)
             # The file contents are read
             data <- readLines(con, n = lc, skipNul = TRUE)
             # The file connection is closed
             close(con)
+            # The information message is shown
+            private$dm(" \u2714\n", md = 1)
             # The data is returned
             return(data)
         },
@@ -229,10 +236,8 @@ TextFileProcessor <- R6::R6Class(
         # @param fn The name of the file.
         # @param is_append Indicates if data should be saved.
         write_file = function(data, fn, is_append) {
-            # The information message
-            msg <- paste0("Saving file: ", fn)
             # Information message is shown
-            private$display_msg(msg, 1)
+            private$dm("Saving file:", fn, md = 1)
             # If the given data is a data frame
             if ("data.frame" %in% class(data)) {
                 # The data frame is  written to a file
@@ -250,6 +255,8 @@ TextFileProcessor <- R6::R6Class(
                 # The file connection is closed
                 close(con)
             }
+            # The information message is shown
+            private$dm(" \u2714\n", md = 1)
         },
 
         # @description
@@ -257,12 +264,12 @@ TextFileProcessor <- R6::R6Class(
         # @param obj The object to save.
         # @param fn The file name.
         save_obj = function(obj, fn) {
-            # The information message
-            msg <- paste0("Saving file: ", fn)
             # Information message is shown
-            private$display_msg(msg, 1)
-            # The object is saved to a file
-            saveRDS(obj, fn)
+            private$dm("Saving file:", fn, md = 1)
+            # The object is saved to a file in version 2 format
+            saveRDS(obj, fn, version = 2)
+            # The information message is shown
+            private$dm(" \u2714\n", md = 1)
         },
 
         # @description
@@ -271,33 +278,46 @@ TextFileProcessor <- R6::R6Class(
         # @param fn The file name.
         # @return The loaded R obj.
         read_obj = function(fn) {
-            # The information message
-            msg <- paste0("Reading file: ", fn)
             # Information message is shown
-            private$display_msg(msg, 1)
+            private$dm("Reading file:", fn, md = 1)
             # If the file does not exist
             if (!file.exists(fn)) {
-                # The information message
-                msg <- paste0("The file: ", fn, " cannot be read !")
-                # Program execution is stopped
-                stop(msg)
+                # The error message
+                private$dm(
+                    "The file: ", fn, " cannot be read !",
+                    md = -1, ty = "e"
+                )
             }
             else {
                 # The object is saved
                 obj <- readRDS(fn)
             }
+            # The information message is shown
+            private$dm(" \u2714\n", md = 1)
 
             return(obj)
         },
 
         # @description
         # Prints the given message depending on verbose settings.
-        # @param msg The message to be printed.
-        # @param min_debug The minimum debugging level
-        display_msg = function(msg, min_debug) {
-            # If verbose is >= min_debug , then message is displayed
-            if (private$ve >= min_debug) {
-                print(msg)
+        # @param ... The text messages to be displayed.
+        # @param md The minimum debugging level.
+        # @param ty The type of message.
+        dm = function(..., md, ty = "m") {
+            # If verbose is >= min_debug, then message is displayed
+            if (private$ve >= md) {
+                # If the type is message
+                if (ty == "m") {
+                    cat(...)
+                }
+                # If the type is warning
+                else if (ty == "w") {
+                    warning(...)
+                }
+                # If the type is error
+                else if (ty == "e") {
+                    stop(...)
+                }
             }
         },
 
@@ -321,36 +341,6 @@ TextFileProcessor <- R6::R6Class(
         # overriden by a derived class.
         pre_process = function() {
             return(NULL)
-        },
-
-        # @description
-        # Checks if the given file exists. If it does not exist,
-        # then it tried to load the file from the external data folder of the
-        # package. It throws an error if the file was not found
-        # @param fn The file name.
-        # @param dfn The name of the default file in the external data folder of
-        #   the package.
-        # @return The name of the file if it exists, or the full path to the
-        #   default file.
-        check_file = function(fn, dfn) {
-            # The required file name
-            rfn <- fn
-            # If the file is not given
-            if (is.null(fn)) {
-                # The file path is set to the default file
-                # included with the wordpredictor package
-                rfn <- system.file("extdata", dfn, package = "wordpredictor")
-                # If the file was not found
-                if (!file.exists(rfn)) {
-                      stop(paste0("The file: ", rfn, " does not exist !"))
-                  }
-            }
-            # If the file name is given but the file does not exist
-            else if (!file.exists(fn)) {
-                # An error message is shown
-                stop(paste0("The file: ", fn, " does not exist !"))
-            }
-            return(rfn)
         }
     )
 )

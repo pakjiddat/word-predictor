@@ -63,17 +63,24 @@ customize and improve. It provides the following classes:
     allows provides methods for reading and writing files and processing
     large text files.
 
-Use the command: **?wordpredictor::class-name** for details on how each
-class works and the parameter details.
+Information about the package can be obtained using the command line or
+the package website. For example, the command:
+**?wordpredictor::class-name** returns information about how the given
+class words and the parameter details for each class method.
 
-Refer to the package vignette for details on how the wordpredictor
-package works and the theory behind it.
+The [package website](https://pakjiddat.github.io/word-predictor/)
+provides information about each class and its methods. It also provides
+information about how the package works.
 
 ## Generating the model
 
 The following example shows how to generate a n-gram model.
 
 ``` r
+# The required files
+rf <- c("input.txt")
+# The test environment is setup
+ed <- setup_env(rf, ve)
 
 # The following code generates n-gram model using default options for data
 # cleaning and tokenization. See the following section on how to customize these
@@ -90,20 +97,21 @@ mg <- ModelGenerator$new(
     df = "input.txt",
     n = 4,
     ssize = 10,
-    ddir = ddir1,
-    mdir = mdir,
+    dir = ed,
     dc_opts = list(),
     tg_opts = list(),
-    ve = 2
+    ve = ve
 )
 
-# Generates n-gram model. The output is the file
-# ./data/model/def-model.RDS
+# Generates n-gram model. The output is the file def-model.RDS
 mg$generate_model()
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
 
-The above code generates the file **./data/model/def-model.RDS**. This
-file represents the n-gram model.
+The above code generates the file **def-model.RDS**. This file
+represents the n-gram model.
 
 ## Predicting words
 
@@ -111,14 +119,22 @@ The following example shows how to predict the next word given a set of
 words:
 
 ``` r
+# The required files
+rf <- c("def-model.RDS")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The model file name
-mfn <- paste0(ddir1, "/model/def-model.RDS")
+mfn <- paste0(ed, "/def-model.RDS")
 # An object of class ModelPredictor is created. The mf parameter is the name of
 # the model file that was generated in the previous example.
 mp <- ModelPredictor$new(mf = mfn)
 # Given the words: "how are", the next word is predicted. The top 3 most likely
 # next words are returned along with their respective probabilities.
 res <- mp$predict_word(words = "how are", 3)
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
 
 ## Analyzing N-grams
@@ -138,8 +154,13 @@ The following example plots the top 10 most occurring bi-grams along
 with their frequencies:
 
 ``` r
+# The required files
+rf <- c("n2.RDS")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The file name
-fn <- paste0(ddir1, "/model/n2.RDS")
+fn <- paste0(ed, "/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
 da <- DataAnalyzer$new(fn = fn)
@@ -154,12 +175,23 @@ df <- da$plot_n_gram_stats(opts = list(
 
 ![](man/figures/README-analyze-ngrams-1-1.png)<!-- -->
 
+``` r
+
+# The test envionment is cleaned up
+clean_up(ve)
+```
+
 The following example plots the n-gram frequency coverage. It shows the
 percentage of n-grams with frequency 1, 2 … 10.
 
 ``` r
+# The required files
+rf <- c("n2.RDS")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The file name
-fn <- paste0(ddir1, "/model/n2.RDS")
+fn <- paste0(ed, "/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
 da <- DataAnalyzer$new(fn = fn)
@@ -174,13 +206,24 @@ df <- da$plot_n_gram_stats(opts = list(
 
 ![](man/figures/README-analyze-ngrams-2-1.png)<!-- -->
 
+``` r
+
+# The test envionment is cleaned up
+clean_up(ve)
+```
+
 The following example shows how to get the list of bi-grams starting
 with **“great\_”** along with their frequencies. It also shows how to
 get the frequency of the bi-gram **“great\_deal”**.
 
 ``` r
+# The required files
+rf <- c("n2.RDS")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The file name
-fn <- paste0(ddir1, "/model/n2.RDS")
+fn <- paste0(ed, "/n2.RDS")
 # An object of class DataAnalyzer is created. The fn parameter is the path to
 # the n-gram file.
 da <- DataAnalyzer$new()
@@ -190,6 +233,9 @@ df <- da$get_ngrams(fn = fn, c = 10, pre = "^great_*")
 df <- df[order(df$freq, decreasing = T),]
 # The frequency of the bi-gram "great_deal"
 f <- as.numeric(df[df$pre == "great_deal", "freq"])
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
 
 ## Customizing the n-gram model
@@ -270,43 +316,32 @@ invalid predictions.
 The following example shows how to evaluate the performance of a model:
 
 ``` r
+# The required files
+rf <- c("def-model.RDS", "validate.txt")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The model file name
-mfn <- paste0(ddir1, "/model/def-model.RDS")
+mfn <- paste0(ed, "/def-model.RDS")
 # The validation file name
-vfn <- paste0(ddir1, "/model/validate.txt")
+vfn <- paste0(ed, "/validate.txt")
 # ModelEvaluator class object is created
 me <- ModelEvaluator$new(mf = mfn, ve = 2)
 # The performance evaluation is performed. The performance stats are returned as
 # a data frame and also saved within the model file itself.
 stats <- me$evaluate_performance(lc = 20, fn = vfn)
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
-
-The following example shows how to compare the performance of several
-n-gram models.
-
-``` r
-# The model file name
-mfn <- paste0(ddir1, "/model/def-model.RDS")
-# ModelEvaluator class object is created
-me <- ModelEvaluator$new(mf = mfn, ve = 2)
-# The performance evaluation is performed. The performance stats are saved as a
-# data frame and also plotted on a single page. The plot file and performance
-# stats are saved to the given folder.
-me$compare_performance(opts = list(
-  "save_to" = NULL,
-  "mdir" = msdir,
-  "dir" = sdir
-))
-```
-
-![](man/figures/README-evaluate-performance-2-1.png)<!-- -->
 
 ## Demo
 
 A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application
-based on the Shiny package. It allows predicting the next word based on
-the given set of words. It displays the 10 ten most likely words along
-with their respective probabilities.
+demonstrates how to make word predictions. It is based on the Shiny
+package. It allows predicting the next word based on the given set of
+words. It displays the 10 most likely words along with their respective
+probabilities.
 
 The demo app is based on Shiny platform. It consists of two files.
 [server.r](https://gist.github.com/pakjiddat/43c61c54b645e5bd0096d6fd75e58127)
@@ -314,6 +349,12 @@ and
 [ui.r](https://gist.github.com/pakjiddat/96727c1df77755e5bcf8a7d4ff731dea).
 The n-gram model file must be present in the same folder as the two
 files. It can be generated using the ModelGenerator class.
+
+## Website
+
+The [wordpredictor website](https://pakjiddat.github.io/word-predictor/)
+provides details about how the packages works. It includes code samples
+and details of all the classes and methods.
 
 ## Benefits
 

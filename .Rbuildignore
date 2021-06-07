@@ -4,11 +4,6 @@
 ^README\.Rmd$
 ^README_cache$
 ^cran-comments.md$
-^tests/testthat/data1$
-^tests/testthat/data1/model$
-^tests/testthat/data2$
-^tests/testthat/models$
-^tests/testthat/stats$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
@@ -17,3 +12,4 @@
 ^vignettes/features_cache$
 ^vignettes/overview_cache$
 ^CRAN-RELEASE$
+^vignettes/references.bib$

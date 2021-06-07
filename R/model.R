@@ -1,9 +1,10 @@
-#' The Model class represents n-gram models. An instance of the class is a
-#' single n-gram model.
+#' This class represents n-gram models
 #'
 #' @description
-#' The attributes of this class are used to store n-gram model
-#' information. The class provides methods for loading and saving the model.
+#' The Model class represents n-gram models. An instance of the class is a
+#' single n-gram model. The attributes of this class are used to store n-gram
+#' model information. The class provides methods for loading and saving the
+#' model.
 #'
 #' @details
 #' The attributes of this class are used to store n-gram model information such
@@ -18,7 +19,7 @@
 #' performance.
 Model <- R6::R6Class(
     "Model",
-    inherit = TextFileProcessor,
+    inherit = Base,
     public = list(
         #' @field pstats The performance stats for the model.
         pstats = list(),
@@ -35,16 +36,13 @@ Model <- R6::R6Class(
         #' @param name The model name.
         #' @param desc The model description.
         #' @param fn The model file name.
-        #' @param df The path of the file used to generate the model. If
-        #'   the data was cleaned, then df is the path to the cleaned
-        #'   file.
+        #' @param df The name of the file used to generate the model.
         #' @param n The maximum n-gram number supported by the model.
         #' @param ssize The sample size as a proportion of the input file.
-        #' @param ddir The data directory.
-        #' @param mdir The model directory.
+        #' @param dir The directory containing the model files.
         #' @param dc_opts The data cleaner options.
         #' @param tg_opts The token generator options.
-        #' @param ve If progress information should be displayed.
+        #' @param ve The level of detail in the information messages.
         #' @export
         initialize = function(name = NULL,
                               desc = NULL,
@@ -52,8 +50,7 @@ Model <- R6::R6Class(
                               df = NULL,
                               n = 4,
                               ssize = 0.3,
-                              ddir = "./data",
-                              mdir = "./models",
+                              dir = ".",
                               dc_opts = list(),
                               tg_opts = list(),
                               ve = 0) {
@@ -61,34 +58,29 @@ Model <- R6::R6Class(
             # The base class is initialized
             super$initialize(NULL, NULL, ve)
 
-            # If the input file name is not given
-            if (is.null(df)) {
-                # The default training data file name
-                df <- paste0(private$ddir, "/train.txt")
-            }
-
             # If the output file name is not given
             if (is.null(fn)) {
-                # The default output file name is used
-                fn <- paste0(private$mdir, "/model.RDS")
+                # Error message is shown
+                private$dm("Output file name was not given", md = -1, ty = "e")
             }
 
             # The path to the data file
-            dfp <- paste0(ddir, "/", df)
+            dfp <- paste0(dir, "/", df)
             # If the data file does not exist, then an error is thrown
             if (!file.exists(dfp)) {
-                  stop(paste0("The file: ", dfp, " does not exist !"))
-              }
-            # If the data directory does not exist, then an error is thrown
-            if (!dir.exists(ddir)) {
-                  stop(paste0("The dir: ", ddir, " does not exist !"))
-              }
-            # If the model directory does not exist, then an error is thrown
-            if (!dir.exists(mdir)) {
-                  stop(paste0("The dir: ", mdir, " does not exist !"))
-              }
+                # Error message is shown
+                private$dm("Invalid input file: ", dfp, md = -1, ty = "e")
+            }
+            # If the directory does not exist, then an error is thrown
+            if (!dir.exists(dir)) {
+                private$dm(
+                    "The dir: ", dir, " does not exist !", md = -1, ty = "e")
+            }
+
+            # An object of class EnvManager is created
+            em <- EnvManager$new(ve)
             # The dict words file is checked
-            dc_opts[["dict_file"]] <- private$check_file(
+            dc_opts[["dict_file"]] <- em$get_data_fn(
                 dc_opts[["dict_file"]], "dict-no-bad.txt"
             )
 
@@ -100,14 +92,12 @@ Model <- R6::R6Class(
             private$n <- n
             # The sample size is set
             private$ssize <- ssize
-            # The data directory name is set
-            private$ddir <- ddir
-            # The model directory name is set
-            private$mdir <- mdir
+            # The directory name is set
+            private$dir <- dir
             # The input file name is set
             private$df <- df
             # The word list file name is set
-            private$wlf <- paste0(mdir, "/words.RDS")
+            private$wlf <- paste0(dir, "/words.RDS")
             # The model file name is set
             private$fn <- fn
             # If the dc_opts are given
@@ -126,7 +116,7 @@ Model <- R6::R6Class(
         #' It loads the model using the given information
         load_model = function() {
             # The tp file name
-            fn <- paste0(private$mdir, "/model-", private$n, ".RDS")
+            fn <- paste0(private$dir, "/model-", private$n, ".RDS")
             # The tp file is read
             private$tp <- private$read_obj(fn)
             # The wl file is read
@@ -136,12 +126,12 @@ Model <- R6::R6Class(
             # The file contents
             dict <- private$read_file(fn, F)
             # The information message is shown
-            private$display_msg("Calculating default probability...", 1)
+            private$dm("Calculating default probability\n", md = 1)
             # The number of words in the dictionary file. It is used to
             # calculate Perplexity.
             vc <- length(dict)
             # The path to the input data file
-            dfp <- paste0(private$ddir, "/", private$df)
+            dfp <- paste0(private$dir, "/", private$df)
             # The data file is read
             data <- private$read_file(dfp, F)
             # The words are split on " "
@@ -233,9 +223,7 @@ Model <- R6::R6Class(
         ),
         # @field ssize The sample size as a proportion of the input file.
         ssize = 0.3,
-        # @field ddir The folder containing the data files
-        ddir = "./data",
-        # @field mdir The folder containing the model files
-        mdir = "./models"
+        # @field dir The folder containing the model related files.
+        dir = "./data"
     )
 )

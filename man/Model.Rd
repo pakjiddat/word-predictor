@@ -2,26 +2,27 @@
 % Please edit documentation in R/model.R
 \name{Model}
 \alias{Model}
-\title{The Model class represents n-gram models. An instance of the class is a
-single n-gram model.}
+\title{This class represents n-gram models}
 \description{
-The attributes of this class are used to store n-gram model
-information. The class provides methods for loading and saving the model.
+The Model class represents n-gram models. An instance of the class is a
+single n-gram model. The attributes of this class are used to store n-gram
+model information. The class provides methods for loading and saving the
+model.
 }
 \details{
-The attributes of this class are used to store n-gram model
-information such as model name, model description, model file name, n-gram
-number, transition probabilities data, default probability, n-gram
-configuration options such as data cleaning and tokenization options, word
-list, model path, data directory path and performance stats. The model is
-saved to a single file as a R object. A model file contains all the
-information required by the model. The model object is used by other model
-classes that perform operations on the model such as evaluation of model
-performance, making word predictions based on the model and plotting model
-performance stats.
+The attributes of this class are used to store n-gram model information such
+as model name, model description, model file name, n-gram size, transition
+probabilities data, default probability for words, data cleaning and
+tokenization options, word list, model path, data directory path and
+performance stats. The model is saved to a single file as a R object.
+
+A model file contains all the information required by the model. The model
+object is used as input by classes that perform operations on the model such
+as evaluation of model performance, text predictions and comparision of model
+performance.
 }
 \section{Super class}{
-\code{\link[wordpredictor:TextFileProcessor]{wordpredictor::TextFileProcessor}} -> \code{Model}
+\code{\link[wordpredictor:Base]{wordpredictor::Base}} -> \code{Model}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -65,8 +66,7 @@ name and verbose.
   df = NULL,
   n = 4,
   ssize = 0.3,
-  ddir = "./data",
-  mdir = "./models",
+  dir = ".",
   dc_opts = list(),
   tg_opts = list(),
   ve = 0
@@ -82,23 +82,19 @@ name and verbose.
 
 \item{\code{fn}}{The model file name.}
 
-\item{\code{df}}{The path of the file used to generate the model. If
-the data was cleaned, then df is the path to the cleaned
-file.}
+\item{\code{df}}{The name of the file used to generate the model.}
 
 \item{\code{n}}{The maximum n-gram number supported by the model.}
 
 \item{\code{ssize}}{The sample size as a proportion of the input file.}
 
-\item{\code{ddir}}{The data directory.}
-
-\item{\code{mdir}}{The model directory.}
+\item{\code{dir}}{The directory containing the model files.}
 
 \item{\code{dc_opts}}{The data cleaner options.}
 
 \item{\code{tg_opts}}{The token generator options.}
 
-\item{\code{ve}}{If progress information should be displayed.}
+\item{\code{ve}}{The level of detail in the information messages.}
 }
 \if{html}{\out{</div>}}
 }

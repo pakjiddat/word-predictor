@@ -5,6 +5,8 @@ vignette: >
   %\VignetteIndexEntry{overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+nocite: '@*'
 ---
 
 ```{r echo=FALSE, results='hide'}
@@ -17,21 +19,32 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
 library(wordpredictor)
-# The current directory should be the vignette folder
-# The path to the data1 directory
-ddir1 <- "../tests/testthat/data1"
-# The path to the data2 directory
-ddir2 <- "../tests/testthat/data2"
-# The path to the model directory
-mdir <- "../tests/testthat/data1/model"
-# The path to the models directory
-msdir <- "../tests/testthat/models"
-# The path to the stats directory
-sdir <- "../tests/testthat/models/stats"
-# The script used to check for directories is included
-source("../tests/testthat/setup_dirs.R")
-# Check if the directories exist
-check_dirs(ddir1, ddir2, mdir, msdir, sdir)
+
+# If level of verbosity in the information messages
+ve <- 0
+
+#' @description
+#' Used to setup the test environment
+#' @param rf The required files.
+#' @param ve The verbosity level.
+#' @return The list of directories in the test environment
+setup_env <- function(rf, ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(rp = "../", ve = ve)
+    # The required files are downloaded
+    ed <- em$setup_env(rf)
+
+    return(ed)
+}
+
+#' @description
+#' Used to clean up the test environment
+clean_up <- function(ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(ve = ve)
+    # The test environment is removed
+    em$td_env(T)
+}
 ```
 
 ## Introduction
@@ -88,7 +101,7 @@ If the word was not found in the 1-gram list, then the model uses a default prob
 
 Laplace Smoothing involves adding 1 to the frequency count of each word in the vocabulary. Essentially this means that the total number of words in the data set are increased by vc, where vc is the number of words in the vocabulary. 
 
-In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs zero times, after Laplace Smoothing it will have a count of 1. So the default probability is calculated as: P(unk) = 1/(N+VC), where N is the total number of words in the data set and VC is the number of words in the vocabulary. This default probability is assigned to unknown words. Alternative methods to Laplace Smoothing are **Add-k smoothing**, **Kneser-Ney smoothing** and **Good-Turing Smoothing**.
+In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs zero times, after Laplace Smoothing it will have a count of 1. So the default probability is calculated as: **P(unk) = 1/(N+VC)**, where **N** is the total number of words in the data set and **VC** is the number of words in the vocabulary. This default probability is assigned to unknown words. Alternative methods to Laplace Smoothing are **Add-k smoothing**, **Kneser-Ney smoothing** and **Good-Turing Smoothing**.
 
 The **wordpredictor** package uses the file **/usr/share/dict/cracklib-small** as the dictionary file. This file is pre-installed in most Linux distributions.
 
@@ -99,6 +112,11 @@ Extrinsic evaluation involves calculating the accuracy score. The model tries to
 The **ModelGenerator** class allows generating the final n-gram model using a single method call. The following example generates a n-gram model using default data cleaning and tokenization options:
 
 ```{r generate-model, results='hide', cache=TRUE}
+# The required files
+rf <- c("input.txt")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The following code generates n-gram model using default options for data
 # cleaning and tokenization. See the following section on how to customize these
 # options. Note that input.txt is the name of the input data file. It should be
@@ -108,22 +126,24 @@ The **ModelGenerator** class allows generating the final n-gram model using a si
 
 # ModelGenerator class object is created
 mg <- ModelGenerator$new(
-  name = "def-model",
-  desc = "N-gram model generating using default options",
-  fn = "def-model.RDS",
-  df = "input.txt",
-  n = 4,
-  ssize = 10,
-  ddir = ddir1,
-  mdir = mdir,
-  dc_opts = list(),
-  tg_opts = list(),
-  ve = 2
+    name = "def-model",
+    desc = "N-gram model generating using default options",
+    fn = "def-model.RDS",
+    df = "input.txt",
+    n = 4,
+    ssize = 0.1,
+    dir = ed,
+    dc_opts = list(),
+    tg_opts = list(),
+    ve = ve
 )
 
 # Generates n-gram model. The output is the file
 # ./data/model/def-model.RDS
 mg$generate_model()
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
 
 ## Evaluating the model performance
@@ -132,27 +152,43 @@ The **wordpredictor** package provides the **ModelEvaluator** class for evaluati
 The following example performs intrinsic evaluation. It measures the Perplexity score for each sentence in the **validation.txt** file. It returns the minimum, mean and maximum Perplexity score for each line.
 
 ```{r model-evaluation-1, cache=TRUE}
+# The required files
+rf <- c("def-model.RDS", "validate-clean.txt")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The model file name
-mfn <- paste0(mdir, "/def-model.RDS")
+mfn <- paste0(ed, "/def-model.RDS")
 # The path to the cleaned validation file
-vfn <- paste0(mdir, "/validate.txt")
+vfn <- paste0(ed, "/validate-clean.txt")
 # ModelEvaluator class object is created
-me <- ModelEvaluator$new(mf = mfn)
+me <- ModelEvaluator$new(mf = mfn, ve = ve)
 # The intrinsic evaluation is performed on first 20 lines
 stats <- me$intrinsic_evaluation(lc = 20, fn = vfn)
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
 
 The following example performs extrinsic evaluation. It measures the accuracy score for each sentence in **validation.txt** file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The extrinsic evaluation returns the number of correct and incorrect predictions.
 
 ```{r model-evaluation-2, cache=TRUE}
+# The required files
+rf <- c("def-model.RDS", "validate-clean.txt")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The model file name
-mfn <- paste0(mdir, "/def-model.RDS")
+mfn <- paste0(ed, "/def-model.RDS")
 # The path to the cleaned validation file
-vfn <- paste0(mdir, "/validate.txt")
+vfn <- paste0(ed, "/validate-clean.txt")
 # ModelEvaluator class object is created
-me <- ModelEvaluator$new(mf = mfn)
+me <- ModelEvaluator$new(mf = mfn, ve = ve)
 # The intrinsic evaluation is performed on first 100 lines
 stats <- me$extrinsic_evaluation(lc = 100, fn = vfn)
+
+# The test envionment is cleaned up
+clean_up(ve)
 ```
 
 ## How to predict a word
@@ -160,13 +196,44 @@ stats <- me$extrinsic_evaluation(lc = 100, fn = vfn)
 The following example shows how to predict the next word. It returns the 3 possible next words along with their probabilities.
 
 ```{r predict-word, cache=TRUE}
+# The required files
+rf <- c("def-model.RDS", "validate-clean.txt")
+# The test environment is setup
+ed <- setup_env(rf, ve)
+
 # The model file name
-mfn <- paste0(mdir, "/def-model.RDS")
+mfn <- paste0(ed, "/def-model.RDS")
 # An object of class ModelPredictor is created. The mf parameter is the name of
 # the model file that was generated in the previous example.
-mp <- ModelPredictor$new(mf = mfn)
+mp <- ModelPredictor$new(mf = mfn, ve = ve)
 # Given the words: "how are", the next word is predicted. The top 3 most likely
 # next words are returned along with their respective probabilities.
 res <- mp$predict_word(words = "how are", 3)
-print(res)
+# The test envionment is cleaned up
+clean_up(ve)
 ```
+
+## Package dependencies
+
+The wordpredictor package uses the following packages: [digest](https://cran.r-project.org/web/packages/digest/index.html), [dply](https://cran.r-project.org/web/packages/dplyr/index.html), [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html), [pryr](https://cran.r-project.org/web/packages/pryr/index.html), [R6](https://cran.r-project.org/web/packages/R6/index.html),
+[testthat](https://cran.r-project.org/web/packages/testthat/index.html) and
+[stingr](https://cran.r-project.org/web/packages/stringr/index.html)
+
+The following packages were useful during package development:
+[quanteda](https://cran.r-project.org/web/packages/quanteda/index.html),
+[tm](https://cran.r-project.org/web/packages/tm/index.html) and
+[hash](https://cran.r-project.org/web/packages/hash/index.html)
+[lintr](https://cran.r-project.org/web/packages/lintr/index.html)
+[styler](https://cran.r-project.org/web/packages/styler/index.html)
+[pkgdown](https://cran.r-project.org/web/packages/pkgdown/index.html)
+
+## Useful Links
+
+The following articles and tutorials were very useful:
+
+  * [N-Gram Model](https://devopedia.org/n-gram-model)
+  * [Probability Smoothing for Natural Language Processing](https://lazyprogrammer.me/probability-smoothing-for-natural-language-processing/)
+  * [Natural Language Processing is Fun!](https://medium.com/@ageitgey/natural-language-processing-is-fun-9a0bff37854e)
+  * [Quanteda Tutorials](https://tutorials.quanteda.io/)
+
+## Bibliography

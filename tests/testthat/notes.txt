@@ -1,0 +1,7 @@
+Information about test data files:
+
+1. input.txt is generated from test a
+2. test.txt and validate.txt are generated from test b
+3. test-clean.txt and validate-clean.txt are generated from test c
+4. def-model.RDS is generated from test h
+5. n1.RDS, n2.RDS, n3.RDS and n4.RDS are generated from test e
