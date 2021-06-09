@@ -1,5 +1,4 @@
-#' It provides methods for setting up the test environment and reading external
-#' data
+#' Allows managing the test environment
 #'
 #' @description
 #' This class provides a method for creating directories in the tempdir folder
@@ -44,10 +43,11 @@ EnvManager <- R6::R6Class(
                 if (!file.exists(rfn)) {
                     # An error message is shown
                     private$dm("The file: ",
-                               rfn,
-                               " does not exist !",
-                               md = -1,
-                               ty = "e")
+                        rfn,
+                        " does not exist !",
+                        md = -1,
+                        ty = "e"
+                    )
                 }
             }
             # If the file name is given but the file does not exist
@@ -67,8 +67,10 @@ EnvManager <- R6::R6Class(
         #' Removes all files in the given directory.
         #' @param dn The directory name.
         remove_files = function(dn) {
-            # The information message is displayed
-            private$dm("Removing all files in ", dn, md = 1)
+            # The information message
+            msg <- paste0("Removing all files in ", dn, "\n")
+            # The information message is shown
+            private$dm(msg, md = 1)
             # Each file in the directory is deleted
             for (fn in dir(dn, full.names = T)) {
                 # The file is removed
@@ -85,8 +87,11 @@ EnvManager <- R6::R6Class(
         td_env = function(rf = F) {
             # The wordpredictor options
             wp <- getOption("wordpredictor")
-            # The information message is displayed
-            private$dm("Removing the folder: ", wp$ed, md = 1)
+            # The information message
+            msg <- paste0("Removing the folder ", wp$ed)
+            # The information message is shown
+            private$dm(msg, md = 1)
+
             # The environment folder is removed
             unlink(wp$ed, recursive = T, force = T)
             # If the folder should not be removed
@@ -110,9 +115,11 @@ EnvManager <- R6::R6Class(
             wp <- getOption("wordpredictor")
             # The path to the folder
             fp <- paste0(private$rp, "inst/extdata/")
-            # The information message is displayed
-            private$dm(
-                "Copying the directory:", wp$ed, "to the folder", fp, md = 1)
+            # The information message
+            msg <- paste0(
+                "Copying the directory: ", wp$ed, " to the folder ", fp)
+            # The information message is shown
+            private$dm(msg, md = 1)
             # If the folder does not exist
             if (!dir.exists(fp)) {
                 # The new folder path is created
@@ -133,12 +140,19 @@ EnvManager <- R6::R6Class(
         #'   used to generate the environment folder.
         #' @return The list of folders that can be used during testing.
         setup_env = function(fns = c(), cf = NULL) {
+            # The information message
+            msg <- paste0("Setting up the test environment")
+            # The information message is shown
+            private$dh(msg, "-", md = 1)
             # The environment folder name
             ed <- NULL
             # If the cf is given and it does not exist
             if (!is.null(cf) && !dir.exists(cf)) {
+                # The information message
+                msg <- paste0("Creating custom environment folder: ", cf)
                 # The information message is shown
-                private$dm("Creating custom environment folder:", cf, md = 1)
+                private$dm(msg, md = 1)
+
                 # The custom environment folder is created
                 dir.create(cf)
                 # The information message is shown
@@ -154,7 +168,9 @@ EnvManager <- R6::R6Class(
                     # The information message is shown
                     private$dm(
                         "The tempdir:",
-                        ed, "does not exist. Creating the dir", md = 1)
+                        ed, "does not exist. Creating the dir",
+                        md = 1
+                    )
                     # The tempdir is created
                     dir.create(ed)
                     # The information message is shown
@@ -169,8 +185,6 @@ EnvManager <- R6::R6Class(
             # The wordpredictor options are updated
             options("wordpredictor" = wp)
 
-            # The information message is shown
-            private$dm("Copying files from inst/extdata folder\n", md = 1)
             # Each file is copied from inst/extdata to the given folder
             for (fn in fns) {
                 # The source file path
@@ -180,7 +194,7 @@ EnvManager <- R6::R6Class(
                     stop(getwd())
                 }
                 # The information message is shown
-                private$dm("Copying file:", sfp, "to", ed, md = 1)
+                private$dm("Copying file:", fn, "to", ed, md = 1)
                 # The source file is copied
                 file.copy(sfp, ed)
                 # The information message is shown
@@ -188,7 +202,7 @@ EnvManager <- R6::R6Class(
             }
 
             # The information message is shown
-            private$dm("Environment has been built !\n", md = 1)
+            private$dh("DONE", "=", md = 1)
 
             return(ed)
         }

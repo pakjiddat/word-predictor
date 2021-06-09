@@ -24,7 +24,7 @@ for (fn in fl) {
 # If level of verbosity in the information messages
 ve <- 0
 # The action to take after the test ends
-ea <- 't'
+ea <- "t"
 
 # The option are set
 options("wordpredictor" = list(

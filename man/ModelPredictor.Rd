@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-predictor.R
 \name{ModelPredictor}
 \alias{ModelPredictor}
-\title{It allows predicting text, calculating word probabilities and Perplexity}
+\title{Allows predicting text, calculating word probabilities and Perplexity}
 \description{
 It provides a method for predicting the new word given a set of
 previous words. It also provides a method for calculating the Perplexity

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>It is used to generate n-gram models for the given data file. — ModelGenerator • Word Predictor</title>
+<title>Generates n-gram models from a text file — ModelGenerator • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="It is used to generate n-gram models for the given data file. — ModelGenerator" />
-<meta property="og:description" content="It provides methods that are used for generating n-gram models.
-The n-gram models may be customized by specifying the data cleaning and
-tokenization options." />
+<meta property="og:title" content="Generates n-gram models from a text file — ModelGenerator" />
+<meta property="og:description" content="It provides a method for generating n-gram models. The n-gram models may be
+customized by specifying data cleaning and tokenization options." />
 
 
 
@@ -74,7 +73,7 @@ tokenization options." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -128,15 +127,14 @@ tokenization options." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>It is used to generate n-gram models for the given data file.</h1>
+    <h1>Generates n-gram models from a text file</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/model-generator.R'><code>R/model-generator.R</code></a></small>
     <div class="hidden name"><code>ModelGenerator.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It provides methods that are used for generating n-gram models.
-The n-gram models may be customized by specifying the data cleaning and
-tokenization options.</p>
+    <p>It provides a method for generating n-gram models. The n-gram models may be
+customized by specifying data cleaning and tokenization options.</p>
     </div>
 
 
@@ -144,13 +142,13 @@ tokenization options.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It provides a method that generates a n-gram model. The n-gram model
-may be customized by specifying the data cleaning and tokenization options.
-The data cleaning options include removal of punctuation, stop words, extra
+may be customized by specifying the data cleaning and tokenization options.</p>
+<p>The data cleaning options include removal of punctuation, stop words, extra
 space, non-dictionary words and bad words. The tokenization options include
 n-gram number and word stemming.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>ModelGenerator</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>ModelGenerator</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -168,19 +166,17 @@ n-gram number and word stemming.</p>
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>It initializes the current object. It is used to set the
-maximum ngram number, sample size, input file name, data cleaner
-options, tokenization options, combined transition probabilities file
-name and verbose.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It initializes the current object. It is used to set the maximum
+n-gram number, sample size, input file name, data cleaner options,
+tokenization options and verbose option.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelGenerator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   name <span class='op'>=</span> <span class='cn'>NULL</span>,
   desc <span class='op'>=</span> <span class='cn'>NULL</span>,
   fn <span class='op'>=</span> <span class='cn'>NULL</span>,
   df <span class='op'>=</span> <span class='cn'>NULL</span>,
   n <span class='op'>=</span> <span class='fl'>4</span>,
-  ssize <span class='op'>=</span> <span class='fl'>30</span>,
-  ddir <span class='op'>=</span> <span class='st'>"./data"</span>,
-  mdir <span class='op'>=</span> <span class='st'>"./models"</span>,
+  ssize <span class='op'>=</span> <span class='fl'>0.3</span>,
+  dir <span class='op'>=</span> <span class='st'>"."</span>,
   dc_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   tg_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   ve <span class='op'>=</span> <span class='fl'>0</span>
@@ -192,38 +188,68 @@ name and verbose.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href
 
 <dt><code>desc</code></dt><dd><p>The model description.</p></dd>
 
-<dt><code>fn</code></dt><dd><p>The model file name. If not set, then model.RDS is used.</p></dd>
+<dt><code>fn</code></dt><dd><p>The model file name.</p></dd>
 
-<dt><code>df</code></dt><dd><p>The path of the file used to generate the model. If the
-data was cleaned, then df is the path to the cleaned file. It
-should be the short file name. It should be present in the data
-directory.</p></dd>
+<dt><code>df</code></dt><dd><p>The path of the input text file. It should be the short
+file name and should be present in the data directory.</p></dd>
 
-<dt><code>n</code></dt><dd><p>The maximum ngram number supported by the model.</p></dd>
+<dt><code>n</code></dt><dd><p>The n-gram size of the model.</p></dd>
 
-<dt><code>ssize</code></dt><dd><p>The sample size in Mb.</p></dd>
+<dt><code>ssize</code></dt><dd><p>The sample size as a proportion of the input file.</p></dd>
 
-<dt><code>ddir</code></dt><dd><p>The data directory.</p></dd>
-
-<dt><code>mdir</code></dt><dd><p>The model directory.</p></dd>
+<dt><code>dir</code></dt><dd><p>The directory containing the input and output files.</p></dd>
 
 <dt><code>dc_opts</code></dt><dd><p>The data cleaner options.</p></dd>
 
 <dt><code>tg_opts</code></dt><dd><p>The token generator options.</p></dd>
 
-<dt><code>ve</code></dt><dd><p>If progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-generate_model"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>generate_model()</code></h3>
-<p>It generates the model using the current object's attributes.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>ModelGenerator</span><span class='op'>$</span><span class='fu'>generate_model</span><span class='op'>(</span>rf <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span></pre><p></div></p>
+<p>It generates the model using the parameters passed to
+the object's constructor. It generates a n-gram model file and saves
+it to the model directory.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ModelGenerator</span><span class='op'>$</span><span class='fu'>generate_model</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>rf</code></dt><dd><p>If the existing model files should be removed.</p></dd>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
 
-</dl><p></div></p>
+<span class='co'># ModelGenerator class object is created</span>
+<span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='va'>ModelGenerator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+    name <span class='op'>=</span> <span class='st'>"default-model"</span>,
+    desc <span class='op'>=</span> <span class='st'>"1 MB size and default options"</span>,
+    fn <span class='op'>=</span> <span class='st'>"def-model.RDS"</span>,
+    df <span class='op'>=</span> <span class='st'>"input.txt"</span>,
+    n <span class='op'>=</span> <span class='fl'>4</span>,
+    ssize <span class='op'>=</span> <span class='fl'>0.99</span>,
+    dir <span class='op'>=</span> <span class='va'>ed</span>,
+    dc_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+    tg_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+    ve <span class='op'>=</span> <span class='va'>ve</span>
+<span class='op'>)</span>
+<span class='co'># The n-gram model is generated</span>
+<span class='va'>mg</span><span class='op'>$</span><span class='fu'>generate_model</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -237,6 +263,47 @@ directory.</p></dd>
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelGenerator$generate_model`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># ModelGenerator class object is created</span>
+<span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='va'>ModelGenerator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+    name <span class='op'>=</span> <span class='st'>"default-model"</span>,
+    desc <span class='op'>=</span> <span class='st'>"1 MB size and default options"</span>,
+    fn <span class='op'>=</span> <span class='st'>"def-model.RDS"</span>,
+    df <span class='op'>=</span> <span class='st'>"input.txt"</span>,
+    n <span class='op'>=</span> <span class='fl'>4</span>,
+    ssize <span class='op'>=</span> <span class='fl'>0.99</span>,
+    dir <span class='op'>=</span> <span class='va'>ed</span>,
+    dc_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+    tg_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+    ve <span class='op'>=</span> <span class='va'>ve</span>
+<span class='op'>)</span>
+<span class='co'># The n-gram model is generated</span>
+<span class='va'>mg</span><span class='op'>$</span><span class='fu'>generate_model</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -1,6 +1,6 @@
 # Start of environment setup code
 # The level of detail in the information messages
-ve <- 0
+ve <- 2
 # The name of the folder that will contain all the files. It will be created in
 # the current directory. NULL value implies tempdir will be used.
 fn <- NULL

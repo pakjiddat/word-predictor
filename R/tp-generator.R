@@ -1,4 +1,4 @@
-#' It is used to generate transition probabilities for n-grams.
+#' Generates transition probabilities for n-grams
 #'
 #' @description
 #' It provides a method for generating transition probabilities for
@@ -93,9 +93,9 @@ TPGenerator <- R6::R6Class(
         generate_tp = function() {
             # The information message
             msg <- paste0("Generating Transition Probabilities for n = ")
-            msg <- paste0(msg, "1:", private$tp_opts[["n"]], "\n")
+            msg <- paste0(msg, "1:", private$tp_opts[["n"]])
             # Information message is shown
-            private$dm(msg, md = 1)
+            private$dh(msg, "-", md = 1)
             # The processed output is cleared
             private$p_output <- data.frame()
             # The output format
@@ -138,12 +138,8 @@ TPGenerator <- R6::R6Class(
                     tp_opts$n <- n
                     # The transition probabilities or word list is generated
                     self$generate_tp_for_n(n)
-                    # If n == 1, then word list data is saved
-                    if (n == 1) {
-                        # The combined tp data is saved
-                        private$save_data()
-                    }
-                    else {
+                    # If n > 1
+                    if (n > 1) {
                         # c_pre is updated
                         c_pre <- c(c_pre, private$p_output$pre)
                         # c_nw is updated
@@ -167,10 +163,7 @@ TPGenerator <- R6::R6Class(
                     private$save_data(fn)
                 }
                 # Information message is shown
-                private$dm(
-                    "Sucessfully generated transition probabilities\n",
-                    md = 1
-                )
+                private$dh("DONE", "=", md = 1)
             }
         },
 
@@ -213,9 +206,9 @@ TPGenerator <- R6::R6Class(
             else {
                 # The information message
                 msg <- paste0(
-                    "Generating transition probabilities for n=", n, "\n")
+                    "Generating transition probabilities for n = ", n)
                 # Information message is shown
-                private$dm(msg, md = 1)
+                private$dh(msg, "-", md = 1)
 
                 # The input file name
                 private$fn <- private$get_file_name(F)
@@ -260,11 +253,8 @@ TPGenerator <- R6::R6Class(
                 if (private$tp_opts[["save_tp"]]) {
                     private$save_data()
                 }
-                # The information message
-                msg <- paste0("Successfully generated transition")
-                msg <- paste0(msg, " probabilities for n=", n, "\n")
                 # Information message is shown
-                private$dm(msg, md = 1)
+                private$dh("DONE", "=", md = 1)
             }
         }
     ),

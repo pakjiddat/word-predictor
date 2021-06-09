@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>It performs extrinsic and intrinsic evaluation of a n-gram model — ModelEvaluator • Word Predictor</title>
+<title>Evaluates performance of n-gram models — ModelEvaluator • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,12 @@
 
 
 
-<meta property="og:title" content="It performs extrinsic and intrinsic evaluation of a n-gram model — ModelEvaluator" />
+<meta property="og:title" content="Evaluates performance of n-gram models — ModelEvaluator" />
 <meta property="og:description" content="It provides methods for performing extrinsic and intrinsic
-evaluation. Intrinsic evaluation is based on calculation of Perplexity.
-Extrinsic evaluation involves determining the percentage of correct next word
+evaluation of a n-gram model. It also provides a method for comparing
+performance of multiple n-gram models.
+Intrinsic evaluation is based on calculation of Perplexity. Extrinsic
+evaluation involves determining the percentage of correct next word
 predictions." />
 
 
@@ -75,7 +77,7 @@ predictions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -129,15 +131,17 @@ predictions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>It performs extrinsic and intrinsic evaluation of a n-gram model</h1>
+    <h1>Evaluates performance of n-gram models</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/model-evaluator.R'><code>R/model-evaluator.R</code></a></small>
     <div class="hidden name"><code>ModelEvaluator.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>It provides methods for performing extrinsic and intrinsic
-evaluation. Intrinsic evaluation is based on calculation of Perplexity.
-Extrinsic evaluation involves determining the percentage of correct next word
+evaluation of a n-gram model. It also provides a method for comparing
+performance of multiple n-gram models.</p>
+<p>Intrinsic evaluation is based on calculation of Perplexity. Extrinsic
+evaluation involves determining the percentage of correct next word
 predictions.</p>
     </div>
 
@@ -145,18 +149,18 @@ predictions.</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Before performing the intrinsic and extrinsic model evaluation, a
-validation file must be first generated. This can be done using the Generator
-class. Each line in the validation file is evaluated. For intrinsic
-evaluation Perplexity for the line is calculated. An overall summary of the
-Perplexity calculations is returned. It includes the min, max and mean
-Perplexity. For extrinsic evaluation, next word prediction is performed on
-each line. If the actual next word is one of the three predicted next words,
-then the prediction is considered to be accurate. The extrinsic evaluation
-returns the percentage of correct and incorrect predictions.</p>
+    <p>Before performing the intrinsic and extrinsic model evaluation, a validation
+file must be first generated. This can be done using the DataSampler class.</p>
+<p>Each line in the validation file is evaluated. For intrinsic evaluation
+Perplexity for the line is calculated. An overall summary of the Perplexity
+calculations is returned. It includes the min, max and mean Perplexity.</p>
+<p>For extrinsic evaluation, next word prediction is performed on each line. If
+the actual next word is one of the three predicted next words, then the
+prediction is considered to be accurate. The extrinsic evaluation returns the
+percentage of correct and incorrect predictions.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>ModelEvaluator</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>ModelEvaluator</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -186,17 +190,18 @@ model file name and verbose options.</p><h4 class='hasAnchor' id='arguments'><a 
 <p><div class="arguments"></p><dl>
 <dt><code>mf</code></dt><dd><p>The model file name.</p></dd>
 
-<dt><code>ve</code></dt><dd><p>If progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-compare_performance"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>compare_performance()</code></h3>
-<p>It compares the performance of the models in the given
-folder. The performance of the model is compared for the 4 metric
-which are time taken, memory used, Perplexity and accuracy. The
-performance comparision is displayed on plots. 4 plots are displayed.
-One for each performance metric. A fifth plot shows the variation of
-Perplexity with accuracy. All 5 plots are plotted on one page.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It compares the performance of the models in the given folder.</p>
+<p>The performance of the model is compared for the 4 metric which are
+time taken, memory used, Perplexity and accuracy. The performance
+comparison is displayed on plots.</p>
+<p>4 plots are displayed. One for each performance metric. A fifth plot
+shows the variation of Perplexity with accuracy. All 5 plots are
+plotted on one page.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>compare_performance</span><span class='op'>(</span><span class='va'>opts</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -205,17 +210,46 @@ Perplexity with accuracy. All 5 plots are plotted on one page.</p><h4 class='has
 <ul>
 <li><p><strong>save_to</strong>. The graphics device to save the plot to.
 NULL implies plot is printed.</p></li>
-<li><p><strong>dir</strong>. The directory where the plot and stats will be saved.</p></li>
-<li><p><strong>mdir</strong>. The directory containing the model files.</p></li>
+<li><p><strong>dir</strong>. The directory containing the model file, plot and stats.</p></li>
 </ul></p></dd>
 
 </dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be</span>
+<span class='co'># used.</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The performance evaluation is performed</span>
+<span class='va'>me</span><span class='op'>$</span><span class='fu'>compare_performance</span><span class='op'>(</span>opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    <span class='st'>"save_to"</span> <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <span class='st'>"dir"</span> <span class='op'>=</span> <span class='va'>ed</span>
+<span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-plot_stats"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>plot_stats()</code></h3>
-<p>It plots the given stats on 5 plots. The plots are
-displayed on a single page. The 4 performance metrics which are time
-taken, memory, Perplexity and accuracy are plotted against the model
-name. Another plot compares Perplexity with accuracy for each model.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It plots the given stats on 5 plots. The plots are displayed on a
+single page.</p>
+<p>The 4 performance metrics which are time taken, memory, Perplexity
+and accuracy are plotted against the model name. Another plot
+compares Perplexity with accuracy for each model.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>plot_stats</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -227,10 +261,18 @@ name. Another plot compares Perplexity with accuracy for each model.</p><h4 clas
 <p>The ggplot object is returned.</p>
 <p><hr>
 <a id="method-evaluate_performance"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>evaluate_performance()</code></h3>
-<p>It performs intrinsic and extrinsic evaluation for the
-given model. It also measures the memory usage and time taken. The
-performance metrics are displayed in 5 plots on one page. Performance
-statistics are saved to the model object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It performs intrinsic and extrinsic evaluation for the given model
+and validation text file. The given number of lines in the validation
+file are used in the evaluation</p>
+<p>It performs two types of evaluations. One is intrinsic evaluation,
+based on Perplexity, the other is extrinsic evaluation based on
+accuracy.</p>
+<p>It returns the results of evaluation. 4 evaluation metrics are
+returned. Perplexity, accuracy, memory and time taken. Memory is the
+size of the model object. Time taken is the time needed for
+performing both evaluations.</p>
+<p>The results of the model evaluation are saved within the model object
+and also returned.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>evaluate_performance</span><span class='op'>(</span><span class='va'>lc</span>, <span class='va'>fn</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -245,6 +287,39 @@ folder</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The performance stats are returned.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span>, <span class='st'>"validate-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># The validation file name</span>
+<span class='va'>vfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/validate-clean.txt"</span><span class='op'>)</span>
+
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The performance evaluation is performed</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='va'>me</span><span class='op'>$</span><span class='fu'>evaluate_performance</span><span class='op'>(</span>lc <span class='op'>=</span> <span class='fl'>20</span>, fn <span class='op'>=</span> <span class='va'>vfn</span><span class='op'>)</span>
+<span class='co'># The evaluation stats are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-intrinsic_evaluation"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>intrinsic_evaluation()</code></h3>
 <p>Evaluates the model using intrinsic evaluation based on
@@ -264,11 +339,45 @@ folder</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The min, max and mean Perplexity score.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span>, <span class='st'>"validate-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># The validation file name</span>
+<span class='va'>vfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/validate-clean.txt"</span><span class='op'>)</span>
+
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The intrinsic evaluation is performed</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='va'>me</span><span class='op'>$</span><span class='fu'>intrinsic_evaluation</span><span class='op'>(</span>lc <span class='op'>=</span> <span class='fl'>20</span>, fn <span class='op'>=</span> <span class='va'>vfn</span><span class='op'>)</span>
+<span class='co'># The evaluation stats are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-extrinsic_evaluation"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>extrinsic_evaluation()</code></h3>
 <p>Evaluates the model using extrinsic evaluation based on
 Accuracy. The given number of sentences are taken from the validation
-file. For each sentence, the model is used to predict the next word.
+file.</p>
+<p>For each sentence, the model is used to predict the next word.
 The accuracy stats are returned. A prediction is considered to be
 correct if one of the predicted words matches the actual word.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>extrinsic_evaluation</span><span class='op'>(</span><span class='va'>lc</span>, <span class='va'>fn</span><span class='op'>)</span></pre><p></div></p>
@@ -283,6 +392,39 @@ used for the evaluation.</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The number of correct and incorrect predictions.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span>, <span class='st'>"validate-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># The validation file name</span>
+<span class='va'>vfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/validate-clean.txt"</span><span class='op'>)</span>
+
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The intrinsic evaluation is performed</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='va'>me</span><span class='op'>$</span><span class='fu'>extrinsic_evaluation</span><span class='op'>(</span>lc <span class='op'>=</span> <span class='fl'>100</span>, fn <span class='op'>=</span> <span class='va'>vfn</span><span class='op'>)</span>
+<span class='co'># The evaluation stats are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -296,6 +438,174 @@ used for the evaluation.</p></dd>
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelEvaluator$compare_performance`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be</span>
+<span class='co'># used.</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The performance evaluation is performed</span>
+<span class='va'>me</span><span class='op'>$</span><span class='fu'>compare_performance</span><span class='op'>(</span>opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    <span class='st'>"save_to"</span> <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <span class='st'>"dir"</span> <span class='op'>=</span> <span class='va'>ed</span>
+<span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='ModelEvaluator-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelEvaluator$evaluate_performance`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span>, <span class='st'>"validate-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># The validation file name</span>
+<span class='va'>vfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/validate-clean.txt"</span><span class='op'>)</span>
+
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The performance evaluation is performed</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='va'>me</span><span class='op'>$</span><span class='fu'>evaluate_performance</span><span class='op'>(</span>lc <span class='op'>=</span> <span class='fl'>20</span>, fn <span class='op'>=</span> <span class='va'>vfn</span><span class='op'>)</span>
+<span class='co'># The evaluation stats are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $m
+#&gt; [1] 279320
+#&gt; 
+#&gt; $t
+#&gt; [1] 0.747
+#&gt; 
+#&gt; $p
+#&gt; [1] 2297.35
+#&gt; 
+#&gt; $a
+#&gt; [1] 0
+#&gt; </div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelEvaluator$intrinsic_evaluation`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span>, <span class='st'>"validate-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># The validation file name</span>
+<span class='va'>vfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/validate-clean.txt"</span><span class='op'>)</span>
+
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The intrinsic evaluation is performed</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='va'>me</span><span class='op'>$</span><span class='fu'>intrinsic_evaluation</span><span class='op'>(</span>lc <span class='op'>=</span> <span class='fl'>20</span>, fn <span class='op'>=</span> <span class='va'>vfn</span><span class='op'>)</span>
+<span class='co'># The evaluation stats are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $min
+#&gt; [1] 282
+#&gt; 
+#&gt; $max
+#&gt; [1] 8248
+#&gt; 
+#&gt; $mean
+#&gt; [1] 2297.35
+#&gt; </div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelEvaluator$extrinsic_evaluation`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span>, <span class='st'>"validate-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># The validation file name</span>
+<span class='va'>vfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/validate-clean.txt"</span><span class='op'>)</span>
+
+<span class='co'># ModelEvaluator class object is created</span>
+<span class='va'>me</span> <span class='op'>&lt;-</span> <span class='va'>ModelEvaluator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The intrinsic evaluation is performed</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='va'>me</span><span class='op'>$</span><span class='fu'>extrinsic_evaluation</span><span class='op'>(</span>lc <span class='op'>=</span> <span class='fl'>100</span>, fn <span class='op'>=</span> <span class='va'>vfn</span><span class='op'>)</span>
+<span class='co'># The evaluation stats are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $valid
+#&gt; [1] 1
+#&gt; 
+#&gt; $invalid
+#&gt; [1] 74
+#&gt; 
+#&gt; $valid_perc
+#&gt; [1] 1.333333
+#&gt; 
+#&gt; $invalid_perc
+#&gt; [1] 98.66667
+#&gt; </div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

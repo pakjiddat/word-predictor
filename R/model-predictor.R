@@ -1,4 +1,4 @@
-#' It allows predicting text, calculating word probabilities and Perplexity
+#' Allows predicting text, calculating word probabilities and Perplexity
 #'
 #' @description
 #' It provides a method for predicting the new word given a set of

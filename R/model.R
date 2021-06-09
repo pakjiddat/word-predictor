@@ -1,4 +1,4 @@
-#' This class represents n-gram models
+#' Represents n-gram models
 #'
 #' @description
 #' The Model class represents n-gram models. An instance of the class is a
@@ -74,7 +74,9 @@ Model <- R6::R6Class(
             # If the directory does not exist, then an error is thrown
             if (!dir.exists(dir)) {
                 private$dm(
-                    "The dir: ", dir, " does not exist !", md = -1, ty = "e")
+                    "The dir: ", dir, " does not exist !",
+                    md = -1, ty = "e"
+                )
             }
 
             # An object of class EnvManager is created
@@ -126,7 +128,7 @@ Model <- R6::R6Class(
             # The file contents
             dict <- private$read_file(fn, F)
             # The information message is shown
-            private$dm("Calculating default probability\n", md = 1)
+            private$dh("Calculating default probability", "-", md = 1)
             # The number of words in the dictionary file. It is used to
             # calculate Perplexity.
             vc <- length(dict)
@@ -142,6 +144,8 @@ Model <- R6::R6Class(
             n <- length(w)
             # The default probability is set
             private$dp <- 1 / (n + vc)
+            # The information message is shown
+            private$dh("DONE", "=", md = 1)
         },
 
         #' @description
@@ -153,6 +157,26 @@ Model <- R6::R6Class(
             cv <- private[[cn]]
 
             return(cv)
+        },
+
+        #' @description
+        #' It returns the size of the current object. The object
+        #' size is calculated as the sum of sizes of the object attributes.
+        #' @return The size of the object in bytes.
+        get_size = function() {
+            # The required object size
+            s <- 0
+            # The tp size is added
+            s <- s + as.numeric(object.size(private$tp))
+            # The wl size is added
+            s <- s + as.numeric(object.size(private$wl))
+            # The dc_opts size is added
+            s <- s + as.numeric(object.size(private$dc_opts))
+            # The tg_opts size is added
+            s <- s + as.numeric(object.size(private$tg_opts))
+            # The pstats size is added
+            s <- s + as.numeric(object.size(self$pstats))
+            return(s)
         }
     ),
     private = list(

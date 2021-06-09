@@ -1,6 +1,6 @@
 # Start of environment setup code
 # The level of detail in the information messages
-ve <- 0
+ve <- 2
 
 # Test data is read
 l <- c(

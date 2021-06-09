@@ -73,7 +73,7 @@ characters from text files. It is suitable for cleaning large text files." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -141,13 +141,13 @@ characters from text files. It is suitable for cleaning large text files.</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>It provides a method for cleaning text files. It allows removing bad
-words, stop words, non dictionary words, extra space, punctuation and
-non-alphabet characters. Allows conversion to lower case. It supports large
-text files.</p>
+    <p>It provides a method for cleaning text files. It allows removing bad words,
+stop words, non dictionary words, extra space, punctuation and non-alphabet
+characters. It also allows conversion to lower case. It supports large text
+files.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>DataCleaner</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>DataCleaner</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -193,21 +193,55 @@ should be removed.</p></li>
 <li><p><strong>remove_bad</strong>. If bad words should be removed</p></li>
 </ul></p></dd>
 
-<dt><code>ve</code></dt><dd><p>Indicates if progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-clean_file"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clean_file()</code></h3>
 <p>It provides an efficient method for cleaning text files.
 It removes unneeded characters from the given text file with several
-options. It allows removing punctuations, bad words, stop words,
+options.</p>
+<p>It allows removing punctuation, bad words, stop words,
 non-alphabetical symbols and non-dictionary words. It reads a certain
 number of lines from the given text file. It removes unneeded
 characters from the lines and then saves the lines to an output text
-file. File cleaning progress is displayed if the verbose option was
+file.</p>
+<p>File cleaning progress is displayed if the verbose option was
 set in the class constructor. It is suitable for cleaning large text
 files.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>DataCleaner</span><span class='op'>$</span><span class='fu'>clean_file</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The cleaned test file name</span>
+<span class='va'>cfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test-clean.txt"</span><span class='op'>)</span>
+<span class='co'># The test file name</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test.txt"</span><span class='op'>)</span>
+<span class='co'># The data cleaning options</span>
+<span class='va'>dc_opts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"output_file"</span> <span class='op'>=</span> <span class='va'>cfn</span><span class='op'>)</span>
+<span class='co'># The data cleaner object is created</span>
+<span class='va'>dc</span> <span class='op'>&lt;-</span> <span class='va'>DataCleaner</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>dc_opts</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The sample file is cleaned</span>
+<span class='va'>dc</span><span class='op'>$</span><span class='fu'>clean_file</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
 
 <p><hr>
 <a id="method-clean_lines"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clean_lines()</code></h3>
@@ -222,6 +256,37 @@ passed to the current object.</p><h4 class='hasAnchor' id='arguments'><a class='
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The cleaned lines of text.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># Test data is read</span>
+<span class='va'>l</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"If you think I’m wrong, send me a link to where it’s happened"</span>,
+    <span class='st'>"We’re about 90percent done with this room"</span>,
+    <span class='st'>"“This isn’t how I wanted it between us.”"</span>,
+    <span class='st'>"Almost any “cute” breed can become ornamental"</span>,
+    <span class='st'>"Once upon a time there was a kingdom with a castle…"</span>,
+    <span class='st'>"That's not a thing any of us are granted'"</span>,
+    <span class='st'>"“Why are you being so difficult?” she asks."</span>
+<span class='op'>)</span>
+<span class='co'># The expected results</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"if you think wrong send me a link to where its happened"</span>,
+    <span class='st'>"were about percent done with this room"</span>,
+    <span class='st'>"this how i wanted it between us"</span>,
+    <span class='st'>"almost any cute breed can become ornamental"</span>,
+    <span class='st'>"once upon a time there was a kingdom with a castle"</span>,
+    <span class='st'>"thats not a thing any of us are granted"</span>,
+    <span class='st'>"why are you being so difficult she asks"</span>
+<span class='op'>)</span>
+<span class='co'># The DataCleaner object is created</span>
+<span class='va'>dc</span> <span class='op'>&lt;-</span> <span class='va'>DataCleaner</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The line is cleaned</span>
+<span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='va'>dc</span><span class='op'>$</span><span class='fu'>clean_lines</span><span class='op'>(</span><span class='va'>l</span><span class='op'>)</span>
+<span class='co'># The cleaned lines are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -235,6 +300,81 @@ passed to the current object.</p><h4 class='hasAnchor' id='arguments'><a class='
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataCleaner$clean_file`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The cleaned test file name</span>
+<span class='va'>cfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test-clean.txt"</span><span class='op'>)</span>
+<span class='co'># The test file name</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test.txt"</span><span class='op'>)</span>
+<span class='co'># The data cleaning options</span>
+<span class='va'>dc_opts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"output_file"</span> <span class='op'>=</span> <span class='va'>cfn</span><span class='op'>)</span>
+<span class='co'># The data cleaner object is created</span>
+<span class='va'>dc</span> <span class='op'>&lt;-</span> <span class='va'>DataCleaner</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>dc_opts</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The sample file is cleaned</span>
+<span class='va'>dc</span><span class='op'>$</span><span class='fu'>clean_file</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataCleaner$clean_lines`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># Test data is read</span>
+<span class='va'>l</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"If you think I’m wrong, send me a link to where it’s happened"</span>,
+    <span class='st'>"We’re about 90percent done with this room"</span>,
+    <span class='st'>"“This isn’t how I wanted it between us.”"</span>,
+    <span class='st'>"Almost any “cute” breed can become ornamental"</span>,
+    <span class='st'>"Once upon a time there was a kingdom with a castle…"</span>,
+    <span class='st'>"That's not a thing any of us are granted'"</span>,
+    <span class='st'>"“Why are you being so difficult?” she asks."</span>
+<span class='op'>)</span>
+<span class='co'># The expected results</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"if you think wrong send me a link to where its happened"</span>,
+    <span class='st'>"were about percent done with this room"</span>,
+    <span class='st'>"this how i wanted it between us"</span>,
+    <span class='st'>"almost any cute breed can become ornamental"</span>,
+    <span class='st'>"once upon a time there was a kingdom with a castle"</span>,
+    <span class='st'>"thats not a thing any of us are granted"</span>,
+    <span class='st'>"why are you being so difficult she asks"</span>
+<span class='op'>)</span>
+<span class='co'># The DataCleaner object is created</span>
+<span class='va'>dc</span> <span class='op'>&lt;-</span> <span class='va'>DataCleaner</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The line is cleaned</span>
+<span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='va'>dc</span><span class='op'>$</span><span class='fu'>clean_lines</span><span class='op'>(</span><span class='va'>l</span><span class='op'>)</span>
+<span class='co'># The cleaned lines are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "if you think wrong send me a link to where its happened"
+#&gt; [2] "were about percent done with this room"                 
+#&gt; [3] "this how i wanted it between us"                        
+#&gt; [4] "almost any cute breed can become ornamental"            
+#&gt; [5] "once upon a time there was a kingdom with a castle"     
+#&gt; [6] "thats not a thing any of us are granted"                
+#&gt; [7] "why are you being so difficult she asks"                </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

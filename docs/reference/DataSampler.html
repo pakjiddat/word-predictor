@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>It allows generating data samples from text files. — DataSampler • Word Predictor</title>
+<title>Generates data samples from text files — DataSampler • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,12 @@
 
 
 
-<meta property="og:title" content="It allows generating data samples from text files. — DataSampler" />
-<meta property="og:description" content="It provides a method for generating training, testing and
-validation data sets from a given input text file. It also provides a method
-for generating a sample file of given size or number of lines from an input
-text file." />
+<meta property="og:title" content="Generates data samples from text files — DataSampler" />
+<meta property="og:description" content="It provides a method for generating training, testing and validation data
+sets from a given input text file.
+It also provides a method for generating a sample file of given size or
+number of lines from an input text file. The contents of the sample file may
+be cleaned or randomized." />
 
 
 
@@ -75,7 +76,7 @@ text file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -129,23 +130,24 @@ text file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>It allows generating data samples from text files.</h1>
+    <h1>Generates data samples from text files</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/data-sampler.R'><code>R/data-sampler.R</code></a></small>
     <div class="hidden name"><code>DataSampler.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It provides a method for generating training, testing and
-validation data sets from a given input text file. It also provides a method
-for generating a sample file of given size or number of lines from an input
-text file.</p>
+    <p>It provides a method for generating training, testing and validation data
+sets from a given input text file.</p>
+<p>It also provides a method for generating a sample file of given size or
+number of lines from an input text file. The contents of the sample file may
+be cleaned or randomized.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>DataSampler</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>DataSampler</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -166,28 +168,27 @@ text file.</p>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>It initializes the current object. It is used to set the
 verbose option.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ddir <span class='op'>=</span> <span class='st'>"./data"</span>, mdir <span class='op'>=</span> <span class='st'>"./models"</span>, ve <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>dir <span class='op'>=</span> <span class='st'>"."</span>, ve <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>ddir</code></dt><dd><p>The data directory.</p></dd>
+<dt><code>dir</code></dt><dd><p>The directory for storing the input and output files.</p></dd>
 
-<dt><code>mdir</code></dt><dd><p>The model directory.</p></dd>
-
-<dt><code>ve</code></dt><dd><p>If progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-generate_sample"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>generate_sample()</code></h3>
 <p>Generates a sample file of given size from the given input file. The
-file is optionally cleaned and saved to the data directory.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>generate_sample</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>ss</span>, <span class='va'>ic</span>, <span class='va'>ir</span>, <span class='va'>ofn</span>, <span class='va'>is</span><span class='op'>)</span></pre><p></div></p>
+file is saved to the directory given by the dir object attribute.
+Once the file has been generated, its contents may be cleaned or
+randomized.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>generate_sample</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>ss</span>, <span class='va'>ic</span>, <span class='va'>ir</span>, <span class='va'>ofn</span>, <span class='va'>is</span>, dc_opts <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>fn</code></dt><dd><p>The input file name. It is the short file name relative to
-the ddir. If not given, then the file name is auto generated from
-the type parameter.</p></dd>
+the dir attribute.</p></dd>
 
 <dt><code>ss</code></dt><dd><p>The number of lines or proportion of lines to sample.</p></dd>
 
@@ -195,30 +196,102 @@ the type parameter.</p></dd>
 
 <dt><code>ir</code></dt><dd><p>If the sample file contents should be randomized.</p></dd>
 
-<dt><code>ofn</code></dt><dd><p>The output file name. It will be saved to the ddir.</p></dd>
+<dt><code>ofn</code></dt><dd><p>The output file name. It will be saved to the dir.</p></dd>
 
 <dt><code>is</code></dt><dd><p>If the sampled data should be saved to a file.</p></dd>
 
+<dt><code>dc_opts</code></dt><dd><p>The options for cleaning the data.</p></dd>
+
 </dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The sample file name</span>
+<span class='va'>sfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/sample.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class DataSampler is created</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>dir <span class='op'>=</span> <span class='va'>ed</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The sample file is generated</span>
+<span class='va'>ds</span><span class='op'>$</span><span class='fu'>generate_sample</span><span class='op'>(</span>
+    fn <span class='op'>=</span> <span class='st'>"input.txt"</span>,
+    ss <span class='op'>=</span> <span class='fl'>0.5</span>,
+    ic <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    ir <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    ofn <span class='op'>=</span> <span class='st'>"sample.txt"</span>,
+    is <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-generate_data"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>generate_data()</code></h3>
 <p>It generates training, testing and validation data sets
 from the given input file. It first reads the file given as a
 parameter to the current object. It partitions the data into
-training, testing and validation sets, according to the given
-parameters. The files are named train.txt, test.txt and va.txt. The
-files are saved to the given output folder.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>generate_data</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>dir</span>, <span class='va'>percs</span><span class='op'>)</span></pre><p></div></p>
+training, testing and validation sets, according to the perc
+parameter. The files are named train.txt, test.txt and va.txt and are
+saved to the given output folder.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>generate_data</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>percs</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>fn</code></dt><dd><p>The input file name. It should be relative to the ddir.</p></dd>
-
-<dt><code>dir</code></dt><dd><p>The name of the output folder.</p></dd>
+<dt><code>fn</code></dt><dd><p>The input file name. It should be relative to the dir
+attribute.</p></dd>
 
 <dt><code>percs</code></dt><dd><p>The size of the training, testing and validation sets.</p></dd>
 
 </dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be</span>
+<span class='co'># used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The files to clean</span>
+<span class='va'>fns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"train"</span>, <span class='st'>"test"</span>, <span class='st'>"validate"</span><span class='op'>)</span>
+<span class='co'># An object of class DataSampler is created</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>dir <span class='op'>=</span> <span class='va'>ed</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The train, test and validation files are generated</span>
+<span class='va'>ds</span><span class='op'>$</span><span class='fu'>generate_data</span><span class='op'>(</span>
+    fn <span class='op'>=</span> <span class='st'>"input.txt"</span>,
+    percs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        <span class='st'>"train"</span> <span class='op'>=</span> <span class='fl'>0.8</span>,
+        <span class='st'>"test"</span> <span class='op'>=</span> <span class='fl'>0.1</span>,
+        <span class='st'>"validate"</span> <span class='op'>=</span> <span class='fl'>0.1</span>
+    <span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -232,6 +305,83 @@ files are saved to the given output folder.</p><h4 class='hasAnchor' id='argumen
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataSampler$generate_sample`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The sample file name</span>
+<span class='va'>sfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/sample.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class DataSampler is created</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>dir <span class='op'>=</span> <span class='va'>ed</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The sample file is generated</span>
+<span class='va'>ds</span><span class='op'>$</span><span class='fu'>generate_sample</span><span class='op'>(</span>
+    fn <span class='op'>=</span> <span class='st'>"input.txt"</span>,
+    ss <span class='op'>=</span> <span class='fl'>0.5</span>,
+    ic <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    ir <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    ofn <span class='op'>=</span> <span class='st'>"sample.txt"</span>,
+    is <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataSampler$generate_data`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be</span>
+<span class='co'># used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"input.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The files to clean</span>
+<span class='va'>fns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"train"</span>, <span class='st'>"test"</span>, <span class='st'>"validate"</span><span class='op'>)</span>
+<span class='co'># An object of class DataSampler is created</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='va'>DataSampler</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>dir <span class='op'>=</span> <span class='va'>ed</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The train, test and validation files are generated</span>
+<span class='va'>ds</span><span class='op'>$</span><span class='fu'>generate_data</span><span class='op'>(</span>
+    fn <span class='op'>=</span> <span class='st'>"input.txt"</span>,
+    percs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        <span class='st'>"train"</span> <span class='op'>=</span> <span class='fl'>0.8</span>,
+        <span class='st'>"test"</span> <span class='op'>=</span> <span class='fl'>0.1</span>,
+        <span class='st'>"validate"</span> <span class='op'>=</span> <span class='fl'>0.1</span>
+    <span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

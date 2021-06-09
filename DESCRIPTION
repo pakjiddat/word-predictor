@@ -1,6 +1,6 @@
 Package: wordpredictor
 Title: Develop Text Prediction Models Based on N-Grams
-Version: 1.0.0
+Version: 0.0.1
 URL: https://github.com/pakjiddat/word-predictor, https://pakjiddat.github.io/word-predictor/
 BugReports: https://github.com/pakjiddat/word-predictor/issues
 Authors@R: 
@@ -12,7 +12,6 @@ Authors@R:
 Description: The wordpredictor package allows developing n-gram models for text
     prediction. It provides methods for data cleaning, data sampling,
     tokenization, model generation, model evaluation and word prediction.
-    
     For information on how n-gram models work we referred to: Jurafsky, Daniel &
     Martin, James. (2008). "Speech and Language Processing: An Introduction to
     Natural Language Processing, Computational Linguistics, and Speech

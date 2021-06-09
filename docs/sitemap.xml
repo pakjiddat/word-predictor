@@ -4,6 +4,9 @@
     <loc>https://pakjiddat.github.io/word-predictor/index.html</loc>
   </url>
   <url>
+    <loc>https://pakjiddat.github.io/word-predictor/reference/Base.html</loc>
+  </url>
+  <url>
     <loc>https://pakjiddat.github.io/word-predictor/reference/DataAnalyzer.html</loc>
   </url>
   <url>
@@ -11,6 +14,9 @@
   </url>
   <url>
     <loc>https://pakjiddat.github.io/word-predictor/reference/DataSampler.html</loc>
+  </url>
+  <url>
+    <loc>https://pakjiddat.github.io/word-predictor/reference/EnvManager.html</loc>
   </url>
   <url>
     <loc>https://pakjiddat.github.io/word-predictor/reference/Model.html</loc>
@@ -28,10 +34,10 @@
     <loc>https://pakjiddat.github.io/word-predictor/reference/TPGenerator.html</loc>
   </url>
   <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/TextFileProcessor.html</loc>
+    <loc>https://pakjiddat.github.io/word-predictor/reference/TokenGenerator.html</loc>
   </url>
   <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/TokenGenerator.html</loc>
+    <loc>https://pakjiddat.github.io/word-predictor/reference/wordpredictor-package.html</loc>
   </url>
   <url>
     <loc>https://pakjiddat.github.io/word-predictor/articles/features.html</loc>

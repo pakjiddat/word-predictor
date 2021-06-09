@@ -2,7 +2,7 @@
 % Please edit documentation in R/tp-generator.R
 \name{TPGenerator}
 \alias{TPGenerator}
-\title{It is used to generate transition probabilities for n-grams.}
+\title{Generates transition probabilities for n-grams}
 \description{
 It provides a method for generating transition probabilities for
 the given n-gram size. It also provides a method for generating the combined

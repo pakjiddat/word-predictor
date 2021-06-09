@@ -1,4 +1,4 @@
-#' It is used to generate n-gram models from a text file
+#' Generates n-gram models from a text file
 #'
 #' @description
 #' It provides a method for generating n-gram models. The n-gram models may be
@@ -100,7 +100,7 @@ ModelGenerator <- R6::R6Class(
         #' em$td_env()
         generate_model = function() {
             # The information message is displayed
-            private$dm("Generating n-gram model\n", md = 1)
+            private$dh("Generating n-gram model", "-", md = 1)
             # The cleaned sample data file is generated
             private$generate_sample()
             # The data files are generated
@@ -111,8 +111,8 @@ ModelGenerator <- R6::R6Class(
             private$generate_tp_data()
             # The model is saved
             private$save_model()
-            # The information message is displayed
-            private$dm("N-gram model was successfully generated\n", md = 1)
+            # The information message is shown
+            private$dh("DONE", "=", md = 1)
         }
     ),
     private = list(
@@ -129,7 +129,7 @@ ModelGenerator <- R6::R6Class(
             # The output  file path
             ofp <- paste0(dir, "/", ofn)
             # The information message is shown
-            private$dm("Saving model\n", md = 1)
+            private$dh("Saving model", "-", md = 1)
             # The model object is loaded
             private$m$load_model()
             # The model object is saved to the models folder using the output

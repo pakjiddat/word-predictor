@@ -1,4 +1,4 @@
-#' It generates n-grams of given size from an input text file
+#' Generates n-grams from text files
 #'
 #' @description
 #' It generates n-gram tokens along with their frequencies. The data
@@ -97,19 +97,16 @@ TokenGenerator <- R6::R6Class(
             else {
                 # The information message
                 msg <- paste0("Generating ", private$tg_opts[["n"]])
-                msg <- paste0(msg, "-gram tokens\n")
+                msg <- paste0(msg, "-gram tokens")
                 # The information message is shown
-                private$dm(msg, md = 1)
+                private$dh(msg, "-", md = 1)
                 # The base class process_file function is called
                 private$process_file(
                     private$pre_process, private$process,
                     private$post_process
                 )
-                # The information message
-                msg <- paste0(private$tg_opts[["n"]], "-gram tokens")
-                msg <- paste0(msg, " were successfully generated\n")
                 # The information message is shown
-                private$dm(msg, md = 1)
+                private$dh("DONE", "=", md = 1)
             }
         }
     ),
@@ -174,7 +171,7 @@ TokenGenerator <- R6::R6Class(
         post_process = function() {
             # The information message
             msg <- paste0("Calculating ", private$tg_opts[["n"]])
-            msg <- paste0(msg, "-gram frequencies\n")
+            msg <- paste0(msg, "-gram frequencies")
             # The information message is shown
             private$dm(msg, md = 1)
             # The output is copied to a variable
@@ -185,6 +182,8 @@ TokenGenerator <- R6::R6Class(
             df <- df %>%
                 group_by(pre) %>%
                 summarize_all(sum)
+            # The information message is shown
+            private$dm(" \u2714\n", md = 1)
             # If the minimum n-gram frequency is given
             if (private$tg_opts[["min_freq"]] > -1) {
                 # The information message is shown
@@ -198,10 +197,6 @@ TokenGenerator <- R6::R6Class(
             colnames(df) <- c("pre", "freq")
             # The output is set to the updated variable
             private$p_output <- df
-            # The information message
-            msg <- paste0(private$tg_opts[["n"]], "-gram frequencies")
-            # The information message is shown
-            private$dm(msg, "were sucessfully calculated\n", md = 1)
             # If the n-gram data should be saved
             if (private$tg_opts[["save_ngrams"]]) {
                 # The required file name

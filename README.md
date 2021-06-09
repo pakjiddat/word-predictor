@@ -64,13 +64,9 @@ customize and improve. It provides the following classes:
     large text files.
 
 Information about the package can be obtained using the command line or
-the package website. For example, the command:
-**?wordpredictor::class-name** returns information about how the given
-class words and the parameter details for each class method.
-
-The [package website](https://pakjiddat.github.io/word-predictor/)
-provides information about each class and its methods. It also provides
-information about how the package works.
+the package website. For example, the command: **?wordpredictor**
+returns information about how the given class works and the parameter
+details for each class method.
 
 ## Generating the model
 

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -151,9 +151,15 @@
       <tr>
         
         <td>
+          <p><code><a href="Base.html">Base</a></code> </p>
+        </td>
+        <td><p>Base class for all other classes</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="DataAnalyzer.html">DataAnalyzer</a></code> </p>
         </td>
-        <td><p>Allows analyzing n-gram data</p></td>
+        <td><p>Analyzes input text files and n-gram token files</p></td>
       </tr><tr>
         
         <td>
@@ -165,50 +171,49 @@
         <td>
           <p><code><a href="DataSampler.html">DataSampler</a></code> </p>
         </td>
-        <td><p>It allows generating data samples from text files.</p></td>
+        <td><p>Generates data samples from text files</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="EnvManager.html">EnvManager</a></code> </p>
+        </td>
+        <td><p>Allows managing the test environment</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="Model.html">Model</a></code> </p>
         </td>
-        <td><p>The Model class represents n-gram models. An instance of the class is a
-single n-gram model.</p></td>
+        <td><p>Represents n-gram models</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="ModelEvaluator.html">ModelEvaluator</a></code> </p>
         </td>
-        <td><p>It performs extrinsic and intrinsic evaluation of a n-gram model</p></td>
+        <td><p>Evaluates performance of n-gram models</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="ModelGenerator.html">ModelGenerator</a></code> </p>
         </td>
-        <td><p>It is used to generate n-gram models for the given data file.</p></td>
+        <td><p>Generates n-gram models from a text file</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="ModelPredictor.html">ModelPredictor</a></code> </p>
         </td>
-        <td><p>It is used to evaluate the accuracy and performance of the model.</p></td>
+        <td><p>Allows predicting text, calculating word probabilities and Perplexity</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="TPGenerator.html">TPGenerator</a></code> </p>
         </td>
-        <td><p>It is used to generate transition probabilities for n-grams.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="TextFileProcessor.html">TextFileProcessor</a></code> </p>
-        </td>
-        <td><p>Base class for text file processing</p></td>
+        <td><p>Generates transition probabilities for n-grams</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="TokenGenerator.html">TokenGenerator</a></code> </p>
         </td>
-        <td><p>It generates ngrams of given size from an input text file</p></td>
+        <td><p>Generates n-grams from text files</p></td>
       </tr>
     </tbody>
     </table>

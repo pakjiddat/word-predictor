@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>It generates ngrams of given size from an input text file — TokenGenerator • Word Predictor</title>
+<title>Generates n-grams from text files — TokenGenerator • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="It generates ngrams of given size from an input text file — TokenGenerator" />
-<meta property="og:description" content="It generates ngram tokens along with their frequencies. The data
+<meta property="og:title" content="Generates n-grams from text files — TokenGenerator" />
+<meta property="og:description" content="It generates n-gram tokens along with their frequencies. The data
 may be saved to a file in plain text format or as a R object." />
 
 
@@ -73,7 +73,7 @@ may be saved to a file in plain text format or as a R object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -127,13 +127,13 @@ may be saved to a file in plain text format or as a R object." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>It generates ngrams of given size from an input text file</h1>
+    <h1>Generates n-grams from text files</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/token-generator.R'><code>R/token-generator.R</code></a></small>
     <div class="hidden name"><code>TokenGenerator.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It generates ngram tokens along with their frequencies. The data
+    <p>It generates n-gram tokens along with their frequencies. The data
 may be saved to a file in plain text format or as a R object.</p>
     </div>
 
@@ -141,7 +141,7 @@ may be saved to a file in plain text format or as a R object.</p>
 
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>TokenGenerator</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>TokenGenerator</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -167,11 +167,11 @@ tokenization options and verbose option.</p><h4 class='hasAnchor' id='arguments'
 <p><div class="arguments"></p><dl>
 <dt><code>fn</code></dt><dd><p>The path to the input file.</p></dd>
 
-<dt><code>opts</code></dt><dd><p>The options for generating the ngram tokens.
+<dt><code>opts</code></dt><dd><p>The options for generating the n-gram tokens.
 <ul>
-<li><p><strong>n</strong>. The ngram size.</p></li>
-<li><p><strong>save_ngrams</strong>. If the ngram data should be saved.</p></li>
-<li><p><strong>min_freq</strong>. All ngrams with frequency less than min_freq are
+<li><p><strong>n</strong>. The n-gram size.</p></li>
+<li><p><strong>save_ngrams</strong>. If the n-gram data should be saved.</p></li>
+<li><p><strong>min_freq</strong>. All n-grams with frequency less than min_freq are
 ignored.</p></li>
 <li><p><strong>line_count</strong>. The number of lines to process at a time.</p></li>
 <li><p><strong>stem_words</strong>. If words should be transformed to their stems.</p></li>
@@ -182,19 +182,51 @@ ignored.</p></li>
 </ul></li>
 </ul></p></dd>
 
-<dt><code>ve</code></dt><dd><p>Indicates if progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-generate_tokens"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>generate_tokens()</code></h3>
-<p>It generates ngram tokens and their frequencies from the
+<p>It generates n-gram tokens and their frequencies from the
 given file name. The tokens may be saved to a text file as plain text
 or a R object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>TokenGenerator</span><span class='op'>$</span><span class='fu'>generate_tokens</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p>The data frame containing ngram tokens along with their
+<p>The data frame containing n-gram tokens along with their
 frequencies.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The n-gram size</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>4</span>
+<span class='co'># The test file name</span>
+<span class='va'>tfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test-clean.txt"</span><span class='op'>)</span>
+<span class='co'># The ngram number is set</span>
+<span class='va'>tg_opts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"n"</span> <span class='op'>=</span> <span class='va'>n</span>, <span class='st'>"save_ngrams"</span> <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='st'>"dir"</span> <span class='op'>=</span> <span class='va'>ed</span><span class='op'>)</span>
+<span class='co'># The TokenGenerator object is created</span>
+<span class='va'>tg</span> <span class='op'>&lt;-</span> <span class='va'>TokenGenerator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>tfn</span>, <span class='va'>tg_opts</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The ngram tokens are generated</span>
+<span class='va'>tg</span><span class='op'>$</span><span class='fu'>generate_tokens</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -208,6 +240,42 @@ frequencies.</p>
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `TokenGenerator$generate_tokens`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test-clean.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The n-gram size</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>4</span>
+<span class='co'># The test file name</span>
+<span class='va'>tfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test-clean.txt"</span><span class='op'>)</span>
+<span class='co'># The ngram number is set</span>
+<span class='va'>tg_opts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"n"</span> <span class='op'>=</span> <span class='va'>n</span>, <span class='st'>"save_ngrams"</span> <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='st'>"dir"</span> <span class='op'>=</span> <span class='va'>ed</span><span class='op'>)</span>
+<span class='co'># The TokenGenerator object is created</span>
+<span class='va'>tg</span> <span class='op'>&lt;-</span> <span class='va'>TokenGenerator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>tfn</span>, <span class='va'>tg_opts</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The ngram tokens are generated</span>
+<span class='va'>tg</span><span class='op'>$</span><span class='fu'>generate_tokens</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

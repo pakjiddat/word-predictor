@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-generator.R
 \name{ModelGenerator}
 \alias{ModelGenerator}
-\title{It is used to generate n-gram models from a text file}
+\title{Generates n-gram models from a text file}
 \description{
 It provides a method for generating n-gram models. The n-gram models may be
 customized by specifying data cleaning and tokenization options.

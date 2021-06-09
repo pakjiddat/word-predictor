@@ -2,7 +2,7 @@
 % Please edit documentation in R/model.R
 \name{Model}
 \alias{Model}
-\title{This class represents n-gram models}
+\title{Represents n-gram models}
 \description{
 The Model class represents n-gram models. An instance of the class is a
 single n-gram model. The attributes of this class are used to store n-gram
@@ -41,6 +41,7 @@ performance.
 \item \href{#method-new}{\code{Model$new()}}
 \item \href{#method-load_model}{\code{Model$load_model()}}
 \item \href{#method-get_config}{\code{Model$get_config()}}
+\item \href{#method-get_size}{\code{Model$get_size()}}
 \item \href{#method-clone}{\code{Model$clone()}}
 }
 }
@@ -127,6 +128,20 @@ It returns the given configuration data
 }
 \subsection{Returns}{
 The configuration value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_size"></a>}}
+\if{latex}{\out{\hypertarget{method-get_size}{}}}
+\subsection{Method \code{get_size()}}{
+It returns the size of the current object. The object
+size is calculated as the sum of sizes of the object attributes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Model$get_size()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+The size of the object in bytes.
 }
 }
 \if{html}{\out{<hr>}}

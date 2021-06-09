@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Allows analyzing n-gram data — DataAnalyzer • Word Predictor</title>
+<title>Analyzes input text files and n-gram token files — DataAnalyzer • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="Allows analyzing n-gram data — DataAnalyzer" />
-<meta property="og:description" content="It provides information on text files, such as number of lines
-and number of words. It displays bar plots showing n-gram frequencies." />
+<meta property="og:title" content="Analyzes input text files and n-gram token files — DataAnalyzer" />
+<meta property="og:description" content="It provides a method that returns information about text files, such as
+number of lines and number of words. It also provides a method that displays
+bar plots of n-gram frequencies. Additionally it provides a method for
+searching for n-grams in a n-gram token file. This file is generated using
+the TokenGenerator class." />
 
 
 
@@ -73,7 +76,7 @@ and number of words. It displays bar plots showing n-gram frequencies." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -127,14 +130,17 @@ and number of words. It displays bar plots showing n-gram frequencies." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Allows analyzing n-gram data</h1>
+    <h1>Analyzes input text files and n-gram token files</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/data-analyzer.R'><code>R/data-analyzer.R</code></a></small>
     <div class="hidden name"><code>DataAnalyzer.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It provides information on text files, such as number of lines
-and number of words. It displays bar plots showing n-gram frequencies.</p>
+    <p>It provides a method that returns information about text files, such as
+number of lines and number of words. It also provides a method that displays
+bar plots of n-gram frequencies. Additionally it provides a method for
+searching for n-grams in a n-gram token file. This file is generated using
+the TokenGenerator class.</p>
     </div>
 
 
@@ -143,11 +149,14 @@ and number of words. It displays bar plots showing n-gram frequencies.</p>
 
     <p>It provides a method that returns text file information. The text
 file information includes total number of lines, max, min and mean line
-length and file size. It provides a method that reads an input text
-file containing token frequencies. It displays the most occuring tokens.</p>
+length and file size.</p>
+<p>It also provides a method that generates a bar plot showing the most common
+n-gram tokens.</p>
+<p>Another method is provided which returns a list of n-grams that match the
+given regular expression.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>DataAnalyzer</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>DataAnalyzer</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -175,17 +184,20 @@ and verbose options.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' h
 <p><div class="arguments"></p><dl>
 <dt><code>fn</code></dt><dd><p>The path to the input file.</p></dd>
 
-<dt><code>ve</code></dt><dd><p>If progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-plot_n_gram_stats"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>plot_n_gram_stats()</code></h3>
-<p>It reads ngram token frequencies from an input text
-file. The ngram frequencies are then displayed in a bar plot. The
-type of plot is specified by the type option. 'top_features' displays
-the top n most occuring tokens along with their frequencies.
-'coverage' displays the number of words along with their frequencies.
-The plot stats are returned by the function as a data frame.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It allows generating two type of n-gram plots. It first reads n-gram
+token frequencies from an input text file. The n-gram frequencies are
+displayed in a bar plot.</p>
+<p>The type of plot is specified by the type option. The type options
+can have the values 'top_features' or 'coverage'. 'top_features'
+displays the top n most occurring tokens along with their
+frequencies. 'coverage' displays the number of words along with their
+frequencies.</p>
+<p>The plot stats are returned as a data frame.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>plot_n_gram_stats</span><span class='op'>(</span><span class='va'>opts</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -194,7 +206,7 @@ The plot stats are returned by the function as a data frame.</p><h4 class='hasAn
 <ul>
 <li><p><strong>type</strong>. The type of plot to display. The options are:
 'top_features', 'coverage'.</p></li>
-<li><p><strong>n</strong>. For 'top_features', it is the number of top most occuring
+<li><p><strong>n</strong>. For 'top_features', it is the number of top most occurring
 tokens. For 'coverage' it is the first n frequencies.</p></li>
 <li><p><strong>save_to</strong>. The graphics devices to save the plot to.
 NULL implies plot is printed.</p></li>
@@ -204,9 +216,47 @@ NULL implies plot is printed.</p></li>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>A data frame containing the stats.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL value implies tempdir will</span>
+<span class='co'># be used.</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n2.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The n-gram file name</span>
+<span class='va'>nfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/n2.RDS"</span><span class='op'>)</span>
+<span class='co'># The DataAnalyzer object is created</span>
+<span class='va'>da</span> <span class='op'>&lt;-</span> <span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>nfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The top features plot is checked</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>da</span><span class='op'>$</span><span class='fu'>plot_n_gram_stats</span><span class='op'>(</span>opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    <span class='st'>"type"</span> <span class='op'>=</span> <span class='st'>"top_features"</span>,
+    <span class='st'>"n"</span> <span class='op'>=</span> <span class='fl'>10</span>,
+    <span class='st'>"save_to"</span> <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <span class='st'>"dir"</span> <span class='op'>=</span> <span class='va'>ed</span>
+<span class='op'>)</span><span class='op'>)</span>
+<span class='co'># N-gram statistics are displayed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-get_file_info"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_file_info()</code></h3>
-<p>Generates and returns information about text files.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It generates information about text files. It takes as input a file
+or a directory containing text files. For each file it calculates the
+total number of lines, maximum, minimum and mean line lengths and the
+total file size. The file information is returned as a data frame.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>get_file_info</span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -216,23 +266,86 @@ NULL implies plot is printed.</p></li>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>A data frame containing the text file statistics.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The test file name</span>
+<span class='va'>cfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test.txt"</span><span class='op'>)</span>
+<span class='co'># The DataAnalyzer object is created</span>
+<span class='va'>da</span> <span class='op'>&lt;-</span> <span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The file info is fetched</span>
+<span class='va'>fi</span> <span class='op'>&lt;-</span> <span class='va'>da</span><span class='op'>$</span><span class='fu'>get_file_info</span><span class='op'>(</span><span class='va'>cfn</span><span class='op'>)</span>
+<span class='co'># The file information is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>fi</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-get_ngrams"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_ngrams()</code></h3>
-<p>Returns the given number of ngrams and their
-frequencies. If the prefix parameter is not given, then the ngrams
-are randomly chosen. Otherise ngrams starting with the given regular
-expression are returned.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>It extracts a given number of n-grams and their frequencies from a
+n-gram token file.</p>
+<p>The prefix parameter specifies the regular expression for matching
+n-grams. If this parameter is not specified then the given number of
+n-grams are randomly chosen.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>get_ngrams</span><span class='op'>(</span><span class='va'>fn</span>, c <span class='op'>=</span> <span class='cn'>NULL</span>, pre <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>fn</code></dt><dd><p>The ngram file name.</p></dd>
+<dt><code>fn</code></dt><dd><p>The n-gram file name.</p></dd>
 
-<dt><code>c</code></dt><dd><p>The number of ngrams to return.</p></dd>
+<dt><code>c</code></dt><dd><p>The number of n-grams to return.</p></dd>
 
-<dt><code>pre</code></dt><dd><p>The ngram prefix, given as a regular expression.</p></dd>
+<dt><code>pre</code></dt><dd><p>The n-gram prefix, given as a regular expression.</p></dd>
 
 </dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n2.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The n-gram file name</span>
+<span class='va'>nfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/n2.RDS"</span><span class='op'>)</span>
+<span class='co'># The DataAnalyzer object is created</span>
+<span class='va'>da</span> <span class='op'>&lt;-</span> <span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>nfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># Bi-grams starting with "and_" are returned</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>da</span><span class='op'>$</span><span class='fu'>get_ngrams</span><span class='op'>(</span>fn <span class='op'>=</span> <span class='va'>nfn</span>, c <span class='op'>=</span> <span class='fl'>10</span>, pre <span class='op'>=</span> <span class='st'>"^and_*"</span><span class='op'>)</span>
+<span class='co'># The data frame is sorted by frequency</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>freq</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,<span class='op'>]</span>
+<span class='co'># The data frame is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -246,6 +359,147 @@ expression are returned.</p><h4 class='hasAnchor' id='arguments'><a class='ancho
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataAnalyzer$plot_n_gram_stats`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL value implies tempdir will</span>
+<span class='co'># be used.</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n2.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The n-gram file name</span>
+<span class='va'>nfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/n2.RDS"</span><span class='op'>)</span>
+<span class='co'># The DataAnalyzer object is created</span>
+<span class='va'>da</span> <span class='op'>&lt;-</span> <span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>nfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The top features plot is checked</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>da</span><span class='op'>$</span><span class='fu'>plot_n_gram_stats</span><span class='op'>(</span>opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    <span class='st'>"type"</span> <span class='op'>=</span> <span class='st'>"top_features"</span>,
+    <span class='st'>"n"</span> <span class='op'>=</span> <span class='fl'>10</span>,
+    <span class='st'>"save_to"</span> <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <span class='st'>"dir"</span> <span class='op'>=</span> <span class='va'>ed</span>
+<span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='DataAnalyzer-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># N-gram statistics are displayed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span><span>
+#&gt;    pre          freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> in_the          4
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> of_the          4
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> on_the          4
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> to_the          4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> from_the        3
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> in_a            3
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> a_thin          2
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> and_the         2
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> between_the     2
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> down_the        2</div><div class='input'><span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataAnalyzer$get_file_info`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test.txt"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The test file name</span>
+<span class='va'>cfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test.txt"</span><span class='op'>)</span>
+<span class='co'># The DataAnalyzer object is created</span>
+<span class='va'>da</span> <span class='op'>&lt;-</span> <span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The file info is fetched</span>
+<span class='va'>fi</span> <span class='op'>&lt;-</span> <span class='va'>da</span><span class='op'>$</span><span class='fu'>get_file_info</span><span class='op'>(</span><span class='va'>cfn</span><span class='op'>)</span>
+<span class='co'># The file information is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>fi</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $file_stats
+#&gt;                         fn total_lc max_ll min_ll mean_ll size
+#&gt; 1 /tmp/RtmpGHPW6t/test.txt       73     51     28      41 3 Kb
+#&gt; 
+#&gt; $overall_stats
+#&gt;   total_lc max_ll min_ll mean_ll total_s
+#&gt; 1       73     51     28      41    3 Kb
+#&gt; </div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `DataAnalyzer$get_ngrams`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n2.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The n-gram file name</span>
+<span class='va'>nfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/n2.RDS"</span><span class='op'>)</span>
+<span class='co'># The DataAnalyzer object is created</span>
+<span class='va'>da</span> <span class='op'>&lt;-</span> <span class='va'>DataAnalyzer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>nfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># Bi-grams starting with "and_" are returned</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>da</span><span class='op'>$</span><span class='fu'>get_ngrams</span><span class='op'>(</span>fn <span class='op'>=</span> <span class='va'>nfn</span>, c <span class='op'>=</span> <span class='fl'>10</span>, pre <span class='op'>=</span> <span class='st'>"^and_*"</span><span class='op'>)</span>
+<span class='co'># The data frame is sorted by frequency</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>freq</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,<span class='op'>]</span>
+<span class='co'># The data frame is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 2</span><span>
+#&gt;    pre         freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> and_the        2
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> and_cart       1
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> and_fired      1
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> and_forget     1
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> and_leave      1
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> and_open       1
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> and_out        1
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> and_phrase     1
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> and_say        1
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> and_tea        1
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span> and_tell       1
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span> and_then       1
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span> and_threw      1
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span> and_was        1
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span> and_watch      1</div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

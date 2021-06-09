@@ -2,7 +2,7 @@
 % Please edit documentation in R/data-analyzer.R
 \name{DataAnalyzer}
 \alias{DataAnalyzer}
-\title{It allows analyzing input text files and n-gram token files}
+\title{Analyzes input text files and n-gram token files}
 \description{
 It provides a method that returns information about text files, such as
 number of lines and number of words. It also provides a method that displays
@@ -102,7 +102,8 @@ ve <- 0
 # The name of the folder that will contain all the files. It will be
 # created in the current directory. NULL implies tempdir will be used
 fn <- NULL
-# The required files. They are default files that are part of the package
+# The required files. They are default files that are part of the
+# package
 rf <- c("n2.RDS")
 # An object of class EnvManager is created
 em <- EnvManager$new(ve = ve, rp = "./")
@@ -332,7 +333,8 @@ ve <- 0
 # The name of the folder that will contain all the files. It will be
 # created in the current directory. NULL implies tempdir will be used
 fn <- NULL
-# The required files. They are default files that are part of the package
+# The required files. They are default files that are part of the
+# package
 rf <- c("n2.RDS")
 # An object of class EnvManager is created
 em <- EnvManager$new(ve = ve, rp = "./")

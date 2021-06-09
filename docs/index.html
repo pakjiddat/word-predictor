@@ -5,27 +5,24 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Develop Text Prediction Models Based On N-grams • Word Predictor</title>
+<title>Develop Text Prediction Models Based on N-Grams • Word Predictor</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Develop Text Prediction Models Based On N-grams">
-<meta property="og:description" content="It allows developing n-gram models for predicting text. It allows 
-    cleaning input text using various options such as removal of stop words, 
-    profanity, non-dictionary words, punctuation, stop words and stemming. 
-    It generates n-gram tokens of a given size from a text file. It also 
-    generates transition probability data for the n-grams. This data is used 
-    to predict the next word given a set of words. The model's performance can 
-    be evaluation using Perplexity (intrinsic evaluation) and 
-    accuracy (extrinsic evaluation). The package also provides methods for 
-    analyzing the n-gram model using bar plots. For example it displays plots 
-    of n-gram frequencies and plots of model performance. It provides methods 
-    for generating the n-gram model step by step or by using a single method. 
-    The performance of the generated model may be evaluated and displayed in 
-    plots. The generated model can be easily exported as a R object and used 
-    in applications. The package is implemented using R6 classes.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Develop Text Prediction Models Based on N-Grams">
+<meta property="og:description" content='The wordpredictor package allows developing n-gram models for text
+    prediction. It provides methods for data cleaning, data sampling,
+    tokenization, model generation, model evaluation and word prediction.
+    For information on how n-gram models work we referred to: Jurafsky, Daniel &amp;
+    Martin, James. (2008). "Speech and Language Processing: An Introduction to
+    Natural Language Processing, Computational Linguistics, and Speech
+    Recognition" &lt;https://web.stanford.edu/~jurafsky/slp3/3.pdf&gt;.
+    For optimizing R code and using R6 classes we reffered to Hadley Wickham,
+    "Advanced R" &lt;https://adv-r.hadley.nz/r6.html&gt;. For writing R extensions we
+    refer to Hadley Wickham and Jenny Bryan, "R Packages",
+    &lt;https://r-pkgs.org/index.html&gt;.'>
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -44,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -105,18 +102,13 @@
 <p>The goal of the <strong>wordpredictor</strong> package is to provide a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram">n-gram models</a> for word prediction.</p>
 <p>The package allows generating n-gram models from input text files. It also allows exploring n-grams using plots. Additionally it provides methods for measuring n-gram model performance using <a href="https://en.wikipedia.org/wiki/Perplexity">Perplexity</a> and accuracy.</p>
 <p>The n-gram model may be customized using several options such as n-gram size, data cleaning options and options for tokenization.</p>
-<div id="demo" class="section level2">
-<h2 class="hasAnchor">
-<a href="#demo" class="anchor"></a>Demo</h2>
-<p>A <a href="https://pakjiddat.shinyapps.io/word-predictor/">DEMO</a> application based on the Shiny package. It allows predicting the next word based on the given set of words. It displays the 10 ten most likely words along with their respective probabilities.</p>
-</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of wordpredictor from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<p>You can install the released version of wordpredictor from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wordpredictor"</span><span class="op">)</span></code></pre></div>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<p>And the development version from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"pakjiddat/word-predictor"</span><span class="op">)</span></code></pre></div>
@@ -145,15 +137,18 @@
 <li>
 <strong>TextFileProcessor</strong>. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files.</li>
 </ol>
-<p>Use the command: <strong>?wordpredictor::class-name</strong> for details on how each class works and the parameter details.</p>
-<p>Refer to the package vignette for details on how the wordpredictor package works and the theory behind it.</p>
+<p>Information about the package can be obtained using the command line or the package website. For example, the command: <strong>?wordpredictor</strong> returns information about how the given class works and the parameter details for each class method.</p>
 </div>
 <div id="generating-the-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#generating-the-model" class="anchor"></a>Generating the model</h2>
 <p>The following example shows how to generate a n-gram model.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
+<code class="sourceCode R"><span class="co"># The required files</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span>
+<span class="co"># The test environment is setup</span>
+<span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+
 <span class="co"># The following code generates n-gram model using default options for data</span>
 <span class="co"># cleaning and tokenization. See the following section on how to customize these</span>
 <span class="co"># options. Note that input.txt is the name of the input data file. It should be</span>
@@ -169,31 +164,40 @@
     df <span class="op">=</span> <span class="st">"input.txt"</span>,
     n <span class="op">=</span> <span class="fl">4</span>,
     ssize <span class="op">=</span> <span class="fl">10</span>,
-    ddir <span class="op">=</span> <span class="va">ddir1</span>,
-    mdir <span class="op">=</span> <span class="va">mdir</span>,
+    dir <span class="op">=</span> <span class="va">ed</span>,
     dc_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
     tg_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
-    ve <span class="op">=</span> <span class="fl">2</span>
+    ve <span class="op">=</span> <span class="va">ve</span>
 <span class="op">)</span>
 
-<span class="co"># Generates n-gram model. The output is the file</span>
-<span class="co"># ./data/model/def-model.RDS</span>
-<span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>The above code generates the file <strong>./data/model/def-model.RDS</strong>. This file represents the n-gram model.</p>
+<span class="co"># Generates n-gram model. The output is the file def-model.RDS</span>
+<span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># The test envionment is cleaned up</span>
+<span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
+<p>The above code generates the file <strong>def-model.RDS</strong>. This file represents the n-gram model.</p>
 </div>
 <div id="predicting-words" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predicting-words" class="anchor"></a>Predicting words</h2>
 <p>The following example shows how to predict the next word given a set of words:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/def-model.RDS"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># The required files</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span><span class="op">)</span>
+<span class="co"># The test environment is setup</span>
+<span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+
+<span class="co"># The model file name</span>
+<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class ModelPredictor is created. The mf parameter is the name of</span>
 <span class="co"># the model file that was generated in the previous example.</span>
 <span class="va">mp</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/ModelPredictor.html">ModelPredictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span><span class="op">)</span>
 <span class="co"># Given the words: "how are", the next word is predicted. The top 3 most likely</span>
 <span class="co"># next words are returned along with their respective probabilities.</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span>
+
+<span class="co"># The test envionment is cleaned up</span>
+<span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="analyzing-n-grams" class="section level2">
 <h2 class="hasAnchor">
@@ -202,8 +206,13 @@
 <p>For each n-gram number less than or equal to the n-gram size of the model, a n-gram file is generated. In the example above the n-gram size of the model is 4. So 4 n-gram files are generated in the model folder. These files are: <strong>n1.RDS, n2.RDS, n3.RDS and n4.RDS</strong>. The <strong>n2.RDS</strong> file contains n-grams of size 2.</p>
 <p>The following example plots the top 10 most occurring bi-grams along with their frequencies:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The file name</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/n2.RDS"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># The required files</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
+<span class="co"># The test environment is setup</span>
+<span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+
+<span class="co"># The file name</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span><span class="op">)</span>
@@ -215,10 +224,19 @@
   <span class="st">"dir"</span> <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-analyze-ngrams-1-1.png"><!-- --></p>
-<p>The following example plots the n-gram frequency coverage. It shows the percentage of n-grams with frequency 1, 2 … 10.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The file name</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/n2.RDS"</span><span class="op">)</span>
+<code class="sourceCode R">
+<span class="co"># The test envionment is cleaned up</span>
+<span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
+<p>The following example plots the n-gram frequency coverage. It shows the percentage of n-grams with frequency 1, 2 … 10.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># The required files</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
+<span class="co"># The test environment is setup</span>
+<span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+
+<span class="co"># The file name</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span><span class="op">)</span>
@@ -230,10 +248,19 @@
   <span class="st">"dir"</span> <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-analyze-ngrams-2-1.png"><!-- --></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="co"># The test envionment is cleaned up</span>
+<span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example shows how to get the list of bi-grams starting with <strong>“great_”</strong> along with their frequencies. It also shows how to get the frequency of the bi-gram <strong>“great_deal”</strong>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The file name</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/n2.RDS"</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># The required files</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
+<span class="co"># The test environment is setup</span>
+<span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+
+<span class="co"># The file name</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
@@ -242,13 +269,16 @@
 <span class="co"># The data frame is sorted by frequency</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">freq</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,<span class="op">]</span>
 <span class="co"># The frequency of the bi-gram "great_deal"</span>
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">pre</span> <span class="op">==</span> <span class="st">"great_deal"</span>, <span class="st">"freq"</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">pre</span> <span class="op">==</span> <span class="st">"great_deal"</span>, <span class="st">"freq"</span><span class="op">]</span><span class="op">)</span>
+
+<span class="co"># The test envionment is cleaned up</span>
+<span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="customizing-the-n-gram-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#customizing-the-n-gram-model" class="anchor"></a>Customizing the n-gram model</h2>
 <p>The <strong>dc_opts</strong> parameter to the <strong>ModelGenerator</strong> class specifies the data cleaning options. The following code shows the data cleaning options and their default values:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># @field dc_opts The options for the data cleaner object.</span>
 <span class="co">#   min_words -&gt; The minimum number of words per sentence.</span>
@@ -283,7 +313,7 @@
   <span class="st">"remove_bad"</span> <span class="op">=</span> <span class="cn">F</span>
 <span class="op">)</span></code></pre></div>
 <p>The <strong>tg_opts</strong> parameter to the <strong>ModelGenerator</strong> class specifies the token generation options. The following code shows the token generation options and their default values:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># @field tg_opts The options for the token generator obj.</span>
 <span class="co">#   min_freq -&gt; All ngrams with frequency less than min_freq are</span>
@@ -301,31 +331,35 @@
 <p>Intrinsic evaluation measures the Perplexity score for each sentence in a validation text file. It returns the minimum, maximum and mean Perplexity score for the sentences.</p>
 <p>Extrinsic evaluation measures the accuracy score for the sentences in a validation text file. It tries to predict the last word of each sentence. If the word was correctly predicted, then the accuracy count is increased. The extrinsic evaluation returns the number of valid and invalid predictions.</p>
 <p>The following example shows how to evaluate the performance of a model:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/def-model.RDS"</span><span class="op">)</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># The required files</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate.txt"</span><span class="op">)</span>
+<span class="co"># The test environment is setup</span>
+<span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+
+<span class="co"># The model file name</span>
+<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
 <span class="co"># The validation file name</span>
-<span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/validate.txt"</span><span class="op">)</span>
+<span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/validate.txt"</span><span class="op">)</span>
 <span class="co"># ModelEvaluator class object is created</span>
 <span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span>, ve <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co"># The performance evaluation is performed. The performance stats are returned as</span>
 <span class="co"># a data frame and also saved within the model file itself.</span>
-<span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">evaluate_performance</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span></code></pre></div>
-<p>The following example shows how to compare the performance of several n-gram models.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ddir1</span>, <span class="st">"/model/def-model.RDS"</span><span class="op">)</span>
-<span class="co"># ModelEvaluator class object is created</span>
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span>, ve <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co"># The performance evaluation is performed. The performance stats are saved as a</span>
-<span class="co"># data frame and also plotted on a single page. The plot file and performance</span>
-<span class="co"># stats are saved to the given folder.</span>
-<span class="va">me</span><span class="op">$</span><span class="fu">compare_performance</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-  <span class="st">"save_to"</span> <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="st">"mdir"</span> <span class="op">=</span> <span class="va">msdir</span>,
-  <span class="st">"dir"</span> <span class="op">=</span> <span class="va">sdir</span>
-<span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-evaluate-performance-2-1.png"><!-- --></p>
+<span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">evaluate_performance</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span>
+
+<span class="co"># The test envionment is cleaned up</span>
+<span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="demo" class="section level2">
+<h2 class="hasAnchor">
+<a href="#demo" class="anchor"></a>Demo</h2>
+<p>A <a href="https://pakjiddat.shinyapps.io/word-predictor/">DEMO</a> application demonstrates how to make word predictions. It is based on the Shiny package. It allows predicting the next word based on the given set of words. It displays the 10 most likely words along with their respective probabilities.</p>
+<p>The demo app is based on Shiny platform. It consists of two files. <a href="https://gist.github.com/pakjiddat/43c61c54b645e5bd0096d6fd75e58127">server.r</a> and <a href="https://gist.github.com/pakjiddat/96727c1df77755e5bcf8a7d4ff731dea">ui.r</a>. The n-gram model file must be present in the same folder as the two files. It can be generated using the ModelGenerator class.</p>
+</div>
+<div id="website" class="section level2">
+<h2 class="hasAnchor">
+<a href="#website" class="anchor"></a>Website</h2>
+<p>The <a href="https://pakjiddat.github.io/word-predictor/">wordpredictor website</a> provides details about how the packages works. It includes code samples and details of all the classes and methods.</p>
 </div>
 <div id="benefits" class="section level2">
 <h2 class="hasAnchor">
@@ -368,6 +402,12 @@
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+</ul>
+</div>
+<div class="citation">
+<h2>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html">Citing wordpredictor</a></li>
 </ul>
 </div>
 <div class="developers">

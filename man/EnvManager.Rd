@@ -2,8 +2,7 @@
 % Please edit documentation in R/env-manager.R
 \name{EnvManager}
 \alias{EnvManager}
-\title{It provides methods for setting up the test environment and reading external
-data}
+\title{Allows managing the test environment}
 \description{
 This class provides a method for creating directories in the tempdir folder
 for testing purposes. It also provides a method for reading files from the

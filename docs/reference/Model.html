@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Model class represents n-gram models. An instance of the class is a
-single n-gram model. — Model • Word Predictor</title>
+<title>Represents n-gram models — Model • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -40,10 +39,11 @@ single n-gram model. — Model • Word Predictor</title>
 
 
 
-<meta property="og:title" content="The Model class represents n-gram models. An instance of the class is a
-single n-gram model. — Model" />
-<meta property="og:description" content="The attributes of this class are used to store n-gram model
-information. The class provides methods for loading and saving the model." />
+<meta property="og:title" content="Represents n-gram models — Model" />
+<meta property="og:description" content="The Model class represents n-gram models. An instance of the class is a
+single n-gram model. The attributes of this class are used to store n-gram
+model information. The class provides methods for loading and saving the
+model." />
 
 
 
@@ -75,7 +75,7 @@ information. The class provides methods for loading and saving the model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -129,34 +129,34 @@ information. The class provides methods for loading and saving the model." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Model class represents n-gram models. An instance of the class is a
-single n-gram model.</h1>
+    <h1>Represents n-gram models</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/model.R'><code>R/model.R</code></a></small>
     <div class="hidden name"><code>Model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The attributes of this class are used to store n-gram model
-information. The class provides methods for loading and saving the model.</p>
+    <p>The Model class represents n-gram models. An instance of the class is a
+single n-gram model. The attributes of this class are used to store n-gram
+model information. The class provides methods for loading and saving the
+model.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The attributes of this class are used to store n-gram model
-information such as model name, model description, model file name, n-gram
-number, transition probabilities data, default probability, n-gram
-configuration options such as data cleaning and tokenization options, word
-list, model path, data directory path and performance stats. The model is
-saved to a single file as a R object. A model file contains all the
-information required by the model. The model object is used by other model
-classes that perform operations on the model such as evaluation of model
-performance, making word predictions based on the model and plotting model
-performance stats.</p>
+    <p>The attributes of this class are used to store n-gram model information such
+as model name, model description, model file name, n-gram size, transition
+probabilities data, default probability for words, data cleaning and
+tokenization options, word list, model path, data directory path and
+performance stats. The model is saved to a single file as a R object.</p>
+<p>A model file contains all the information required by the model. The model
+object is used as input by classes that perform operations on the model such
+as evaluation of model performance, text predictions and comparision of model
+performance.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>Model</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>Model</code></p>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl>
@@ -176,6 +176,7 @@ performance stats.</p>
 <li><p><a href='#method-new'><code>Model$new()</code></a></p></li>
 <li><p><a href='#method-load_model'><code>Model$load_model()</code></a></p></li>
 <li><p><a href='#method-get_config'><code>Model$get_config()</code></a></p></li>
+<li><p><a href='#method-get_size'><code>Model$get_size()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Model$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
@@ -186,7 +187,7 @@ performance stats.</p>
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>It initializes the current object. It is used to set the
-maximum ngram number, sample size, input file name, data cleaner
+maximum n-gram number, sample size, input file name, data cleaner
 options, tokenization options, combined transition probabilities file
 name and verbose.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Model</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
@@ -195,9 +196,8 @@ name and verbose.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href
   fn <span class='op'>=</span> <span class='cn'>NULL</span>,
   df <span class='op'>=</span> <span class='cn'>NULL</span>,
   n <span class='op'>=</span> <span class='fl'>4</span>,
-  ssize <span class='op'>=</span> <span class='fl'>30</span>,
-  ddir <span class='op'>=</span> <span class='st'>"./data"</span>,
-  mdir <span class='op'>=</span> <span class='st'>"./models"</span>,
+  ssize <span class='op'>=</span> <span class='fl'>0.3</span>,
+  dir <span class='op'>=</span> <span class='st'>"."</span>,
   dc_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   tg_opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   ve <span class='op'>=</span> <span class='fl'>0</span>
@@ -211,23 +211,19 @@ name and verbose.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href
 
 <dt><code>fn</code></dt><dd><p>The model file name.</p></dd>
 
-<dt><code>df</code></dt><dd><p>The path of the file used to generate the model. If
-the data was cleaned, then df is the path to the cleaned
-file.</p></dd>
+<dt><code>df</code></dt><dd><p>The name of the file used to generate the model.</p></dd>
 
-<dt><code>n</code></dt><dd><p>The maximum ngram number supported by the model.</p></dd>
+<dt><code>n</code></dt><dd><p>The maximum n-gram number supported by the model.</p></dd>
 
-<dt><code>ssize</code></dt><dd><p>The sample size in Mb.</p></dd>
+<dt><code>ssize</code></dt><dd><p>The sample size as a proportion of the input file.</p></dd>
 
-<dt><code>ddir</code></dt><dd><p>The data directory.</p></dd>
-
-<dt><code>mdir</code></dt><dd><p>The model directory.</p></dd>
+<dt><code>dir</code></dt><dd><p>The directory containing the model files.</p></dd>
 
 <dt><code>dc_opts</code></dt><dd><p>The data cleaner options.</p></dd>
 
 <dt><code>tg_opts</code></dt><dd><p>The token generator options.</p></dd>
 
-<dt><code>ve</code></dt><dd><p>If progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -247,6 +243,14 @@ file.</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The configuration value.</p>
+<p><hr>
+<a id="method-get_size"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_size()</code></h3>
+<p>It returns the size of the current object. The object
+size is calculated as the sum of sizes of the object attributes.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Model</span><span class='op'>$</span><span class='fu'>get_size</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>The size of the object in bytes.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

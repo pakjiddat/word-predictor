@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>It is used to evaluate the accuracy and performance of the model. — ModelPredictor • Word Predictor</title>
+<title>Allows predicting text, calculating word probabilities and Perplexity — ModelPredictor • Word Predictor</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,11 @@
 
 
 
-<meta property="og:title" content="It is used to evaluate the accuracy and performance of the model. — ModelPredictor" />
-<meta property="og:description" content="It provides methods that perform extrinsic and intrinsic model
-evaluation. It also provides methods for determining the memory and time
-requirements for generating the model. It also provides a method for
-determining how much memory is used by the final model." />
+<meta property="og:title" content="Allows predicting text, calculating word probabilities and Perplexity — ModelPredictor" />
+<meta property="og:description" content="It provides a method for predicting the new word given a set of
+previous words. It also provides a method for calculating the Perplexity
+score for a set of words. Furthermore it provides a method for calculating
+the probability of a given word and set of previous words." />
 
 
 
@@ -75,7 +75,7 @@ determining how much memory is used by the final model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
       </span>
     </div>
 
@@ -129,31 +129,23 @@ determining how much memory is used by the final model." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>It is used to evaluate the accuracy and performance of the model.</h1>
+    <h1>Allows predicting text, calculating word probabilities and Perplexity</h1>
     <small class="dont-index">Source: <a href='https://github.com/pakjiddat/word-predictor/blob/master/R/model-predictor.R'><code>R/model-predictor.R</code></a></small>
     <div class="hidden name"><code>ModelPredictor.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It provides methods that perform extrinsic and intrinsic model
-evaluation. It also provides methods for determining the memory and time
-requirements for generating the model. It also provides a method for
-determining how much memory is used by the final model.</p>
+    <p>It provides a method for predicting the new word given a set of
+previous words. It also provides a method for calculating the Perplexity
+score for a set of words. Furthermore it provides a method for calculating
+the probability of a given word and set of previous words.</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>It provides a method that performs intrinsic model evaluation based
-on Perplexity. It also provides a method that performs extrinsic model
-evalation based on accuracy. It provides a method for determining how much
-memory and time is needed to generate a model for different input data sizes.
-It provides a method for determining how much memory is needed by the final
-model.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TextFileProcessor.html'>wordpredictor::TextFileProcessor</a></code> -&gt; <code>ModelPredictor</code></p>
+    <p><code><a href='Base.html'>wordpredictor::Base</a></code> -&gt; <code>ModelPredictor</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -182,7 +174,7 @@ model file name and verbose options.</p><h4 class='hasAnchor' id='arguments'><a 
 <p><div class="arguments"></p><dl>
 <dt><code>mf</code></dt><dd><p>The model file name.</p></dd>
 
-<dt><code>ve</code></dt><dd><p>If progress information should be displayed.</p></dd>
+<dt><code>ve</code></dt><dd><p>The level of detail in the information messages.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -199,7 +191,8 @@ each word, the probability of the word given the previous words is
 calculated. The probabilities are multiplied and then inverted. The
 nth root of the result is the perplexity, where n is the number of
 words in the sentence. If the stem_words tokenization option was
-specified, then the previous words are converted to their stem.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+specified when creating the given model file, then the previous words
+are converted to their stems.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>calc_perplexity</span><span class='op'>(</span><span class='va'>words</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -209,14 +202,48 @@ specified, then the previous words are converted to their stem.</p><h4 class='ha
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The perplexity of the given list of words.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># ModelPredictor class object is created</span>
+<span class='va'>mp</span> <span class='op'>&lt;-</span> <span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The sentence whoose Perplexity is to be calculated</span>
+<span class='va'>l</span> <span class='op'>&lt;-</span> <span class='st'>"last year at this time i was preparing for a trip to rome"</span>
+<span class='co'># The line is split in to words</span>
+<span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/strsplit.html'>strsplit</a></span><span class='op'>(</span><span class='va'>l</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='co'># The Perplexity of the sentence is calculated</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='va'>mp</span><span class='op'>$</span><span class='fu'>calc_perplexity</span><span class='op'>(</span><span class='va'>w</span><span class='op'>)</span>
+<span class='co'># The sentence Perplexity is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-predict_word"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>predict_word()</code></h3>
-<p>Predicts the new word given a list of 1, 2 or 3 previous words. It
-checks the given n words in the transition probabilities data. If
-there is a match, the top 3 next words with highest probabilities are
-returned. If there is no match, then the last n-1 previous words are
-checked. This process is continued until the last word is checked. If
-there is no match, then empty result is returned. The given words may
+<p>Predicts the next word given a list of previous words. It
+checks the last n previous words in the transition probabilities
+data, where n is equal to 1 - n-gram size of model. If there is a
+match, the top 3 next words with highest probabilities are returned.
+If there is no match, then the last n-1 previous words are checked.
+This process is continued until the last word is checked. If there is
+no match, then empty result is returned. The given words may
 optionally be stemmed.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>predict_word</span><span class='op'>(</span><span class='va'>words</span>, count <span class='op'>=</span> <span class='fl'>3</span>, dc <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
@@ -232,34 +259,94 @@ containing the previous word text.</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The top 3 predicted words along with their probabilities.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, <span class='st'>"rp"</span> <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># ModelPredictor class object is created</span>
+<span class='va'>mp</span> <span class='op'>&lt;-</span> <span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The next word is predicted</span>
+<span class='va'>nws</span> <span class='op'>&lt;-</span> <span class='va'>mp</span><span class='op'>$</span><span class='fu'>predict_word</span><span class='op'>(</span><span class='st'>"today is"</span>, count <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='co'># The predicted next words are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>nws</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-get_word_prob"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_word_prob()</code></h3>
 <p>Calculates the probability of the given word given the
-previous model-1 words, where model is the maximum ngram number. It
-looks up the probability of a word given n previous words. The
-previous n words are converted to numeric hash using digest2int
-function. The hash is looked up in a data frame of transition
-probabilities. The word is converted to a number by checking its
-position in a list of unique words. If the hash and the word position
-were found, then the probability of the previous word and hash is
-returned. If it was not found, then the hash of the n-1 previous
-words is taken and the processed is repeated. If the data was not
-found in the data frame, then the word probability is returned. This
-is known as backoff. If the word probability could not be found then
-the default probability is returned. The default probability is
-calculated as 1/(N+V), Where N = number of words in corpus and V is
-the number of dictionary words.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+previous words. The last n words are converted to numeric hash using
+digest2int function. All other words are ignored. n is equal to 1 -
+size of the n-gram model. The hash is looked up in a data frame of
+transition probabilities. The last word is converted to a number by
+checking its position in a list of unique words. If the hash and the
+word position were found, then the probability of the previous word
+and hash is returned. If it was not found, then the hash of the n-1
+previous words is taken and the processed is repeated. If the data
+was not found in the data frame, then the word probability is
+returned. This is known as back-off. If the word probability could
+not be found then the default probability is returned. The default
+probability is calculated as 1/(N+V), Where N = number of words in
+corpus and V is the number of dictionary words.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>get_word_prob</span><span class='op'>(</span><span class='va'>word</span>, <span class='va'>pw</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>word</code></dt><dd><p>The word whoose probability is to be calculated.</p></dd>
+<dt><code>word</code></dt><dd><p>The word whose probability is to be calculated.</p></dd>
 
 <dt><code>pw</code></dt><dd><p>The previous words.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>The probability of the word given the previous words.</p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h4>
+<p><div class="r example copy"></p><pre><span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, <span class='st'>"rp"</span> <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># ModelPredictor class object is created</span>
+<span class='va'>mp</span> <span class='op'>&lt;-</span> <span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The probability that the next word is "you" given the prev words</span>
+<span class='co'># "how" and "are"</span>
+<span class='va'>prob</span> <span class='op'>&lt;-</span> <span class='va'>mp</span><span class='op'>$</span><span class='fu'>get_word_prob</span><span class='op'>(</span>word <span class='op'>=</span> <span class='st'>"you"</span>, pw <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"how"</span>, <span class='st'>"are"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'># The probability is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>prob</span><span class='op'>)</span>
+
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -273,6 +360,118 @@ the number of dictionary words.</p><h4 class='hasAnchor' id='arguments'><a class
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelPredictor$calc_perplexity`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># ModelPredictor class object is created</span>
+<span class='va'>mp</span> <span class='op'>&lt;-</span> <span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The sentence whoose Perplexity is to be calculated</span>
+<span class='va'>l</span> <span class='op'>&lt;-</span> <span class='st'>"last year at this time i was preparing for a trip to rome"</span>
+<span class='co'># The line is split in to words</span>
+<span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/strsplit.html'>strsplit</a></span><span class='op'>(</span><span class='va'>l</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='co'># The Perplexity of the sentence is calculated</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='va'>mp</span><span class='op'>$</span><span class='fu'>calc_perplexity</span><span class='op'>(</span><span class='va'>w</span><span class='op'>)</span>
+<span class='co'># The sentence Perplexity is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1767</div><div class='input'><span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelPredictor$predict_word`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, <span class='st'>"rp"</span> <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># ModelPredictor class object is created</span>
+<span class='va'>mp</span> <span class='op'>&lt;-</span> <span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The next word is predicted</span>
+<span class='va'>nws</span> <span class='op'>&lt;-</span> <span class='va'>mp</span><span class='op'>$</span><span class='fu'>predict_word</span><span class='op'>(</span><span class='st'>"today is"</span>, count <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='co'># The predicted next words are printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>nws</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $found
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $words
+#&gt;  [1] "a"      "the"    "used"   "better" "hard"   "rare"   "to"     "best"  
+#&gt;  [9] "carved" "dry"   
+#&gt; 
+#&gt; $probs
+#&gt;  [1] 0.17460317 0.11111111 0.06349206 0.03174603 0.03174603 0.03174603
+#&gt;  [7] 0.03174603 0.01587302 0.01587302 0.01587302
+#&gt; </div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## ------------------------------------------------</span>
+<span class='co'>## Method `ModelPredictor$get_word_prob`</span>
+<span class='co'>## ------------------------------------------------</span>
+
+<span class='co'># Start of environment setup code</span>
+<span class='co'># The level of detail in the information messages</span>
+<span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='co'># The name of the folder that will contain all the files. It will be</span>
+<span class='co'># created in the current directory. NULL implies tempdir will be used</span>
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='co'># The required files. They are default files that are part of the</span>
+<span class='co'># package</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># An object of class EnvManager is created</span>
+<span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, <span class='st'>"rp"</span> <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
+<span class='co'># The required files are downloaded</span>
+<span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
+<span class='co'># End of environment setup code</span>
+
+<span class='co'># The model file name</span>
+<span class='va'>mfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/def-model.RDS"</span><span class='op'>)</span>
+<span class='co'># ModelPredictor class object is created</span>
+<span class='va'>mp</span> <span class='op'>&lt;-</span> <span class='va'>ModelPredictor</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>mf <span class='op'>=</span> <span class='va'>mfn</span>, ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
+<span class='co'># The probability that the next word is "you" given the prev words</span>
+<span class='co'># "how" and "are"</span>
+<span class='va'>prob</span> <span class='op'>&lt;-</span> <span class='va'>mp</span><span class='op'>$</span><span class='fu'>get_word_prob</span><span class='op'>(</span>word <span class='op'>=</span> <span class='st'>"you"</span>, pw <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"how"</span>, <span class='st'>"are"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'># The probability is printed</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>prob</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.0024581</div><div class='input'>
+<span class='co'># The test environment is removed. Comment the below line, so the</span>
+<span class='co'># files generated by the function can be viewed</span>
+<span class='va'>em</span><span class='op'>$</span><span class='fu'>td_env</span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

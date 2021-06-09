@@ -2,7 +2,7 @@
 % Please edit documentation in R/token-generator.R
 \name{TokenGenerator}
 \alias{TokenGenerator}
-\title{It generates n-grams of given size from an input text file}
+\title{Generates n-grams from text files}
 \description{
 It generates n-gram tokens along with their frequencies. The data
 may be saved to a file in plain text format or as a R object.

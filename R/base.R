@@ -27,7 +27,10 @@ Base <- R6::R6Class(
         initialize = function(fn = NULL, lc = 100, ve = 2) {
             # If the given file name is not NULL and is not valid
             if (!is.null(fn) && !file.exists(fn)) {
-                private$dm("The given file name is not valid", md = -1, ty = "e")
+                private$dm(
+                    "The given file name is not valid",
+                    md = -1, ty = "e"
+                )
             }
 
             # The base class attributes are set
@@ -189,8 +192,10 @@ Base <- R6::R6Class(
         # @param is_csv If the data is a csv file
         # @return The file data
         read_file = function(fn, is_csv) {
+            # The information message
+            msg <- paste0("Reading \033[0;", 32, "m'", fn, "'\033[0m")
             # Information message is shown
-            private$dm("Reading file:", fn, md = 1)
+            private$dm(msg, md = 1)
             # If the file is not a csv file
             if (!is_csv) {
                 # File is opened for reading
@@ -215,8 +220,10 @@ Base <- R6::R6Class(
         # @param lc The number of lines to read.
         # @return The file data
         read_lines = function(fn, lc) {
+            # The information message
+            msg <- paste0("Reading \033[0;", 32, "m'", fn, "'\033[0m")
             # Information message is shown
-            private$dm("Reading file:", fn, md = 1)
+            private$dm(msg, md = 1)
             # File is opened for reading
             con <- file(fn)
             # The file contents are read
@@ -236,8 +243,10 @@ Base <- R6::R6Class(
         # @param fn The name of the file.
         # @param is_append Indicates if data should be saved.
         write_file = function(data, fn, is_append) {
+            # The information message
+            msg <- paste0("Writing \033[0;", 34, "m'", fn, "'\033[0m")
             # Information message is shown
-            private$dm("Saving file:", fn, md = 1)
+            private$dm(msg, md = 1)
             # If the given data is a data frame
             if ("data.frame" %in% class(data)) {
                 # The data frame is  written to a file
@@ -264,8 +273,10 @@ Base <- R6::R6Class(
         # @param obj The object to save.
         # @param fn The file name.
         save_obj = function(obj, fn) {
+            # The information message
+            msg <- paste0("Writing \033[0;", 34, "m'", fn, "'\033[0m")
             # Information message is shown
-            private$dm("Saving file:", fn, md = 1)
+            private$dm(msg, md = 1)
             # The object is saved to a file in version 2 format
             saveRDS(obj, fn, version = 2)
             # The information message is shown
@@ -278,8 +289,10 @@ Base <- R6::R6Class(
         # @param fn The file name.
         # @return The loaded R obj.
         read_obj = function(fn) {
+            # The information message
+            msg <- paste0("Reading \033[0;", 32, "m'", fn, "'\033[0m")
             # Information message is shown
-            private$dm("Reading file:", fn, md = 1)
+            private$dm(msg, md = 1)
             # If the file does not exist
             if (!file.exists(fn)) {
                 # The error message
@@ -318,6 +331,32 @@ Base <- R6::R6Class(
                 else if (ty == "e") {
                     stop(...)
                 }
+            }
+        },
+
+        # @description
+        # Displays the given heading text in bold.
+        # @param text The heading text to display.
+        # @param char The padding character to use.
+        # @param md The minimum debugging level.
+        # @param ll The total length of the line. Default is 80 chars.
+        dh = function(text, char, md, ll = 80) {
+            # If verbose is >= min_debug, then message is displayed
+            if (private$ve >= md) {
+                # The heading prefix
+                pre <- paste0(rep(char, 2), collapse = "")
+                pre <- paste0(pre, " ", collapse = "")
+                # The number of times the suffix should be repeated
+                c <- ll - (nchar(text) - 3)
+                # The heading text is added
+                msg <- paste0(pre, text, collapse = "")
+                msg <- paste0(msg, " ", collapse = "")
+                # The heading suffix
+                su <- paste0(rep(char, c), collapse = "")
+                msg <- paste0(msg, su, collapse = "")
+                msg <- paste0(msg, "\n", collapse = "")
+                # The heading prefix is printed
+                cat(msg)
             }
         },
 
