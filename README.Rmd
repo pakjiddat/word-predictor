@@ -81,7 +81,7 @@ The **wordpredictor** package is based on **R6 classes**. It is easy to customiz
 6. **ModelGenerator**. It allows generating n-gram models using different configuration options.
 7. **ModelEvaluator**. It allows evaluating the performance of n-gram models. 4 metrics are used to compare the performance. These are: Perplexity, accuracy, memory and time taken.
 8. **ModelPredictor**. It allows predicting the next word, given a set of previous words.
-9. **TextFileProcessor**. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files. 
+9. **Base**. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files. 
 
 Information about the package can be obtained using the command line or the package website. For example, the command: **?wordpredictor** returns information about how the given class works and the parameter details for each class method.
 

@@ -15,7 +15,7 @@
 #'
 #' A model file contains all the information required by the model. The model
 #' object is used as input by classes that perform operations on the model such
-#' as evaluation of model performance, text predictions and comparision of model
+#' as evaluation of model performance, text predictions and comparison of model
 #' performance.
 Model <- R6::R6Class(
     "Model",

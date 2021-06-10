@@ -12,17 +12,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Develop Text Prediction Models Based on N-Grams">
-<meta property="og:description" content='The wordpredictor package allows developing n-gram models for text
-    prediction. It provides methods for data cleaning, data sampling,
-    tokenization, model generation, model evaluation and word prediction.
-    For information on how n-gram models work we referred to: Jurafsky, Daniel &amp;
-    Martin, James. (2008). "Speech and Language Processing: An Introduction to
-    Natural Language Processing, Computational Linguistics, and Speech
-    Recognition" &lt;https://web.stanford.edu/~jurafsky/slp3/3.pdf&gt;.
-    For optimizing R code and using R6 classes we reffered to Hadley Wickham,
-    "Advanced R" &lt;https://adv-r.hadley.nz/r6.html&gt;. For writing R extensions we
-    refer to Hadley Wickham and Jenny Bryan, "R Packages",
-    &lt;https://r-pkgs.org/index.html&gt;.'>
+<meta property="og:description" content='A framework for developing n-gram models for text prediction.
+    It provides data cleaning, data sampling, extracting tokens from text,
+    model generation, model evaluation and word prediction. For information on how n-gram models 
+    work we referred to: "Speech and Language Processing"
+    &lt;https://web.stanford.edu/~jurafsky/slp3/3.pdf&gt;. For optimizing R code and
+    using R6 classes we referred to "Advanced R" 
+    &lt;https://adv-r.hadley.nz/r6.html&gt;. For writing R extensions we referred to 
+    "R Packages", &lt;https://r-pkgs.org/index.html&gt;.'>
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -64,10 +61,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/features.html">features</a>
+      <a href="articles/features.html">Features</a>
     </li>
     <li>
-      <a href="articles/overview.html">overview</a>
+      <a href="articles/overview.html">Overview</a>
     </li>
   </ul>
 </li>
@@ -135,7 +132,7 @@
 <li>
 <strong>ModelPredictor</strong>. It allows predicting the next word, given a set of previous words.</li>
 <li>
-<strong>TextFileProcessor</strong>. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files.</li>
+<strong>Base</strong>. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files.</li>
 </ol>
 <p>Information about the package can be obtained using the command line or the package website. For example, the command: <strong>?wordpredictor</strong> returns information about how the given class works and the parameter details for each class method.</p>
 </div>

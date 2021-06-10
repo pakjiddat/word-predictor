@@ -1,8 +1,8 @@
 ---
-title: "features"
+title: "Features"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{features}
+  %\VignetteIndexEntry{Features}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -72,7 +72,7 @@ ed <- setup_env(rf, ve)
 
 # The DataAnalyzer object is created
 da <- DataAnalyzer$new(ve = ve)
-# Information on all text files in the ddir2 folder is returned
+# Information on all text files in the ed folder is returned
 fi <- da$get_file_info(ed)
 # The file information is printed
 print(fi)
@@ -106,7 +106,7 @@ prop <- (ssize/obj_size)
 # An object of class DataSampler is created
 ds <- DataSampler$new(dir = ed, ve = ve)
 # The sample file is generated.
-# The randomized sample is saved to the file train.txt in the ddir
+# The randomized sample is saved to the file train.txt in the ed folder
 ds$generate_sample(
     fn =  "input.txt",
     ss = prop,
@@ -146,7 +146,7 @@ ds$generate_data(
 clean_up(ve)
 ```
 
-In the above example, **ddir** parameter is the data directory containing the **input.txt** file. **mdir** parameter is the output directory that will contain the generated test, validation and train data files.
+In the above example, **dir** parameter is the directory containing the **input.txt** file and the generated test, validation and train data files.
 
 ### Data Cleaning
 The next step is to remove unwanted symbols and words from the input text file. This reduces the memory requirement of the n-gram model and makes it more efficient. Example of unwanted words are vulgar words, words that are not part of the vocabulary, punctuation, numbers, non-printable characters and extra spaces.
@@ -177,7 +177,7 @@ dc_opts = list(
 )
 # The data cleaner object is created
 dc <- DataCleaner$new(fn, dc_opts, ve = ve)
-# The sample file is cleaned and saved as input-clean.txt in the ddir
+# The sample file is cleaned and saved as input-clean.txt in the ed dir
 dc$clean_file()
 
 # The test envionment is cleaned up
@@ -326,9 +326,7 @@ ed <- setup_env(rf, ve)
 # The following code generates n-gram model using default options for data
 # cleaning and tokenization. See the following section on how to customize these
 # options. Note that input.txt is the name of the input data file. It should be
-# present in the data directory. ddir is the data directory. mdir is the model
-# directory. The output model file, which is def-model.RDS will be placed in
-# this directory.
+# present in the data directory. dir is the directory containing the input and output files. It is set to the path of the environment directory, ed.
 
 # ModelGenerator class object is created
 mg <- ModelGenerator$new(

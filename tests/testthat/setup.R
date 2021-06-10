@@ -10,7 +10,6 @@ suppressPackageStartupMessages({
     library(SnowballC)
     library(patchwork)
     library(dplyr)
-    library(pryr)
 })
 
 # The list of files in R folder

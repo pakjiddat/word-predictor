@@ -59,9 +59,9 @@ customize and improve. It provides the following classes:
     Perplexity, accuracy, memory and time taken.
 8.  **ModelPredictor**. It allows predicting the next word, given a set
     of previous words.
-9.  **TextFileProcessor**. The base class for all the other classes. It
-    allows provides methods for reading and writing files and processing
-    large text files.
+9.  **Base**. The base class for all the other classes. It allows
+    provides methods for reading and writing files and processing large
+    text files.
 
 Information about the package can be obtained using the command line or
 the package website. For example, the command: **?wordpredictor**

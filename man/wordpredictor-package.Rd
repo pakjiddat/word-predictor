@@ -6,17 +6,14 @@
 \alias{wordpredictor-package}
 \title{wordpredictor: Develop Text Prediction Models Based on N-Grams}
 \description{
-The wordpredictor package allows developing n-gram models for text
-    prediction. It provides methods for data cleaning, data sampling,
-    tokenization, model generation, model evaluation and word prediction.
-    For information on how n-gram models work we referred to: Jurafsky, Daniel &
-    Martin, James. (2008). "Speech and Language Processing: An Introduction to
-    Natural Language Processing, Computational Linguistics, and Speech
-    Recognition" <https://web.stanford.edu/~jurafsky/slp3/3.pdf>.
-    For optimizing R code and using R6 classes we reffered to Hadley Wickham,
-    "Advanced R" <https://adv-r.hadley.nz/r6.html>. For writing R extensions we
-    refer to Hadley Wickham and Jenny Bryan, "R Packages",
-    <https://r-pkgs.org/index.html>.
+A framework for developing n-gram models for text prediction.
+    It provides data cleaning, data sampling, extracting tokens from text,
+    model generation, model evaluation and word prediction. For information on how n-gram models 
+    work we referred to: "Speech and Language Processing"
+    <https://web.stanford.edu/~jurafsky/slp3/3.pdf>. For optimizing R code and
+    using R6 classes we referred to "Advanced R" 
+    <https://adv-r.hadley.nz/r6.html>. For writing R extensions we referred to 
+    "R Packages", <https://r-pkgs.org/index.html>.
 }
 \seealso{
 Useful links:

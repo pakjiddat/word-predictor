@@ -62,11 +62,11 @@ TokenGenerator <- R6::R6Class(
         #' n <- 4
         #' # The test file name
         #' tfn <- paste0(ed, "/test-clean.txt")
-        #' # The ngram number is set
+        #' # The n-gram number is set
         #' tg_opts <- list("n" = n, "save_ngrams" = TRUE, "dir" = ed)
         #' # The TokenGenerator object is created
         #' tg <- TokenGenerator$new(tfn, tg_opts, ve = ve)
-        #' # The ngram tokens are generated
+        #' # The n-gram tokens are generated
         #' tg$generate_tokens()
         #'
         #' # The test environment is removed. Comment the below line, so the
