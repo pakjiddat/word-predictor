@@ -20,9 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck"), repos = "http://cran.us.r-project.org")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
