@@ -96,7 +96,7 @@
 <a href="#introduction" class="anchor"></a>Introduction</h1></div>
 <!-- badges: start -->
 
-<p>The goal of the <strong>wordpredictor</strong> package is to provide a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram">n-gram models</a> for word prediction.</p>
+<p>The goal of the wordpredictor package is to provide a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram">n-gram models</a> for word prediction.</p>
 <p>The package allows generating n-gram models from input text files. It also allows exploring n-grams using plots. Additionally it provides methods for measuring n-gram model performance using <a href="https://en.wikipedia.org/wiki/Perplexity">Perplexity</a> and accuracy.</p>
 <p>The n-gram model may be customized using several options such as n-gram size, data cleaning options and options for tokenization.</p>
 <div id="installation" class="section level2">
@@ -113,7 +113,7 @@
 <div id="package-structure" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-structure" class="anchor"></a>Package structure</h2>
-<p>The <strong>wordpredictor</strong> package is based on <strong>R6 classes</strong>. It is easy to customize and improve. It provides the following classes:</p>
+<p>The wordpredictor package is based on <strong>R6 classes</strong>. It is easy to customize and improve. It provides the following classes:</p>
 <ol>
 <li>
 <strong>DataAnalyzer</strong>. It allows analyzing n-grams.</li>
@@ -199,7 +199,7 @@
 <div id="analyzing-n-grams" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analyzing-n-grams" class="anchor"></a>Analyzing N-grams</h2>
-<p>The <strong>wordpredictor</strong> package includes a class called <strong>DataAnalyzer</strong>, that can be used to get an idea of the frequency distribution of n-grams in a model. The model generation process described above, creates an n-gram file in the model directory.</p>
+<p>The wordpredictor package includes a class called <strong>DataAnalyzer</strong>, that can be used to get an idea of the frequency distribution of n-grams in a model. The model generation process described above, creates an n-gram file in the model directory.</p>
 <p>For each n-gram number less than or equal to the n-gram size of the model, a n-gram file is generated. In the example above the n-gram size of the model is 4. So 4 n-gram files are generated in the model folder. These files are: <strong>n1.RDS, n2.RDS, n3.RDS and n4.RDS</strong>. The <strong>n2.RDS</strong> file contains n-grams of size 2.</p>
 <p>The following example plots the top 10 most occurring bi-grams along with their frequencies:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -324,7 +324,7 @@
 <div id="evaluating-model-performance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluating-model-performance" class="anchor"></a>Evaluating model performance</h2>
-<p>The <strong>wordpredictor</strong> package allows evaluating n-gram model performance. It can measure the performance of a single model as well as compare the performance of multiple models. When evaluating the performance of a model, intrinsic and extrinsic evaluation is performed.</p>
+<p>The wordpredictor package allows evaluating n-gram model performance. It can measure the performance of a single model as well as compare the performance of multiple models. When evaluating the performance of a model, intrinsic and extrinsic evaluation is performed.</p>
 <p>Intrinsic evaluation measures the Perplexity score for each sentence in a validation text file. It returns the minimum, maximum and mean Perplexity score for the sentences.</p>
 <p>Extrinsic evaluation measures the accuracy score for the sentences in a validation text file. It tries to predict the last word of each sentence. If the word was correctly predicted, then the accuracy count is increased. The extrinsic evaluation returns the number of valid and invalid predictions.</p>
 <p>The following example shows how to evaluate the performance of a model:</p>
@@ -350,8 +350,12 @@
 <div id="demo" class="section level2">
 <h2 class="hasAnchor">
 <a href="#demo" class="anchor"></a>Demo</h2>
-<p>A <a href="https://pakjiddat.shinyapps.io/word-predictor/">DEMO</a> application demonstrates how to make word predictions. It is based on the Shiny package. It allows predicting the next word based on the given set of words. It displays the 10 most likely words along with their respective probabilities.</p>
-<p>The demo app is based on Shiny platform. It consists of two files. <a href="https://gist.github.com/pakjiddat/43c61c54b645e5bd0096d6fd75e58127">server.r</a> and <a href="https://gist.github.com/pakjiddat/96727c1df77755e5bcf8a7d4ff731dea">ui.r</a>. The n-gram model file must be present in the same folder as the two files. It can be generated using the ModelGenerator class.</p>
+<p>The wordpredictor package includes a demo called “word-predictor”. The demo is a Shiny application that displays the ten most likely words for a given set of words. To access the demo, run the following command from the R shell:</p>
+<p><strong><code><a href="https://rdrr.io/r/utils/demo.html">demo("word-predictor", package = "wordpredictor", ask = F)</a></code></strong>.</p>
+<p>The following is a screenshot of the demo:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"man/figures/README-demo.png"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-demo.png" width="70%" height="70%"></p>
 </div>
 <div id="website" class="section level2">
 <h2 class="hasAnchor">
@@ -361,25 +365,25 @@
 <div id="benefits" class="section level2">
 <h2 class="hasAnchor">
 <a href="#benefits" class="anchor"></a>Benefits</h2>
-<p>The <strong>wordpredictor</strong> package provides an easy to use framework for working with n-gram models. It allows n-gram model generation, performance evaluation and word prediction.</p>
+<p>The wordpredictor package provides an easy to use framework for working with n-gram models. It allows n-gram model generation, performance evaluation and word prediction.</p>
 </div>
 <div id="limitations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#limitations" class="anchor"></a>Limitations</h2>
-<p>The n-gram language model requires a lot of memory for storing the n-grams. The <strong>wordpredictor</strong> package has been tested on a machine with dual core processor and 4 GB of RAM. It works well for input data files of size less than 40 Mb and n-gram size 4. For larger data files and n-gram size, more memory and CPU power will be needed.</p>
+<p>The n-gram language model requires a lot of memory for storing the n-grams. The wordpredictor package has been tested on a machine with dual core processor and 4 GB of RAM. It works well for input data files of size less than 40 Mb and n-gram size 4. For larger data files and n-gram size, more memory and CPU power will be needed.</p>
 </div>
 <div id="future-work" class="section level2">
 <h2 class="hasAnchor">
 <a href="#future-work" class="anchor"></a>Future Work</h2>
-<p>The <strong>wordpredictor</strong> package may be extended by adding support for different smoothing techniques such as <a href="https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation">Good-Turing</a>, <a href="https://en.wikipedia.org/wiki/Katz%27s_back-off_model">Katz-Back-off</a> and handling of <a href="https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words">Out Of Vocabulary Words</a>.</p>
+<p>The wordpredictor package may be extended by adding support for different smoothing techniques such as <a href="https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation">Good-Turing</a>, <a href="https://en.wikipedia.org/wiki/Katz%27s_back-off_model">Katz-Back-off</a> and handling of <a href="https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words">Out Of Vocabulary Words</a>.</p>
 <p>Support for different types of n-gram models such as <a href="https://en.wikipedia.org/wiki/N-gram#Skip-gram">Skip-Grams</a> and <a href="https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams">Syntatic n-grams</a>.</p>
-<p>The <strong>wordpredictor</strong> package is used for predicting words. It may be extended to support other use cases such as spelling correction, biological sequence analysis, data compression and more. This will require further performance optimization.</p>
+<p>The wordpredictor package is used for predicting words. It may be extended to support other use cases such as spelling correction, biological sequence analysis, data compression and more. This will require further performance optimization.</p>
 <p>The source code is organized using R6 classes. It is easy to extend. Contributions are welcome !.</p>
 </div>
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
-<p>I was motivated to develop the <strong>wordpredictor</strong> package after taking the courses in the <a href="https://www.coursera.org/specializations/jhu-data-science">Data Science Specialization</a> offered by John Hopkins university on Coursera. I would like to thank the course instructors for making the courses interesting and motivating for the students.</p>
+<p>I was motivated to develop the wordpredictor package after taking the courses in the <a href="https://www.coursera.org/specializations/jhu-data-science">Data Science Specialization</a> offered by John Hopkins university on Coursera. I would like to thank the course instructors for making the courses interesting and motivating for the students.</p>
 </div>
 </div>
   </div>

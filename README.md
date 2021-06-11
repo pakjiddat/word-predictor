@@ -10,8 +10,8 @@
 [![test-coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
 <!-- badges: end -->
 
-The goal of the **wordpredictor** package is to provide a flexible and
-easy to use framework for generating [n-gram
+The goal of the wordpredictor package is to provide a flexible and easy
+to use framework for generating [n-gram
 models](https://en.wikipedia.org/wiki/N-gram) for word prediction.
 
 The package allows generating n-gram models from input text files. It
@@ -39,7 +39,7 @@ devtools::install_github("pakjiddat/word-predictor")
 
 ## Package structure
 
-The **wordpredictor** package is based on **R6 classes**. It is easy to
+The wordpredictor package is based on **R6 classes**. It is easy to
 customize and improve. It provides the following classes:
 
 1.  **DataAnalyzer**. It allows analyzing n-grams.
@@ -135,10 +135,10 @@ clean_up(ve)
 
 ## Analyzing N-grams
 
-The **wordpredictor** package includes a class called **DataAnalyzer**,
-that can be used to get an idea of the frequency distribution of n-grams
-in a model. The model generation process described above, creates an
-n-gram file in the model directory.
+The wordpredictor package includes a class called **DataAnalyzer**, that
+can be used to get an idea of the frequency distribution of n-grams in a
+model. The model generation process described above, creates an n-gram
+file in the model directory.
 
 For each n-gram number less than or equal to the n-gram size of the
 model, a n-gram file is generated. In the example above the n-gram size
@@ -294,10 +294,10 @@ tg_opts = list(
 
 ## Evaluating model performance
 
-The **wordpredictor** package allows evaluating n-gram model
-performance. It can measure the performance of a single model as well as
-compare the performance of multiple models. When evaluating the
-performance of a model, intrinsic and extrinsic evaluation is performed.
+The wordpredictor package allows evaluating n-gram model performance. It
+can measure the performance of a single model as well as compare the
+performance of multiple models. When evaluating the performance of a
+model, intrinsic and extrinsic evaluation is performed.
 
 Intrinsic evaluation measures the Perplexity score for each sentence in
 a validation text file. It returns the minimum, maximum and mean
@@ -333,42 +333,40 @@ clean_up(ve)
 
 ## Demo
 
-A [DEMO](https://pakjiddat.shinyapps.io/word-predictor/) application
-demonstrates how to make word predictions. It is based on the Shiny
-package. It allows predicting the next word based on the given set of
-words. It displays the 10 most likely words along with their respective
-probabilities.
+The wordpredictor package includes a demo called “word-predictor”. The
+demo is a Shiny application that displays the ten most likely words for
+a given set of words. To access the demo, run the following command from
+the R shell:
 
-The demo app is based on Shiny platform. It consists of two files.
-[server.r](https://gist.github.com/pakjiddat/43c61c54b645e5bd0096d6fd75e58127)
-and
-[ui.r](https://gist.github.com/pakjiddat/96727c1df77755e5bcf8a7d4ff731dea).
-The n-gram model file must be present in the same folder as the two
-files. It can be generated using the ModelGenerator class.
+**`demo("word-predictor", package = "wordpredictor", ask = F)`**.
+
+The following is a screenshot of the demo:
+
+<img src="man/figures/README-demo.png" width="70%" height="70%" />
 
 ## Website
 
 The [wordpredictor website](https://pakjiddat.github.io/word-predictor/)
-provides details about how the packages works. It includes code samples
+provides details about how the package works. It includes code samples
 and details of all the classes and methods.
 
 ## Benefits
 
-The **wordpredictor** package provides an easy to use framework for
-working with n-gram models. It allows n-gram model generation,
-performance evaluation and word prediction.
+The wordpredictor package provides an easy to use framework for working
+with n-gram models. It allows n-gram model generation, performance
+evaluation and word prediction.
 
 ## Limitations
 
 The n-gram language model requires a lot of memory for storing the
-n-grams. The **wordpredictor** package has been tested on a machine with
+n-grams. The wordpredictor package has been tested on a machine with
 dual core processor and 4 GB of RAM. It works well for input data files
 of size less than 40 Mb and n-gram size 4. For larger data files and
 n-gram size, more memory and CPU power will be needed.
 
 ## Future Work
 
-The **wordpredictor** package may be extended by adding support for
+The wordpredictor package may be extended by adding support for
 different smoothing techniques such as
 [Good-Turing](https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation),
 [Katz-Back-off](https://en.wikipedia.org/wiki/Katz%27s_back-off_model)
@@ -380,7 +378,7 @@ Support for different types of n-gram models such as
 [Syntatic
 n-grams](https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams).
 
-The **wordpredictor** package is used for predicting words. It may be
+The wordpredictor package is used for predicting words. It may be
 extended to support other use cases such as spelling correction,
 biological sequence analysis, data compression and more. This will
 require further performance optimization.
@@ -390,8 +388,8 @@ Contributions are welcome \!.
 
 ## Acknowledgments
 
-I was motivated to develop the **wordpredictor** package after taking
-the courses in the [Data Science
+I was motivated to develop the wordpredictor package after taking the
+courses in the [Data Science
 Specialization](https://www.coursera.org/specializations/jhu-data-science)
 offered by John Hopkins university on Coursera. I would like to thank
 the course instructors for making the courses interesting and motivating
