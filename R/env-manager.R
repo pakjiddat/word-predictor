@@ -185,10 +185,16 @@ EnvManager <- R6::R6Class(
             # The wordpredictor options are updated
             options("wordpredictor" = wp)
 
+            d1 <- system.file("extdata", package = "wordpredictor")
+            d2 <- system.file(package = "wordpredictor")
+            print(d1)
+            list.files(d2)
+
             # Each file is copied from inst/extdata to the given folder
             for (fn in fns) {
                 # The source file path
-                sfp <- system.file("extdata", fn, package = "wordpredictor")
+                sfp <- system.file(
+                    "extdata", fn, package = "wordpredictor", mustWork = T)
                 # If the source file path does not exist
                 if (!file.exists(sfp)) {
                     stop(getwd())

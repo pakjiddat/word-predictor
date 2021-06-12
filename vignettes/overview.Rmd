@@ -120,9 +120,8 @@ ed <- setup_env(rf, ve)
 # The following code generates n-gram model using default options for data
 # cleaning and tokenization. See the following section on how to customize these
 # options. Note that input.txt is the name of the input data file. It should be
-# present in the data directory. ddir is the data directory. mdir is the model
-# directory. The output model file, which is def-model.RDS will be placed in
-# this directory.
+# present in the ed directory. The generated model file is also placed in this
+# directory.
 
 # ModelGenerator class object is created
 mg <- ModelGenerator$new(

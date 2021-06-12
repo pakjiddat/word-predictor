@@ -44,5 +44,5 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
-        run: covr::codecov()
+        run: testthat::test_dir(path = "tests/testthat/")
         shell: Rscript {0}
