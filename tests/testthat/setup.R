@@ -21,7 +21,7 @@ for (fn in fl) {
 # nolint end
 
 # If level of verbosity in the information messages
-ve <- 2
+ve <- 0
 # The action to take after the test ends
 ea <- "t"
 
