@@ -184,14 +184,23 @@ EnvManager <- R6::R6Class(
             wp$ed <- ed
             # The wordpredictor options are updated
             options("wordpredictor" = wp)
-
-            # Each file is copied from inst/extdata to the given folder
+            print(list.files(system.file(package = "wordpredictor")))
+            # Each file is copied from extdata to the given folder
             for (fn in fns) {
                 # The source file path
                 sfp <- system.file("extdata", fn, package = "wordpredictor")
                 # If the source file path does not exist
                 if (!file.exists(sfp)) {
-                    stop(getwd())
+                    # The inst/extdata folder is checked
+                    sfp <- system.file(
+                        "inst/extdata", fn, package = "wordpredictor", mustWork = T)
+                    # If the source file path does not exist
+                    if (!file.exists(sfp)) {
+                        # The error message
+                        msg <- paste0("The file: ", fn, " could not be found")
+                        # The error message
+                        stop(msg)
+                    }
                 }
                 # The information message is shown
                 private$dm("Copying file:", fn, "to", ed, md = 1)
