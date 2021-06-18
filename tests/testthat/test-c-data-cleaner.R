@@ -29,13 +29,13 @@ test_that("Sample line of text are cleaned as expected", {
 
     # Test data is read
     l <- c(
-        "If you think I’m wrong, send me a link to where it’s happened",
-        "We’re about 90percent done with this room",
-        "“This isn’t how I wanted it between us.”",
-        "Almost any “cute” breed can become ornamental",
-        "Once upon a time there was a kingdom with a castle…",
+        "If you think I'm wrong, send me a link to where it's happened",
+        "We're about 90percent done with this room",
+        "This isn't how I wanted it between us.",
+        "Almost any cute breed can become ornamental",
+        "Once upon a time there was a kingdom with a castle",
         "That's not a thing any of us are granted'",
-        "“Why are you being so difficult?” she asks."
+        "Why are you being so difficult? she asks."
     )
     # The expected results
     res <- c(

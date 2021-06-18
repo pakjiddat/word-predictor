@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    fig.path = "man/figures/VIGNETTES-"
+    fig.path = "man/figures/"
 )
 ```
 
@@ -219,7 +219,7 @@ The **stem_words** option is used to transform n-gram prefix components to their
 
 The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occurring 2-gram tokens:
 
-```{r tokenization-2, cache=TRUE, fig.width=5, fig.height=3}
+```{r tokenization-2, cache=TRUE, out.width="70%", out.height="70%"}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -233,17 +233,21 @@ da <- DataAnalyzer$new(fn, ve = ve)
 df <- da$plot_n_gram_stats(opts = list(
     "type" = "top_features",
     "n" = 10,
-    "save_to" = NULL,
-    "dir" = ed
+    "save_to" = "png",
+    "dir" = "./man/figures"
 ))
 
-# The test envionment is cleaned up
+# The output file path
+fn <- paste0("./man/figures/top_features.png")
+knitr::include_graphics(fn)
+
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
 The following example shows the distribution of word frequencies:
 
-```{r tokenization-3, cache=TRUE, fig.width=5, fig.height=3}
+```{r tokenization-3, cache=TRUE, out.width="70%", out.height="70%"}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -257,9 +261,13 @@ da <- DataAnalyzer$new(fn, ve = ve)
 df <- da$plot_n_gram_stats(opts = list(
     "type" = "coverage",
     "n" = 10,
-    "save_to" = NULL,
-    "dir" = ed
+    "save_to" = "png",
+    "dir" = "./man/figures"
 ))
+
+# The output file path
+fn <- paste0("./man/figures/coverage.png")
+knitr::include_graphics(fn)
 
 # The test envionment is cleaned up
 clean_up(ve)
