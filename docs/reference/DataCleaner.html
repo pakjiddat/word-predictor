@@ -73,7 +73,7 @@ characters from text files. It is suitable for cleaning large text files." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -261,13 +261,13 @@ passed to the current object.</p><h4 class='hasAnchor' id='arguments'><a class='
 <span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
 <span class='co'># Test data is read</span>
 <span class='va'>l</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-    <span class='st'>"If you think I’m wrong, send me a link to where it’s happened"</span>,
-    <span class='st'>"We’re about 90percent done with this room"</span>,
-    <span class='st'>"“This isn’t how I wanted it between us.”"</span>,
-    <span class='st'>"Almost any “cute” breed can become ornamental"</span>,
-    <span class='st'>"Once upon a time there was a kingdom with a castle…"</span>,
+    <span class='st'>"If you think I'm wrong, send me a link to where it's happened"</span>,
+    <span class='st'>"We're about 90percent done with this room"</span>,
+    <span class='st'>"This isn't how I wanted it between us."</span>,
+    <span class='st'>"Almost any cute breed can become ornamental"</span>,
+    <span class='st'>"Once upon a time there was a kingdom with a castle"</span>,
     <span class='st'>"That's not a thing any of us are granted'"</span>,
-    <span class='st'>"“Why are you being so difficult?” she asks."</span>
+    <span class='st'>"Why are you being so difficult? she asks."</span>
 <span class='op'>)</span>
 <span class='co'># The expected results</span>
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
@@ -319,7 +319,7 @@ passed to the current object.</p><h4 class='hasAnchor' id='arguments'><a class='
 <span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
 <span class='co'># The required files are downloaded</span>
 <span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
-<span class='co'># End of environment setup code</span>
+</div><div class='output co'>#&gt; [1] "CITATION" "examples" "extdata" </div><div class='input'><span class='co'># End of environment setup code</span>
 
 <span class='co'># The cleaned test file name</span>
 <span class='va'>cfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/test-clean.txt"</span><span class='op'>)</span>
@@ -344,13 +344,13 @@ passed to the current object.</p><h4 class='hasAnchor' id='arguments'><a class='
 <span class='va'>ve</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
 <span class='co'># Test data is read</span>
 <span class='va'>l</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-    <span class='st'>"If you think I’m wrong, send me a link to where it’s happened"</span>,
-    <span class='st'>"We’re about 90percent done with this room"</span>,
-    <span class='st'>"“This isn’t how I wanted it between us.”"</span>,
-    <span class='st'>"Almost any “cute” breed can become ornamental"</span>,
-    <span class='st'>"Once upon a time there was a kingdom with a castle…"</span>,
+    <span class='st'>"If you think I'm wrong, send me a link to where it's happened"</span>,
+    <span class='st'>"We're about 90percent done with this room"</span>,
+    <span class='st'>"This isn't how I wanted it between us."</span>,
+    <span class='st'>"Almost any cute breed can become ornamental"</span>,
+    <span class='st'>"Once upon a time there was a kingdom with a castle"</span>,
     <span class='st'>"That's not a thing any of us are granted'"</span>,
-    <span class='st'>"“Why are you being so difficult?” she asks."</span>
+    <span class='st'>"Why are you being so difficult? she asks."</span>
 <span class='op'>)</span>
 <span class='co'># The expected results</span>
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>

@@ -121,7 +121,7 @@ mg <- ModelGenerator$new(
 # Generates n-gram model. The output is the file def-model.RDS
 mg$generate_model()
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -146,7 +146,7 @@ mp <- ModelPredictor$new(mf = mfn)
 # next words are returned along with their respective probabilities.
 res <- mp$predict_word(words = "how are", 3)
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -177,7 +177,7 @@ df <- da$plot_n_gram_stats(opts = list(
   "dir" = NULL
 ))
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -202,7 +202,7 @@ df <- da$plot_n_gram_stats(opts = list(
   "dir" = NULL
 ))
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -226,7 +226,7 @@ df <- df[order(df$freq, decreasing = T),]
 # The frequency of the bi-gram "great_deal"
 f <- as.numeric(df[df$pre == "great_deal", "freq"])
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -310,7 +310,7 @@ me <- ModelEvaluator$new(mf = mfn, ve = 2)
 # a data frame and also saved within the model file itself.
 stats <- me$evaluate_performance(lc = 20, fn = vfn)
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -173,7 +173,7 @@
 <span class="co"># ./data/model/def-model.RDS</span>
 <span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="evaluating-the-model-performance" class="section level2">
@@ -186,6 +186,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
 <span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
@@ -196,7 +199,7 @@
 <span class="co"># The intrinsic evaluation is performed on first 20 lines</span>
 <span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">intrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example performs extrinsic evaluation. It measures the accuracy score for each sentence in <strong>validation.txt</strong> file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The extrinsic evaluation returns the number of correct and incorrect predictions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -204,6 +207,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
 <span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
@@ -214,7 +220,7 @@
 <span class="co"># The intrinsic evaluation is performed on first 100 lines</span>
 <span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">extrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">100</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="how-to-predict-a-word" class="section level2">
@@ -226,6 +232,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
 <span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
@@ -235,7 +244,7 @@
 <span class="co"># Given the words: "how are", the next word is predicted. The top 3 most likely</span>
 <span class="co"># next words are returned along with their respective probabilities.</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span>
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="demo" class="section level2">
@@ -247,8 +256,8 @@
 <div id="package-dependencies" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-dependencies" class="anchor"></a>Package dependencies</h2>
-<p>The wordpredictor package uses the following packages: <a href="https://cran.r-project.org/package=digest">digest</a>, <a href="https://cran.r-project.org/package=dplyr">dply</a>, <a href="https://cran.r-project.org/package=ggplot2">ggplot2</a>, <a href="https://cran.r-project.org/package=pryr">pryr</a>, <a href="https://cran.r-project.org/package=R6">R6</a>, <a href="https://cran.r-project.org/package=testthat">testthat</a> and <a href="https://cran.r-project.org/package=stringr">stingr</a></p>
-<p>The following packages were useful during package development: <a href="https://cran.r-project.org/package=quanteda">quanteda</a>, <a href="https://cran.r-project.org/package=tm">tm</a> and <a href="https://cran.r-project.org/package=hash">hash</a> <a href="https://cran.r-project.org/package=lintr">lintr</a> <a href="https://cran.r-project.org/package=styler">styler</a> <a href="https://cran.r-project.org/package=pkgdown">pkgdown</a></p>
+<p>The wordpredictor package uses the following packages: <a href="https://cran.r-project.org/package=digest">digest</a>, <a href="https://cran.r-project.org/package=dplyr">dply</a>, <a href="https://cran.r-project.org/package=ggplot2">ggplot2</a>, <a href="https://cran.r-project.org/package=R6">R6</a>, <a href="https://cran.r-project.org/package=testthat">testthat</a> and <a href="https://cran.r-project.org/package=stringr">stingr</a></p>
+<p>The following packages were useful during package development: <a href="https://cran.r-project.org/package=quanteda">quanteda</a>, <a href="https://cran.r-project.org/package=tm">tm</a> and <a href="https://cran.r-project.org/package=hash">hash</a> <a href="https://cran.r-project.org/package=lintr">lintr</a> <a href="https://cran.r-project.org/package=styler">styler</a> <a href="https://cran.r-project.org/package=pkgdown">pkgdown</a> <a href="https://cran.r-project.org/package=pryr">pryr</a>,</p>
 </div>
 <div id="useful-links" class="section level2">
 <h2 class="hasAnchor">

@@ -2,10 +2,13 @@
 
   - local, ubuntu 20.04.2, R 3.6.3
   - github actions, macos-latest, R release
-  - rhub, solaris x86, R patched-ods
-  - rhub, windows-x86_64, R release
-  - rhub, ubuntu-gcc, R release
-  - rhub, fedora-clang, R devel
+  - github actions, windows-latest, R release
+  - github actions, ubuntu 20.04, R devel
+  - github actions, ubuntu 20.04, R release  
+  - rhub, debian-clang-devel, R devel
+  - rhub, fedora-clang-devel, R devel
+  - rhub, solaris-x86-patched, R release
+  - rhub, macos-highsierra-release, R release
   - winbuilder, windows, R devel
 
 ## R CMD check results

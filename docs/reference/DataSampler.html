@@ -76,7 +76,7 @@ be cleaned or randomized." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -324,7 +324,7 @@ attribute.</p></dd>
 <span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span>, rp <span class='op'>=</span> <span class='st'>"./"</span><span class='op'>)</span>
 <span class='co'># The required files are downloaded</span>
 <span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
-<span class='co'># End of environment setup code</span>
+</div><div class='output co'>#&gt; [1] "CITATION" "examples" "extdata" </div><div class='input'><span class='co'># End of environment setup code</span>
 
 <span class='co'># The sample file name</span>
 <span class='va'>sfn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>ed</span>, <span class='st'>"/sample.txt"</span><span class='op'>)</span>
@@ -362,7 +362,7 @@ attribute.</p></dd>
 <span class='va'>em</span> <span class='op'>&lt;-</span> <span class='va'><a href='EnvManager.html'>EnvManager</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>ve <span class='op'>=</span> <span class='va'>ve</span><span class='op'>)</span>
 <span class='co'># The required files are downloaded</span>
 <span class='va'>ed</span> <span class='op'>&lt;-</span> <span class='va'>em</span><span class='op'>$</span><span class='fu'>setup_env</span><span class='op'>(</span><span class='va'>rf</span>, <span class='va'>fn</span><span class='op'>)</span>
-<span class='co'># End of environment setup code</span>
+</div><div class='output co'>#&gt; [1] "CITATION" "examples" "extdata" </div><div class='input'><span class='co'># End of environment setup code</span>
 
 <span class='co'># The files to clean</span>
 <span class='va'>fns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"train"</span>, <span class='st'>"test"</span>, <span class='st'>"validate"</span><span class='op'>)</span>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -120,6 +120,9 @@
 <span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The DataAnalyzer object is created</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span>
@@ -129,16 +132,16 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fi</span><span class="op">)</span>
 <span class="co">#&gt; $file_stats</span>
 <span class="co">#&gt;                                   fn total_lc max_ll min_ll mean_ll   size</span>
-<span class="co">#&gt; 1     /tmp/RtmpENXTF8/test-clean.txt       73     50     25      39 2.8 Kb</span>
-<span class="co">#&gt; 2           /tmp/RtmpENXTF8/test.txt       73     51     28      41   3 Kb</span>
-<span class="co">#&gt; 3 /tmp/RtmpENXTF8/validate-clean.txt       75     48     10      37 2.8 Kb</span>
-<span class="co">#&gt; 4       /tmp/RtmpENXTF8/validate.txt       73     50     31      40 2.9 Kb</span>
+<span class="co">#&gt; 1     /tmp/RtmpmqAHFH/test-clean.txt       73     50     25      39 2.8 Kb</span>
+<span class="co">#&gt; 2           /tmp/RtmpmqAHFH/test.txt       73     51     28      41   3 Kb</span>
+<span class="co">#&gt; 3 /tmp/RtmpmqAHFH/validate-clean.txt       75     48     10      37 2.8 Kb</span>
+<span class="co">#&gt; 4       /tmp/RtmpmqAHFH/validate.txt       73     50     31      40 2.9 Kb</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $overall_stats</span>
 <span class="co">#&gt;   total_lc max_ll min_ll mean_ll total_s</span>
 <span class="co">#&gt; 1      294     51     31      41 11.5 Kb</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The word count of a text file can be fetched using the command: <code>cat file-name | wc -w</code>. This command should work on all Unix based systems.</p>
 </div>
@@ -152,6 +155,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The sample size as a proportion of the input.txt file</span>
 <span class="va">ssize</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>
@@ -175,7 +181,7 @@
     is <span class="op">=</span> <span class="cn">T</span>
 <span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>Usually we need a train data set for generating the n-gram model. A test data set for testing the model and a validation data set for evaluating the performance of the model. The following example shows how to generate the train, test and validation files. The train file contains the first 80% of the lines, the test set contains the next 10% of the lines. The remaining lines are in the validation set.</p>
 <p>The data in the validation file must be different from the data in the train file. Otherwise it can result in over-fitting of the model. When a model is over-fitted, the model evaluation results will be exaggerated, overly optimistic and unreliable. So care should be taken to ensure that the data in the validation and train files is different.</p>
@@ -184,6 +190,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># An object of class DataSampler is created</span>
 <span class="va">ds</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/DataSampler.html">DataSampler</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>dir <span class="op">=</span> <span class="va">ed</span>, ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span>
@@ -197,7 +206,7 @@
     <span class="op">)</span>
 <span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>In the above example, <strong>dir</strong> parameter is the directory containing the <strong>input.txt</strong> file and the generated test, validation and train data files.</p>
 </div>
@@ -211,6 +220,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The data file path</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/input.txt"</span><span class="op">)</span>
@@ -233,7 +245,7 @@
 <span class="co"># The sample file is cleaned and saved as input-clean.txt in the ed dir</span>
 <span class="va">dc</span><span class="op">$</span><span class="fu">clean_file</span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The <strong>clean_file</strong> method reads a certain number of lines at a time, cleans the lines of text and saves them to an output text file. It can be used for cleaning large text files.</p>
 </div>
@@ -246,6 +258,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"test-clean.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The test file path</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/test-clean.txt"</span><span class="op">)</span>
@@ -259,7 +274,7 @@
   <span class="va">tg</span><span class="op">$</span><span class="fu">generate_tokens</span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The above code generates the files <strong>n1.RDS, n2.RDS, n3.RDS and n4.RDS</strong> in the data directory. These files contains n-gram tokens along with their frequencies. N-grams of larger size provide more context. Usually n-grams of size 4 are generated.</p>
 <p>Two important customization options supported by the <strong>TokenGenerator</strong> class are <strong>min_freq</strong> and <strong>stem_words</strong>. <strong>min_freq</strong> sets minimum frequency for n-gram tokens. All n-gram tokens with frequency less than <strong>min_freq</strong> are excluded.</p>
@@ -270,6 +285,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The ngram file name</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
@@ -279,13 +297,17 @@
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     <span class="st">"type"</span> <span class="op">=</span> <span class="st">"top_features"</span>,
     <span class="st">"n"</span> <span class="op">=</span> <span class="fl">10</span>,
-    <span class="st">"save_to"</span> <span class="op">=</span> <span class="cn">NULL</span>,
-    <span class="st">"dir"</span> <span class="op">=</span> <span class="va">ed</span>
-<span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="man/figures/VIGNETTES-tokenization-2-1.png" width="480"></p>
+    <span class="st">"save_to"</span> <span class="op">=</span> <span class="st">"png"</span>,
+    <span class="st">"dir"</span> <span class="op">=</span> <span class="st">"./man/figures"</span>
+<span class="op">)</span><span class="op">)</span>
+
+<span class="co"># The output file path</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"./man/figures/top_features.png"</span><span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></code></pre></div>
+<p><img src="man/figures/top_features.png" width="70%" height="70%"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example shows the distribution of word frequencies:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -293,6 +315,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The ngram file name</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
@@ -302,13 +327,17 @@
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     <span class="st">"type"</span> <span class="op">=</span> <span class="st">"coverage"</span>,
     <span class="st">"n"</span> <span class="op">=</span> <span class="fl">10</span>,
-    <span class="st">"save_to"</span> <span class="op">=</span> <span class="cn">NULL</span>,
-    <span class="st">"dir"</span> <span class="op">=</span> <span class="va">ed</span>
-<span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="man/figures/VIGNETTES-tokenization-3-1.png" width="480"></p>
+    <span class="st">"save_to"</span> <span class="op">=</span> <span class="st">"png"</span>,
+    <span class="st">"dir"</span> <span class="op">=</span> <span class="st">"./man/figures"</span>
+<span class="op">)</span><span class="op">)</span>
+
+<span class="co"># The output file path</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"./man/figures/coverage.png"</span><span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></code></pre></div>
+<p><img src="man/figures/coverage.png" width="70%" height="70%"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example returns top 10 2-gram tokens that start with <strong>and_</strong>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -316,6 +345,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The ngram file name</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
@@ -377,7 +409,7 @@
 </table>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="transition-probabilities" class="section level3">
@@ -391,12 +423,15 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n1.RDS"</span>, <span class="st">"n2.RDS"</span>, <span class="st">"n3.RDS"</span>, <span class="st">"n4.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 <span class="co"># The TPGenerator object is created</span>
 <span class="va">tp</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/TPGenerator.html">TPGenerator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">4</span>, dir <span class="op">=</span> <span class="va">ed</span><span class="op">)</span>, ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span>
 <span class="co"># The combined transition probabilities are generated</span>
 <span class="va">tp</span><span class="op">$</span><span class="fu">generate_tp</span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The above code produces the file <strong>model-4.RDS</strong>.</p>
 </div>
@@ -437,7 +472,7 @@
 <span class="co"># Generates n-gram model. The output is the file def-model.RDS</span>
 <span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
@@ -451,6 +486,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
 <span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
@@ -461,7 +499,7 @@
 <span class="co"># The intrinsic evaluation is performed on first 20 lines</span>
 <span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">intrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example performs Extrinsic evaluation. It measures the accuracy score for each sentence in <strong>validation.txt</strong> file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -469,6 +507,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
 <span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
@@ -479,7 +520,7 @@
 <span class="co"># The intrinsic evaluation is performed on first 100 lines</span>
 <span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">extrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">100</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="making-word-predictions" class="section level2">
@@ -491,6 +532,9 @@
 <span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
 <span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
@@ -501,7 +545,7 @@
 <span class="co"># next words are returned along with their respective probabilities.</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
   </div>

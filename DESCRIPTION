@@ -1,6 +1,6 @@
 Package: wordpredictor
 Title: Develop Text Prediction Models Based on N-Grams
-Version: 0.0.1
+Version: 0.0.2
 URL: https://github.com/pakjiddat/word-predictor, https://pakjiddat.github.io/word-predictor/
 BugReports: https://github.com/pakjiddat/word-predictor/issues
 Authors@R: 
