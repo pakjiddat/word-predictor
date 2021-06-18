@@ -5,6 +5,9 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
+[![lint](https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
+[![test-coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://codecov.io/gh/pakjiddat/word-predictor?branch=master)
 [![CRAN
