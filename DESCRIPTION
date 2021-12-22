@@ -1,6 +1,6 @@
 Package: wordpredictor
 Title: Develop Text Prediction Models Based on N-Grams
-Version: 0.0.2
+Version: 0.0.3
 URL: https://github.com/pakjiddat/word-predictor, https://pakjiddat.github.io/word-predictor/
 BugReports: https://github.com/pakjiddat/word-predictor/issues
 Authors@R: 
@@ -20,7 +20,7 @@ Description: A framework for developing n-gram models for text prediction.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: digest, ggplot2, patchwork, stringr, dplyr, SnowballC
 Suggests: 
     testthat,

@@ -47,7 +47,7 @@ clean_up <- function(ve) {
 [![R-CMD-check](https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
 [![lint](https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
 [![test-coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
-[![Codecov test coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://codecov.io/gh/pakjiddat/word-predictor?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pakjiddat/word-predictor?branch=master)
 [![CRAN version](https://www.r-pkg.org/badges/version/wordpredictor)](https://cran.r-project.org/package=wordpredictor)
 <!-- badges: end -->
 
@@ -91,7 +91,7 @@ Information about the package can be obtained using the command line or the pack
 
 The following example shows how to generate a n-gram model.
 
-```{r generate-model, cache=TRUE, results='hide'}
+```{r generate-model, cache=FALSE, results='hide'}
 # The required files
 rf <- c("input.txt")
 # The test environment is setup
@@ -131,7 +131,7 @@ The above code generates the file **def-model.RDS**. This file represents the n-
 
 The following example shows how to predict the next word given a set of words:
 
-```{r predict-word, cache=TRUE}
+```{r predict-word, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS")
 # The test environment is setup
@@ -183,7 +183,7 @@ clean_up(ve)
 
 The following example plots the n-gram frequency coverage. It shows the percentage of n-grams with frequency 1, 2 ... 10.
 
-```{r analyze-ngrams-2, cache=TRUE, fig.width=6, fig.height=4}
+```{r analyze-ngrams-2, cache=FALSE, fig.width=6, fig.height=4}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -208,7 +208,7 @@ clean_up(ve)
 
 The following example shows how to get the list of bi-grams starting with **"great_"** along with their frequencies. It also shows how to get the frequency of the bi-gram **"great_deal"**.
 
-```{r analyze-n-grams-3, cache=TRUE}
+```{r analyze-n-grams-3, cache=FALSE}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -294,7 +294,7 @@ Extrinsic evaluation measures the accuracy score for the sentences in a validati
 
 The following example shows how to evaluate the performance of a model:
 
-```{r evaluate-performance-1, cache=TRUE, results='hide'}
+```{r evaluate-performance-1, cache=FALSE, results='hide'}
 # The required files
 rf <- c("def-model.RDS", "validate.txt")
 # The test environment is setup

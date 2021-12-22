@@ -1,10 +1,10 @@
-pandoc: 2.3.1
-pkgdown: 1.6.1
+pandoc: 2.14.0.3
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   features: features.html
   overview: overview.html
-last_built: 2021-06-18T13:35Z
+last_built: 2022-01-03T10:52Z
 urls:
   reference: https://pakjiddat.github.io/word-predictor/reference
   article: https://pakjiddat.github.io/word-predictor/articles

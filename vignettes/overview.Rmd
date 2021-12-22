@@ -13,14 +13,14 @@ nocite: '@*'
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    fig.path = "man/figures/VIGNETTES-"
+    fig.path = "reference/figures/"
 )
 ```
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
 library(wordpredictor)
 
-# If level of verbosity in the information messages
+# The level of verbosity in the information messages
 ve <- 0
 
 #' @description
@@ -111,7 +111,7 @@ Extrinsic evaluation involves calculating the accuracy score. The model tries to
 
 The **ModelGenerator** class allows generating the final n-gram model using a single method call. The following example generates a n-gram model using default data cleaning and tokenization options:
 
-```{r generate-model, results='hide', cache=TRUE}
+```{r generate-model, results='hide', cache=FALSE}
 # The required files
 rf <- c("input.txt")
 # The test environment is setup
@@ -150,7 +150,7 @@ The **wordpredictor** package provides the **ModelEvaluator** class for evaluati
 
 The following example performs intrinsic evaluation. It measures the Perplexity score for each sentence in the **validation.txt** file. It returns the minimum, mean and maximum Perplexity score for each line.
 
-```{r model-evaluation-1, cache=TRUE}
+```{r model-evaluation-1, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS", "validate-clean.txt")
 # The test environment is setup
@@ -171,7 +171,7 @@ clean_up(ve)
 
 The following example performs extrinsic evaluation. It measures the accuracy score for each sentence in **validation.txt** file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The extrinsic evaluation returns the number of correct and incorrect predictions.
 
-```{r model-evaluation-2, cache=TRUE}
+```{r model-evaluation-2, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS", "validate-clean.txt")
 # The test environment is setup
@@ -194,7 +194,7 @@ clean_up(ve)
 
 The following example shows how to predict the next word. It returns the 3 possible next words along with their probabilities.
 
-```{r predict-word, cache=TRUE}
+```{r predict-word, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS", "validate-clean.txt")
 # The test environment is setup

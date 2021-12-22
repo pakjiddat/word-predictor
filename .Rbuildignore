@@ -13,3 +13,4 @@
 ^vignettes/overview_cache$
 ^CRAN-RELEASE$
 ^codecov\.yml$
+^CRAN-SUBMISSION$

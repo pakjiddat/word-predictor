@@ -2,3 +2,5 @@ url: https://pakjiddat.github.io/word-predictor
 title: Word Predictor
 development:
   mode: release
+template:
+  bootstrap: 5

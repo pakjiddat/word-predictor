@@ -11,14 +11,14 @@ vignette: >
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    fig.path = "man/figures/"
+    fig.path = "reference/figures/"
 )
 ```
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
 library(wordpredictor)
 
-# If level of verbosity in the information messages
+# The level of verbosity in the information messages
 ve <- 0
 
 #' @description
@@ -59,7 +59,7 @@ The first step in generating a n-gram model is data exploration. This involves d
 
 It is also important to determine the unwanted words and symbols in the data such as vulgar words, punctuation symbols, non-alphabetical symbols etc. The **wordpredictor** package provides the **DataAnalyzer** class which can be used to find out statistics about the input data. The following example shows how to get statistics on all text files within a folder:
 
-```{r data-exploration, cache=TRUE}
+```{r data-exploration, cache=FALSE}
 # The required files
 rf <- c(
   "test.txt",
@@ -88,7 +88,7 @@ The next step is to generate training, testing and validation samples from the i
 
 The **wordpredictor** package provides the **DataSampler** class which can be used to generate a random sample containing given number of lines. The following example shows how to generate a random sample of size 10 Mb from an input text file:
 
-```{r data-sampling-1, cache=TRUE}
+```{r data-sampling-1, cache=FALSE}
 # The required files
 rf <- c("input.txt")
 # The test environment is setup
@@ -124,7 +124,7 @@ Usually we need a train data set for generating the n-gram model. A test data se
 
 The data in the validation file must be different from the data in the train file. Otherwise it can result in over-fitting of the model. When a model is over-fitted, the model evaluation results will be exaggerated, overly optimistic and unreliable. So care should be taken to ensure that the data in the validation and train files is different.
 
-```{r data-sampling-2, cache=TRUE}
+```{r data-sampling-2, cache=FALSE}
 # The required files
 rf <- c("input.txt")
 # The test environment is setup
@@ -153,7 +153,7 @@ The next step is to remove unwanted symbols and words from the input text file. 
 
 The **wordpredictor** package provides the **DataCleaner** class which can be used to remove unwanted words and symbols from text files. The following example shows how to clean a given text file:
 
-```{r data-cleaning, cache=TRUE}
+```{r data-cleaning, cache=FALSE}
 # The required files
 rf <- c("input.txt")
 # The test environment is setup
@@ -189,7 +189,7 @@ The **clean_file** method reads a certain number of lines at a time, cleans the 
 ### Tokenization
 The next step is to generate n-gram tokens from the cleaned text file. The **TokenGenerator** class allows generating n-gram tokens of given size from a given input text file. The following example shows how to generate n-grams tokens of size 1,2,3 and 4:
 
-```{r tokenization-1, cache=TRUE}
+```{r tokenization-1, cache=FALSE}
 # The required files
 rf <- c("test-clean.txt")
 # The test environment is setup
@@ -219,7 +219,7 @@ The **stem_words** option is used to transform n-gram prefix components to their
 
 The n-gram token frequencies may be analyzed using the **DataAnalyzer** class. The following example displays the top most occurring 2-gram tokens:
 
-```{r tokenization-2, cache=TRUE, out.width="70%", out.height="70%"}
+```{r tokenization-2, cache=FALSE, out.width="70%", out.height="70%"}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -234,11 +234,11 @@ df <- da$plot_n_gram_stats(opts = list(
     "type" = "top_features",
     "n" = 10,
     "save_to" = "png",
-    "dir" = "./man/figures"
+    "dir" = "./reference/figures"
 ))
 
 # The output file path
-fn <- paste0("./man/figures/top_features.png")
+fn <- paste0("./reference/figures/top_features.png")
 knitr::include_graphics(fn)
 
 # The test environment is cleaned up
@@ -247,7 +247,7 @@ clean_up(ve)
 
 The following example shows the distribution of word frequencies:
 
-```{r tokenization-3, cache=TRUE, out.width="70%", out.height="70%"}
+```{r tokenization-3, cache=FALSE, out.width="70%", out.height="70%"}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -262,11 +262,11 @@ df <- da$plot_n_gram_stats(opts = list(
     "type" = "coverage",
     "n" = 10,
     "save_to" = "png",
-    "dir" = "./man/figures"
+    "dir" = "./reference/figures"
 ))
 
 # The output file path
-fn <- paste0("./man/figures/coverage.png")
+fn <- paste0("./reference/figures/coverage.png")
 knitr::include_graphics(fn)
 
 # The test environment is cleaned up
@@ -275,7 +275,7 @@ clean_up(ve)
 
 The following example returns top 10 2-gram tokens that start with **and_**:
 
-```{r tokenization-4, cache=TRUE}
+```{r tokenization-4, cache=FALSE}
 # The required files
 rf <- c("n2.RDS")
 # The test environment is setup
@@ -303,7 +303,7 @@ The tp files are then combined into a single file containing tp data for n-grams
 
 The following example shows how to generate combined tps for n-grams of size 1, 2, 3 and 4:
 
-```{r transition-probabilities, cache=TRUE}
+```{r transition-probabilities, cache=FALSE}
 # The required files
 rf <- c("n1.RDS", "n2.RDS", "n3.RDS", "n4.RDS")
 # The test environment is setup
@@ -325,7 +325,7 @@ The final step is to generate a n-gram model file from the files generated in th
 ### Generating the model in one step
 All the previous steps may be combined into a single step. The **ModelGenerator** class allows generating the final n-gram model using a single method call. The following example generates a n-gram model using default data cleaning and tokenization options:
 
-```{r generate-model, results='hide', cache=TRUE}
+```{r generate-model, results='hide', cache=FALSE}
 # The required files
 rf <- c("input.txt")
 # The test environment is setup
@@ -362,7 +362,7 @@ The **wordpredictor** package provides the **ModelEvaluator** class for evaluati
 
 The following example performs Intrinsic evaluation. It measures the Perplexity score for each sentence in the **validation.txt** file, that was generated in the data sampling step. It returns the minimum, mean and maximum Perplexity score for each line.
 
-```{r model-evaluation-1, cache=TRUE}
+```{r model-evaluation-1, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS", "validate-clean.txt")
 # The test environment is setup
@@ -383,7 +383,7 @@ clean_up(ve)
 
 The following example performs Extrinsic evaluation. It measures the accuracy score for each sentence in **validation.txt** file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate.
 
-```{r model-evaluation-2, cache=TRUE}
+```{r model-evaluation-2, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS", "validate-clean.txt")
 # The test environment is setup
@@ -406,7 +406,7 @@ clean_up(ve)
 
 The n-gram model generated in the previous step can be used to predict the next word given a set of words. The following example shows how to predict the next word. It returns the 3 possible next words along with their probabilities.
 
-```{r predict-word, cache=TRUE}
+```{r predict-word, cache=FALSE}
 # The required files
 rf <- c("def-model.RDS")
 # The test environment is setup

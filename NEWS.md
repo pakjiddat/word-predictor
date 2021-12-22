@@ -1,3 +1,9 @@
+# wordpredictor 0.0.3
+
+## Bug fixes
+
+  * Disabled caching in R Markdown files, because it was causing problems with CRAN checks.
+  
 # wordpredictor 0.0.2
 
 ## Bug fixes

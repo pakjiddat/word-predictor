@@ -9,7 +9,7 @@
 [![lint](https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
 [![test-coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://codecov.io/gh/pakjiddat/word-predictor?branch=master)
+coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pakjiddat/word-predictor?branch=master)
 [![CRAN
 version](https://www.r-pkg.org/badges/version/wordpredictor)](https://cran.r-project.org/package=wordpredictor)
 <!-- badges: end -->
@@ -106,7 +106,7 @@ mg <- ModelGenerator$new(
 # Generates n-gram model. The output is the file def-model.RDS
 mg$generate_model()
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -133,7 +133,7 @@ mp <- ModelPredictor$new(mf = mfn)
 # next words are returned along with their respective probabilities.
 res <- mp$predict_word(words = "how are", 3)
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -176,8 +176,7 @@ df <- da$plot_n_gram_stats(opts = list(
 ![](man/figures/README-analyze-ngrams-1-1.png)<!-- -->
 
 ``` r
-
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -207,14 +206,13 @@ df <- da$plot_n_gram_stats(opts = list(
 ![](man/figures/README-analyze-ngrams-2-1.png)<!-- -->
 
 ``` r
-
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
 The following example shows how to get the list of bi-grams starting
 with **“great\_”** along with their frequencies. It also shows how to
-get the frequency of the bi-gram **“great\_deal”**.
+get the frequency of the bi-gram **“great_deal”**.
 
 ``` r
 # The required files
@@ -234,18 +232,17 @@ df <- df[order(df$freq, decreasing = T),]
 # The frequency of the bi-gram "great_deal"
 f <- as.numeric(df[df$pre == "great_deal", "freq"])
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
 ## Customizing the n-gram model
 
-The **dc\_opts** parameter to the **ModelGenerator** class specifies the
+The **dc_opts** parameter to the **ModelGenerator** class specifies the
 data cleaning options. The following code shows the data cleaning
 options and their default values:
 
 ``` r
-
 # @field dc_opts The options for the data cleaner object.
 #   min_words -> The minimum number of words per sentence.
 #   line_count -> The number of lines to read and clean at a time.
@@ -280,12 +277,11 @@ dc_opts = list(
 )
 ```
 
-The **tg\_opts** parameter to the **ModelGenerator** class specifies the
+The **tg_opts** parameter to the **ModelGenerator** class specifies the
 token generation options. The following code shows the token generation
 options and their default values:
 
 ``` r
-
 # @field tg_opts The options for the token generator obj.
 #   min_freq -> All ngrams with frequency less than min_freq are
 #     ignored.
@@ -331,7 +327,7 @@ me <- ModelEvaluator$new(mf = mfn, ve = 2)
 # a data frame and also saved within the model file itself.
 stats <- me$evaluate_performance(lc = 20, fn = vfn)
 
-# The test envionment is cleaned up
+# The test environment is cleaned up
 clean_up(ve)
 ```
 
@@ -388,7 +384,7 @@ biological sequence analysis, data compression and more. This will
 require further performance optimization.
 
 The source code is organized using R6 classes. It is easy to extend.
-Contributions are welcome \!.
+Contributions are welcome !.
 
 ## Acknowledgments
 

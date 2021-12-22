@@ -4,14 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content='A framework for developing n-gram models for text prediction.
+    It provides data cleaning, data sampling, extracting tokens from text,
+    model generation, model evaluation and word prediction. For information on how n-gram models 
+    work we referred to: "Speech and Language Processing"
+    &lt;https://web.stanford.edu/~jurafsky/slp3/3.pdf&gt;. For optimizing R code and
+    using R6 classes we referred to "Advanced R" 
+    &lt;https://adv-r.hadley.nz/r6.html&gt;. For writing R extensions we referred to 
+    "R Packages", &lt;https://r-pkgs.org/index.html&gt;.'>
 <title>Develop Text Prediction Models Based on N-Grams • Word Predictor</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Develop Text Prediction Models Based on N-Grams">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Develop Text Prediction Models Based on N-Grams">
 <meta property="og:description" content='A framework for developing n-gram models for text prediction.
     It provides data cleaning, data sampling, extracting tokens from text,
     model generation, model evaluation and word prediction. For information on how n-gram models 
@@ -25,96 +32,79 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">Word Predictor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">Word Predictor</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-2">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/features.html">Features</a>
+    <a class="dropdown-item" href="articles/overview.html">Overview</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/features.html">Features</a>
-    </li>
-    <li>
-      <a href="articles/overview.html">Overview</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/pakjiddat/word-predictor/">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/pakjiddat/word-predictor/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div id="introduction" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1></div>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h1></div>
 <!-- badges: start -->
 
-<p>The goal of the wordpredictor package is to provide a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram">n-gram models</a> for word prediction.</p>
-<p>The package allows generating n-gram models from input text files. It also allows exploring n-grams using plots. Additionally it provides methods for measuring n-gram model performance using <a href="https://en.wikipedia.org/wiki/Perplexity">Perplexity</a> and accuracy.</p>
+<p>The goal of the wordpredictor package is to provide a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram" class="external-link">n-gram models</a> for word prediction.</p>
+<p>The package allows generating n-gram models from input text files. It also allows exploring n-grams using plots. Additionally it provides methods for measuring n-gram model performance using <a href="https://en.wikipedia.org/wiki/Perplexity" class="external-link">Perplexity</a> and accuracy.</p>
 <p>The n-gram model may be customized using several options such as n-gram size, data cleaning options and options for tokenization.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the released version of wordpredictor from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wordpredictor"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"wordpredictor"</span><span class="op">)</span></code></pre></div>
 <p>And the development version from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"pakjiddat/word-predictor"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pakjiddat/word-predictor"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="package-structure" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-structure" class="anchor"></a>Package structure</h2>
+<div class="section level2">
+<h2 id="package-structure">Package structure<a class="anchor" aria-label="anchor" href="#package-structure"></a>
+</h2>
 <p>The wordpredictor package is based on <strong>R6 classes</strong>. It is easy to customize and improve. It provides the following classes:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>
 <strong>DataAnalyzer</strong>. It allows analyzing n-grams.</li>
 <li>
@@ -136,13 +126,13 @@
 </ol>
 <p>Information about the package can be obtained using the command line or the package website. For example, the command: <strong>?wordpredictor</strong> returns information about how the given class works and the parameter details for each class method.</p>
 </div>
-<div id="generating-the-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generating-the-model" class="anchor"></a>Generating the model</h2>
+<div class="section level2">
+<h2 id="generating-the-model">Generating the model<a class="anchor" aria-label="anchor" href="#generating-the-model"></a>
+</h2>
 <p>The following example shows how to generate a n-gram model.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The required files</span>
-<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
 
@@ -162,30 +152,33 @@
     n <span class="op">=</span> <span class="fl">4</span>,
     ssize <span class="op">=</span> <span class="fl">10</span>,
     dir <span class="op">=</span> <span class="va">ed</span>,
-    dc_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
-    tg_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
+    dc_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+    tg_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
     ve <span class="op">=</span> <span class="va">ve</span>
 <span class="op">)</span>
 
 <span class="co"># Generates n-gram model. The output is the file def-model.RDS</span>
 <span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The above code generates the file <strong>def-model.RDS</strong>. This file represents the n-gram model.</p>
 </div>
-<div id="predicting-words" class="section level2">
-<h2 class="hasAnchor">
-<a href="#predicting-words" class="anchor"></a>Predicting words</h2>
+<div class="section level2">
+<h2 id="predicting-words">Predicting words<a class="anchor" aria-label="anchor" href="#predicting-words"></a>
+</h2>
 <p>The following example shows how to predict the next word given a set of words:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The required files</span>
-<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
+<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class ModelPredictor is created. The mf parameter is the name of</span>
 <span class="co"># the model file that was generated in the previous example.</span>
 <span class="va">mp</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/ModelPredictor.html">ModelPredictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span><span class="op">)</span>
@@ -193,28 +186,31 @@
 <span class="co"># next words are returned along with their respective probabilities.</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="analyzing-n-grams" class="section level2">
-<h2 class="hasAnchor">
-<a href="#analyzing-n-grams" class="anchor"></a>Analyzing N-grams</h2>
+<div class="section level2">
+<h2 id="analyzing-n-grams">Analyzing N-grams<a class="anchor" aria-label="anchor" href="#analyzing-n-grams"></a>
+</h2>
 <p>The wordpredictor package includes a class called <strong>DataAnalyzer</strong>, that can be used to get an idea of the frequency distribution of n-grams in a model. The model generation process described above, creates an n-gram file in the model directory.</p>
 <p>For each n-gram number less than or equal to the n-gram size of the model, a n-gram file is generated. In the example above the n-gram size of the model is 4. So 4 n-gram files are generated in the model folder. These files are: <strong>n1.RDS, n2.RDS, n3.RDS and n4.RDS</strong>. The <strong>n2.RDS</strong> file contains n-grams of size 2.</p>
 <p>The following example plots the top 10 most occurring bi-grams along with their frequencies:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The required files</span>
-<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The file name</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span><span class="op">)</span>
 <span class="co"># The top 10 most occurring features are plotted</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
   <span class="st">"type"</span> <span class="op">=</span> <span class="st">"top_features"</span>,
   <span class="st">"n"</span> <span class="op">=</span> <span class="fl">10</span>,
   <span class="st">"save_to"</span> <span class="op">=</span> <span class="cn">NULL</span>,
@@ -222,23 +218,25 @@
 <span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-analyze-ngrams-1-1.png"><!-- --></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># The test envionment is cleaned up</span>
+<code class="sourceCode R"><span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example plots the n-gram frequency coverage. It shows the percentage of n-grams with frequency 1, 2 … 10.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The required files</span>
-<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The file name</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span><span class="op">)</span>
 <span class="co"># The top 10 most occurring features are plotted</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">plot_n_gram_stats</span><span class="op">(</span>opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
   <span class="st">"type"</span> <span class="op">=</span> <span class="st">"coverage"</span>,
   <span class="st">"n"</span> <span class="op">=</span> <span class="fl">10</span>,
   <span class="st">"save_to"</span> <span class="op">=</span> <span class="cn">NULL</span>,
@@ -246,38 +244,39 @@
 <span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-analyze-ngrams-2-1.png"><!-- --></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># The test envionment is cleaned up</span>
+<code class="sourceCode R"><span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 <p>The following example shows how to get the list of bi-grams starting with <strong>“great_”</strong> along with their frequencies. It also shows how to get the frequency of the bi-gram <strong>“great_deal”</strong>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The required files</span>
-<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n2.RDS"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "CITATION"    "demo"        "DESCRIPTION" "examples"    "extdata"    </span>
+<span class="co">#&gt;  [6] "help"        "html"        "INDEX"       "LICENSE"     "Meta"       </span>
+<span class="co">#&gt; [11] "NAMESPACE"   "NEWS.md"     "R"</span>
 
 <span class="co"># The file name</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/n2.RDS"</span><span class="op">)</span>
 <span class="co"># An object of class DataAnalyzer is created. The fn parameter is the path to</span>
 <span class="co"># the n-gram file.</span>
 <span class="va">da</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/DataAnalyzer.html">DataAnalyzer</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
 <span class="co"># Bi-grams starting with "great_" are returned</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">da</span><span class="op">$</span><span class="fu">get_ngrams</span><span class="op">(</span>fn <span class="op">=</span> <span class="va">fn</span>, c <span class="op">=</span> <span class="fl">10</span>, pre <span class="op">=</span> <span class="st">"^great_*"</span><span class="op">)</span>
 <span class="co"># The data frame is sorted by frequency</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">freq</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,<span class="op">]</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">freq</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,<span class="op">]</span>
 <span class="co"># The frequency of the bi-gram "great_deal"</span>
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">pre</span> <span class="op">==</span> <span class="st">"great_deal"</span>, <span class="st">"freq"</span><span class="op">]</span><span class="op">)</span>
+<span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">pre</span> <span class="op">==</span> <span class="st">"great_deal"</span>, <span class="st">"freq"</span><span class="op">]</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="customizing-the-n-gram-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customizing-the-n-gram-model" class="anchor"></a>Customizing the n-gram model</h2>
+<div class="section level2">
+<h2 id="customizing-the-n-gram-model">Customizing the n-gram model<a class="anchor" aria-label="anchor" href="#customizing-the-n-gram-model"></a>
+</h2>
 <p>The <strong>dc_opts</strong> parameter to the <strong>ModelGenerator</strong> class specifies the data cleaning options. The following code shows the data cleaning options and their default values:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># @field dc_opts The options for the data cleaner object.</span>
+<code class="sourceCode R"><span class="co"># @field dc_opts The options for the data cleaner object.</span>
 <span class="co">#   min_words -&gt; The minimum number of words per sentence.</span>
 <span class="co">#   line_count -&gt; The number of lines to read and clean at a time.</span>
 <span class="co">#   save_data -&gt; If the combined processed lines should be saved.</span>
@@ -293,7 +292,7 @@
 <span class="co">#   remove_extra_space -&gt; If leading, trailing and double spaces</span>
 <span class="co">#     should be removed.</span>
 <span class="co">#   remove_bad -&gt; If bad words should be removed</span>
-<span class="va">dc_opts</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">dc_opts</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
   <span class="st">"min_words"</span> <span class="op">=</span> <span class="fl">2</span>,
   <span class="st">"line_count"</span> <span class="op">=</span> <span class="fl">1000</span>,
   <span class="st">"save_data"</span> <span class="op">=</span> <span class="cn">T</span>,
@@ -311,140 +310,141 @@
 <span class="op">)</span></code></pre></div>
 <p>The <strong>tg_opts</strong> parameter to the <strong>ModelGenerator</strong> class specifies the token generation options. The following code shows the token generation options and their default values:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># @field tg_opts The options for the token generator obj.</span>
+<code class="sourceCode R"><span class="co"># @field tg_opts The options for the token generator obj.</span>
 <span class="co">#   min_freq -&gt; All ngrams with frequency less than min_freq are</span>
 <span class="co">#     ignored.</span>
 <span class="co">#   stem_words -&gt; If words should be transformed to their stems.</span>
-<span class="va">tg_opts</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">tg_opts</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
   <span class="st">"stem_words"</span> <span class="op">=</span> <span class="cn">F</span>,
   <span class="st">"min_freq"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="evaluating-model-performance" class="section level2">
-<h2 class="hasAnchor">
-<a href="#evaluating-model-performance" class="anchor"></a>Evaluating model performance</h2>
+<div class="section level2">
+<h2 id="evaluating-model-performance">Evaluating model performance<a class="anchor" aria-label="anchor" href="#evaluating-model-performance"></a>
+</h2>
 <p>The wordpredictor package allows evaluating n-gram model performance. It can measure the performance of a single model as well as compare the performance of multiple models. When evaluating the performance of a model, intrinsic and extrinsic evaluation is performed.</p>
 <p>Intrinsic evaluation measures the Perplexity score for each sentence in a validation text file. It returns the minimum, maximum and mean Perplexity score for the sentences.</p>
 <p>Extrinsic evaluation measures the accuracy score for the sentences in a validation text file. It tries to predict the last word of each sentence. If the word was correctly predicted, then the accuracy count is increased. The extrinsic evaluation returns the number of valid and invalid predictions.</p>
 <p>The following example shows how to evaluate the performance of a model:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The required files</span>
-<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate.txt"</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate.txt"</span><span class="op">)</span>
 <span class="co"># The test environment is setup</span>
 <span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span>
 
 <span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
+<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
 <span class="co"># The validation file name</span>
-<span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/validate.txt"</span><span class="op">)</span>
+<span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/validate.txt"</span><span class="op">)</span>
 <span class="co"># ModelEvaluator class object is created</span>
 <span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span>, ve <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co"># The performance evaluation is performed. The performance stats are returned as</span>
 <span class="co"># a data frame and also saved within the model file itself.</span>
 <span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">evaluate_performance</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span>
 
-<span class="co"># The test envionment is cleaned up</span>
+<span class="co"># The test environment is cleaned up</span>
 <span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="demo" class="section level2">
-<h2 class="hasAnchor">
-<a href="#demo" class="anchor"></a>Demo</h2>
+<div class="section level2">
+<h2 id="demo">Demo<a class="anchor" aria-label="anchor" href="#demo"></a>
+</h2>
 <p>The wordpredictor package includes a demo called “word-predictor”. The demo is a Shiny application that displays the ten most likely words for a given set of words. To access the demo, run the following command from the R shell:</p>
-<p><strong><code><a href="https://rdrr.io/r/utils/demo.html">demo("word-predictor", package = "wordpredictor", ask = F)</a></code></strong>.</p>
+<p><strong><code>demo("word-predictor", package = "wordpredictor", ask = F)</code></strong>.</p>
 <p>The following is a screenshot of the demo:</p>
 <p><img src="reference/figures/README-demo.png" width="70%" height="70%"></p>
 </div>
-<div id="website" class="section level2">
-<h2 class="hasAnchor">
-<a href="#website" class="anchor"></a>Website</h2>
+<div class="section level2">
+<h2 id="website">Website<a class="anchor" aria-label="anchor" href="#website"></a>
+</h2>
 <p>The <a href="https://pakjiddat.github.io/word-predictor/">wordpredictor website</a> provides details about how the package works. It includes code samples and details of all the classes and methods.</p>
 </div>
-<div id="benefits" class="section level2">
-<h2 class="hasAnchor">
-<a href="#benefits" class="anchor"></a>Benefits</h2>
+<div class="section level2">
+<h2 id="benefits">Benefits<a class="anchor" aria-label="anchor" href="#benefits"></a>
+</h2>
 <p>The wordpredictor package provides an easy to use framework for working with n-gram models. It allows n-gram model generation, performance evaluation and word prediction.</p>
 </div>
-<div id="limitations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#limitations" class="anchor"></a>Limitations</h2>
+<div class="section level2">
+<h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+</h2>
 <p>The n-gram language model requires a lot of memory for storing the n-grams. The wordpredictor package has been tested on a machine with dual core processor and 4 GB of RAM. It works well for input data files of size less than 40 Mb and n-gram size 4. For larger data files and n-gram size, more memory and CPU power will be needed.</p>
 </div>
-<div id="future-work" class="section level2">
-<h2 class="hasAnchor">
-<a href="#future-work" class="anchor"></a>Future Work</h2>
-<p>The wordpredictor package may be extended by adding support for different smoothing techniques such as <a href="https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation">Good-Turing</a>, <a href="https://en.wikipedia.org/wiki/Katz%27s_back-off_model">Katz-Back-off</a> and handling of <a href="https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words">Out Of Vocabulary Words</a>.</p>
-<p>Support for different types of n-gram models such as <a href="https://en.wikipedia.org/wiki/N-gram#Skip-gram">Skip-Grams</a> and <a href="https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams">Syntatic n-grams</a>.</p>
+<div class="section level2">
+<h2 id="future-work">Future Work<a class="anchor" aria-label="anchor" href="#future-work"></a>
+</h2>
+<p>The wordpredictor package may be extended by adding support for different smoothing techniques such as <a href="https://en.wikipedia.org/wiki/Good%E2%80%93Turing_frequency_estimation" class="external-link">Good-Turing</a>, <a href="https://en.wikipedia.org/wiki/Katz%27s_back-off_model" class="external-link">Katz-Back-off</a> and handling of <a href="https://en.wikipedia.org/wiki/N-gram#Out-of-vocabulary_words" class="external-link">Out Of Vocabulary Words</a>.</p>
+<p>Support for different types of n-gram models such as <a href="https://en.wikipedia.org/wiki/N-gram#Skip-gram" class="external-link">Skip-Grams</a> and <a href="https://en.wikipedia.org/wiki/N-gram#Syntactic_n-grams" class="external-link">Syntatic n-grams</a>.</p>
 <p>The wordpredictor package is used for predicting words. It may be extended to support other use cases such as spelling correction, biological sequence analysis, data compression and more. This will require further performance optimization.</p>
 <p>The source code is organized using R6 classes. It is easy to extend. Contributions are welcome !.</p>
 </div>
-<div id="acknowledgments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
-<p>I was motivated to develop the wordpredictor package after taking the courses in the <a href="https://www.coursera.org/specializations/jhu-data-science">Data Science Specialization</a> offered by John Hopkins university on Coursera. I would like to thank the course instructors for making the courses interesting and motivating for the students.</p>
+<div class="section level2">
+<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
+</h2>
+<p>I was motivated to develop the wordpredictor package after taking the courses in the <a href="https://www.coursera.org/specializations/jhu-data-science" class="external-link">Data Science Specialization</a> offered by John Hopkins university on Coursera. I would like to thank the course instructors for making the courses interesting and motivating for the students.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=wordpredictor">https://​cloud.r-project.org/​package=wordpredictor</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/pakjiddat/word-predictor/">https://​github.com/​pakjiddat/​word-predictor/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/pakjiddat/word-predictor/issues">https://​github.com/​pakjiddat/​word-predictor/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=wordpredictor" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/pakjiddat/word-predictor/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/pakjiddat/word-predictor/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing wordpredictor</a></li>
+<li><a href="authors.html#citation">Citing wordpredictor</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Nadir Latif <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7543-7405" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Nadir Latif <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7543-7405" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/pakjiddat/word-predictor/actions"><img src="https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://github.com/pakjiddat/word-predictor/actions"><img src="https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg" alt="lint"></a></li>
-<li><a href="https://github.com/pakjiddat/word-predictor/actions"><img src="https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg" alt="test-coverage"></a></li>
-<li><a href="https://codecov.io/gh/pakjiddat/word-predictor?branch=master"><img src="https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://cran.r-project.org/package=wordpredictor"><img src="https://www.r-pkg.org/badges/version/wordpredictor" alt="CRAN version"></a></li>
+<li><a href="https://github.com/pakjiddat/word-predictor/actions" class="external-link"><img src="https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/pakjiddat/word-predictor/actions" class="external-link"><img src="https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg" alt="lint"></a></li>
+<li><a href="https://github.com/pakjiddat/word-predictor/actions" class="external-link"><img src="https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg" alt="test-coverage"></a></li>
+<li><a href="https://codecov.io/gh/pakjiddat/word-predictor?branch=master" class="external-link"><img src="https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://cran.r-project.org/package=wordpredictor" class="external-link"><img src="https://www.r-pkg.org/badges/version/wordpredictor" alt="CRAN version"></a></li>
 </ul>
 </div>
-</div>
-</div>
 
-
-      <footer><div class="copyright">
-  <p>Developed by Nadir Latif.</p>
+  </aside>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Nadir Latif.</p>
 </div>
 
-      </footer>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+</div>
+
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>

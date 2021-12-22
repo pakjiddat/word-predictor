@@ -184,7 +184,7 @@ EnvManager <- R6::R6Class(
             wp$ed <- ed
             # The wordpredictor options are updated
             options("wordpredictor" = wp)
-            print(list.files(system.file(package = "wordpredictor")))
+            # print(list.files(system.file(package = "wordpredictor")))
             # Each file is copied from extdata to the given folder
             for (fn in fns) {
                 # The source file path
