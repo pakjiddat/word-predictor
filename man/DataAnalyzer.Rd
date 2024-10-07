@@ -132,22 +132,16 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{DataAnalyzer$new()}}
-\item \href{#method-plot_n_gram_stats}{\code{DataAnalyzer$plot_n_gram_stats()}}
-\item \href{#method-get_file_info}{\code{DataAnalyzer$get_file_info()}}
-\item \href{#method-get_ngrams}{\code{DataAnalyzer$get_ngrams()}}
-\item \href{#method-clone}{\code{DataAnalyzer$clone()}}
+\item \href{#method-DataAnalyzer-new}{\code{DataAnalyzer$new()}}
+\item \href{#method-DataAnalyzer-plot_n_gram_stats}{\code{DataAnalyzer$plot_n_gram_stats()}}
+\item \href{#method-DataAnalyzer-get_file_info}{\code{DataAnalyzer$get_file_info()}}
+\item \href{#method-DataAnalyzer-get_ngrams}{\code{DataAnalyzer$get_ngrams()}}
+\item \href{#method-DataAnalyzer-clone}{\code{DataAnalyzer$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-DataAnalyzer-new"></a>}}
+\if{latex}{\out{\hypertarget{method-DataAnalyzer-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the file name
 and verbose options.
@@ -166,8 +160,8 @@ and verbose options.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_n_gram_stats"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_n_gram_stats}{}}}
+\if{html}{\out{<a id="method-DataAnalyzer-plot_n_gram_stats"></a>}}
+\if{latex}{\out{\hypertarget{method-DataAnalyzer-plot_n_gram_stats}{}}}
 \subsection{Method \code{plot_n_gram_stats()}}{
 It allows generating two type of n-gram plots. It first reads n-gram
 token frequencies from an input text file. The n-gram frequencies are
@@ -244,8 +238,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_file_info"></a>}}
-\if{latex}{\out{\hypertarget{method-get_file_info}{}}}
+\if{html}{\out{<a id="method-DataAnalyzer-get_file_info"></a>}}
+\if{latex}{\out{\hypertarget{method-DataAnalyzer-get_file_info}{}}}
 \subsection{Method \code{get_file_info()}}{
 It generates information about text files. It takes as input a file
 or a directory containing text files. For each file it calculates the
@@ -301,8 +295,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_ngrams"></a>}}
-\if{latex}{\out{\hypertarget{method-get_ngrams}{}}}
+\if{html}{\out{<a id="method-DataAnalyzer-get_ngrams"></a>}}
+\if{latex}{\out{\hypertarget{method-DataAnalyzer-get_ngrams}{}}}
 \subsection{Method \code{get_ngrams()}}{
 It extracts a given number of n-grams and their frequencies from a
 n-gram token file.
@@ -363,8 +357,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-DataAnalyzer-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-DataAnalyzer-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

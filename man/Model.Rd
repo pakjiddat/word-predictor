@@ -38,22 +38,16 @@ performance.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Model$new()}}
-\item \href{#method-load_model}{\code{Model$load_model()}}
-\item \href{#method-get_config}{\code{Model$get_config()}}
-\item \href{#method-get_size}{\code{Model$get_size()}}
-\item \href{#method-clone}{\code{Model$clone()}}
+\item \href{#method-Model-new}{\code{Model$new()}}
+\item \href{#method-Model-load_model}{\code{Model$load_model()}}
+\item \href{#method-Model-get_config}{\code{Model$get_config()}}
+\item \href{#method-Model-get_size}{\code{Model$get_size()}}
+\item \href{#method-Model-clone}{\code{Model$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Model-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Model-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the
 maximum n-gram number, sample size, input file name, data cleaner
@@ -101,8 +95,8 @@ name and verbose.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-load_model"></a>}}
-\if{latex}{\out{\hypertarget{method-load_model}{}}}
+\if{html}{\out{<a id="method-Model-load_model"></a>}}
+\if{latex}{\out{\hypertarget{method-Model-load_model}{}}}
 \subsection{Method \code{load_model()}}{
 It loads the model using the given information
 \subsection{Usage}{
@@ -111,8 +105,8 @@ It loads the model using the given information
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_config"></a>}}
-\if{latex}{\out{\hypertarget{method-get_config}{}}}
+\if{html}{\out{<a id="method-Model-get_config"></a>}}
+\if{latex}{\out{\hypertarget{method-Model-get_config}{}}}
 \subsection{Method \code{get_config()}}{
 It returns the given configuration data
 \subsection{Usage}{
@@ -131,8 +125,8 @@ The configuration value.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_size"></a>}}
-\if{latex}{\out{\hypertarget{method-get_size}{}}}
+\if{html}{\out{<a id="method-Model-get_size"></a>}}
+\if{latex}{\out{\hypertarget{method-Model-get_size}{}}}
 \subsection{Method \code{get_size()}}{
 It returns the size of the current object. The object
 size is calculated as the sum of sizes of the object attributes.
@@ -145,8 +139,8 @@ The size of the object in bytes.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Model-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Model-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

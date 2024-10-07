@@ -49,20 +49,14 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TokenGenerator$new()}}
-\item \href{#method-generate_tokens}{\code{TokenGenerator$generate_tokens()}}
-\item \href{#method-clone}{\code{TokenGenerator$clone()}}
+\item \href{#method-TokenGenerator-new}{\code{TokenGenerator$new()}}
+\item \href{#method-TokenGenerator-generate_tokens}{\code{TokenGenerator$generate_tokens()}}
+\item \href{#method-TokenGenerator-clone}{\code{TokenGenerator$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TokenGenerator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TokenGenerator-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current obj. It is used to set the file name,
 tokenization options and verbose option.
@@ -97,8 +91,8 @@ ignored.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_tokens"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_tokens}{}}}
+\if{html}{\out{<a id="method-TokenGenerator-generate_tokens"></a>}}
+\if{latex}{\out{\hypertarget{method-TokenGenerator-generate_tokens}{}}}
 \subsection{Method \code{generate_tokens()}}{
 It generates n-gram tokens and their frequencies from the
 given file name. The tokens may be saved to a text file as plain text
@@ -149,8 +143,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TokenGenerator-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TokenGenerator-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

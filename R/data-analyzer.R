@@ -117,9 +117,8 @@ DataAnalyzer <- R6::R6Class(
                     x = "Word Frequency",
                     title = "Coverage"
                 )
-            }
-            # If the top_features option was specified
-            else if (opts[["type"]] == "top_features") {
+              # If the top_features option was specified
+            } else if (opts[["type"]] == "top_features") {
                 # The plot labels
                 labels <- list(
                     y = "Frequency",
@@ -152,8 +151,7 @@ DataAnalyzer <- R6::R6Class(
                     height = 7,
                     units = "in"
                 )
-            }
-            else {
+            } else {
                 # The plot is printed
                 print(g)
             }
@@ -207,9 +205,7 @@ DataAnalyzer <- R6::R6Class(
             if (dir.exists(res)) {
                 # All files in the directory are fetched
                 fl <- dir(res, full.names = T, pattern = "*.txt")
-            }
-            # If a file name was passed
-            else if (file.exists(res)) {
+            } else if (file.exists(res)) { # If a file name was passed
                 # The file name is set
                 fl <- res
             }
@@ -335,8 +331,7 @@ DataAnalyzer <- R6::R6Class(
                 i <- sample(seq_len(nrow(df)), c)
                 # The n-gram samples
                 s <- df[i, ]
-            }
-            else {
+            } else {
                 # The n-gram samples
                 s <- df[grepl(pre, df$pre), ]
             }

@@ -21,13 +21,13 @@ class methods are private.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Base$new()}}
-\item \href{#method-clone}{\code{Base$clone()}}
+\item \href{#method-Base-new}{\code{Base$new()}}
+\item \href{#method-Base-clone}{\code{Base$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Base-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Base-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the file name
 and verbose options.
@@ -50,8 +50,8 @@ pre-processing function before reading the file. It runs the given}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Base-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Base-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

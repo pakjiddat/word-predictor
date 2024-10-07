@@ -120,8 +120,7 @@ TPGenerator <- R6::R6Class(
                     "The output file: ", fp, " already exists\n",
                     md = 1, ty = "w"
                 )
-            }
-            else {
+            } else {
                 # The options for generating transition probabilities
                 tp_opts <- list(
                     n = 1,
@@ -197,13 +196,11 @@ TPGenerator <- R6::R6Class(
                 if (n == 1) {
                     # The word list is set to the data
                     private$wl <- data
-                }
-                else {
+                } else {
                     # The processed output is set to the data
                     private$p_output <- data
                 }
-            }
-            else {
+            } else {
                 # The information message
                 msg <- paste0(
                     "Generating transition probabilities for n = ", n)
@@ -224,8 +221,7 @@ TPGenerator <- R6::R6Class(
                     private$wl$prob <- round(private$wl$prob, 8)
                     # The frequency column is removed
                     private$wl$freq <- NULL
-                }
-                else {
+                } else {
                     # The 1-gram words are read
                     private$read_words()
                     # The lines are split on "prefix_nextword:frequency"
@@ -321,14 +317,11 @@ TPGenerator <- R6::R6Class(
                 if (n == 1) {
                     # The file name
                     fn <- paste0(od, "/words", ext)
-                }
-                # If n > 1
-                else if (n > 1) {
+                } else if (n > 1) { # If n > 1
                     # The file name
                     fn <- paste0(od, "/tp", n, ext)
                 }
-            }
-            else {
+            } else {
                 # The file name
                 fn <- paste0(od, "/n", n, ext)
             }
@@ -352,9 +345,7 @@ TPGenerator <- R6::R6Class(
             if (n == 1) {
                 # The data to save
                 data <- private$wl
-            }
-            # If n > 1
-            else if (n > 1) {
+            } else if (n > 1) { # If n > 1
                 # The data to save
                 data <- private$p_output
             }

@@ -49,9 +49,8 @@ EnvManager <- R6::R6Class(
                         ty = "e"
                     )
                 }
-            }
-            # If the file name is given but the file does not exist
-            else if (!file.exists(fn)) {
+              # If the file name is given but the file does not exist
+            } else if (!file.exists(fn)) {
                 # An error message is shown
                 private$dm("The file: ",
                     fn,
@@ -159,8 +158,7 @@ EnvManager <- R6::R6Class(
                 private$dm(" \u2714\n", md = 1)
                 # The environment folder is set
                 ed <- cf
-            }
-            else {
+            } else {
                 # The tempdir location
                 ed <- tempdir()
                 # If the tempdir does not exist, then it is created
@@ -193,7 +191,10 @@ EnvManager <- R6::R6Class(
                 if (!file.exists(sfp)) {
                     # The inst/extdata folder is checked
                     sfp <- system.file(
-                        "inst/extdata", fn, package = "wordpredictor", mustWork = T)
+                        "inst/extdata",
+                        fn,
+                        package = "wordpredictor",
+                        mustWork = T)
                     # If the source file path does not exist
                     if (!file.exists(sfp)) {
                         # The error message

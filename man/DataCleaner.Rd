@@ -88,21 +88,15 @@ print(cl)
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{DataCleaner$new()}}
-\item \href{#method-clean_file}{\code{DataCleaner$clean_file()}}
-\item \href{#method-clean_lines}{\code{DataCleaner$clean_lines()}}
-\item \href{#method-clone}{\code{DataCleaner$clone()}}
+\item \href{#method-DataCleaner-new}{\code{DataCleaner$new()}}
+\item \href{#method-DataCleaner-clean_file}{\code{DataCleaner$clean_file()}}
+\item \href{#method-DataCleaner-clean_lines}{\code{DataCleaner$clean_lines()}}
+\item \href{#method-DataCleaner-clone}{\code{DataCleaner$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-DataCleaner-new"></a>}}
+\if{latex}{\out{\hypertarget{method-DataCleaner-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the file name
 and verbose options.
@@ -140,8 +134,8 @@ should be removed.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clean_file"></a>}}
-\if{latex}{\out{\hypertarget{method-clean_file}{}}}
+\if{html}{\out{<a id="method-DataCleaner-clean_file"></a>}}
+\if{latex}{\out{\hypertarget{method-DataCleaner-clean_file}{}}}
 \subsection{Method \code{clean_file()}}{
 It provides an efficient method for cleaning text files.
 It removes unneeded characters from the given text file with several
@@ -198,8 +192,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clean_lines"></a>}}
-\if{latex}{\out{\hypertarget{method-clean_lines}{}}}
+\if{html}{\out{<a id="method-DataCleaner-clean_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-DataCleaner-clean_lines}{}}}
 \subsection{Method \code{clean_lines()}}{
 It cleans the given lines of text using the options
 passed to the current object.
@@ -254,8 +248,8 @@ print(cl)
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-DataCleaner-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-DataCleaner-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

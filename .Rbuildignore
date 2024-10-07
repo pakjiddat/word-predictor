@@ -14,3 +14,5 @@
 ^CRAN-RELEASE$
 ^codecov\.yml$
 ^CRAN-SUBMISSION$
+^NEWS.html$
+^revdep$

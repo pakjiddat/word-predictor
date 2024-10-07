@@ -136,8 +136,7 @@ ModelEvaluator <- R6::R6Class(
                     height = 7,
                     units = "in"
                 )
-            }
-            else {
+            } else {
                 # The plot is printed
                 print(g)
             }
@@ -476,9 +475,7 @@ ModelEvaluator <- R6::R6Class(
                         "The word: ", w, " was predicted\n",
                         md = 3
                     )
-                }
-                # If the predicted word does not match
-                else {
+                } else { # If the predicted word does not match
                     stats[["invalid"]] <- stats[["invalid"]] + 1
                     # The information message
                     private$dm(

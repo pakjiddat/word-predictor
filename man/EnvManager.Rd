@@ -14,24 +14,18 @@ inst/extdata folder.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{EnvManager$new()}}
-\item \href{#method-get_data_fn}{\code{EnvManager$get_data_fn()}}
-\item \href{#method-remove_files}{\code{EnvManager$remove_files()}}
-\item \href{#method-td_env}{\code{EnvManager$td_env()}}
-\item \href{#method-cp_env}{\code{EnvManager$cp_env()}}
-\item \href{#method-setup_env}{\code{EnvManager$setup_env()}}
-\item \href{#method-clone}{\code{EnvManager$clone()}}
+\item \href{#method-EnvManager-new}{\code{EnvManager$new()}}
+\item \href{#method-EnvManager-get_data_fn}{\code{EnvManager$get_data_fn()}}
+\item \href{#method-EnvManager-remove_files}{\code{EnvManager$remove_files()}}
+\item \href{#method-EnvManager-td_env}{\code{EnvManager$td_env()}}
+\item \href{#method-EnvManager-cp_env}{\code{EnvManager$cp_env()}}
+\item \href{#method-EnvManager-setup_env}{\code{EnvManager$setup_env()}}
+\item \href{#method-EnvManager-clone}{\code{EnvManager$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-EnvManager-new"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It simply calls the base class
 constructor.
@@ -50,8 +44,8 @@ constructor.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_data_fn"></a>}}
-\if{latex}{\out{\hypertarget{method-get_data_fn}{}}}
+\if{html}{\out{<a id="method-EnvManager-get_data_fn"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-get_data_fn}{}}}
 \subsection{Method \code{get_data_fn()}}{
 Checks if the given file exists. If it does not exist,
 then it tries to load the file from the inst/extdata data folder of
@@ -77,8 +71,8 @@ default file.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-remove_files"></a>}}
-\if{latex}{\out{\hypertarget{method-remove_files}{}}}
+\if{html}{\out{<a id="method-EnvManager-remove_files"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-remove_files}{}}}
 \subsection{Method \code{remove_files()}}{
 Removes all files in the given directory.
 \subsection{Usage}{
@@ -94,8 +88,8 @@ Removes all files in the given directory.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-td_env"></a>}}
-\if{latex}{\out{\hypertarget{method-td_env}{}}}
+\if{html}{\out{<a id="method-EnvManager-td_env"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-td_env}{}}}
 \subsection{Method \code{td_env()}}{
 Removes the ed folder created by the setup_env method. Also sets
 the R option, "ed" to NULL.
@@ -112,8 +106,8 @@ the R option, "ed" to NULL.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-cp_env"></a>}}
-\if{latex}{\out{\hypertarget{method-cp_env}{}}}
+\if{html}{\out{<a id="method-EnvManager-cp_env"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-cp_env}{}}}
 \subsection{Method \code{cp_env()}}{
 Copies the ed folder created by the setup_env method to
 inst/extdata.
@@ -123,8 +117,8 @@ inst/extdata.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setup_env"></a>}}
-\if{latex}{\out{\hypertarget{method-setup_env}{}}}
+\if{html}{\out{<a id="method-EnvManager-setup_env"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-setup_env}{}}}
 \subsection{Method \code{setup_env()}}{
 Copies the given files from test folder to the
 environment folder.
@@ -148,8 +142,8 @@ The list of folders that can be used during testing.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-EnvManager-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-EnvManager-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

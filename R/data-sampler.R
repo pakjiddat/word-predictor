@@ -170,8 +170,7 @@ DataSampler <- R6::R6Class(
                     md = 1,
                     ty = "w"
                 )
-            }
-            else {
+            } else {
                 # The input file is read
                 data <- private$read_file(fn, F)
                 # The number of lines in the data
@@ -236,8 +235,7 @@ DataSampler <- R6::R6Class(
             if (ss < 1) {
                 # The number of lines in the sample file
                 lc <- round(lc * ss)
-            }
-            else {
+            } else {
                 lc <- ss
             }
             # The sample file data

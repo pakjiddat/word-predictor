@@ -62,20 +62,14 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ModelGenerator$new()}}
-\item \href{#method-generate_model}{\code{ModelGenerator$generate_model()}}
-\item \href{#method-clone}{\code{ModelGenerator$clone()}}
+\item \href{#method-ModelGenerator-new}{\code{ModelGenerator$new()}}
+\item \href{#method-ModelGenerator-generate_model}{\code{ModelGenerator$generate_model()}}
+\item \href{#method-ModelGenerator-clone}{\code{ModelGenerator$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ModelGenerator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelGenerator-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the maximum
 n-gram number, sample size, input file name, data cleaner options,
@@ -123,8 +117,8 @@ file name and should be present in the data directory.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_model"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_model}{}}}
+\if{html}{\out{<a id="method-ModelGenerator-generate_model"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelGenerator-generate_model}{}}}
 \subsection{Method \code{generate_model()}}{
 It generates the model using the parameters passed to
 the object's constructor. It generates a n-gram model file and saves
@@ -176,8 +170,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ModelGenerator-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelGenerator-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
