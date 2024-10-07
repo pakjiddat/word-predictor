@@ -5,9 +5,10 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
-[![lint](https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
-[![test-coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
+[![R-CMD-check](https://github.com/pakjiddat/word-predictor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pakjiddat/word-predictor/actions/workflows/R-CMD-check.yaml)
+[![Lint](https://github.com/pakjiddat/word-predictor/workflows/lint.yaml/badge.svg)](https://github.com/pakjiddat/word-predictor/actions/workflows/lint.yaml)
+[![Test
+Coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage.yaml/badge.svg)](https://github.com/pakjiddat/word-predictor/actions/workflows/test-coverage.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pakjiddat/word-predictor?branch=master)
 [![CRAN
@@ -71,6 +72,40 @@ Information about the package can be obtained using the command line or
 the package website. For example, the command: **?wordpredictor**
 returns information about how the given class works and the parameter
 details for each class method.
+
+## Environment setup code
+
+The following code should be run before running the examples.
+
+``` r
+library(wordpredictor)
+
+# The level of verbosity in the information messages
+ve <- 0
+
+#' @description
+#' Used to setup the test environment
+#' @param rf The required files.
+#' @param ve The verbosity level.
+#' @return The list of directories in the test environment
+setup_env <- function(rf, ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(rp = "../", ve = ve)
+    # The required files are downloaded
+    ed <- em$setup_env(rf)
+
+    return(ed)
+}
+
+#' @description
+#' Used to clean up the test environment
+clean_up <- function(ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(ve = ve)
+    # The test environment is removed
+    em$td_env(F)
+}
+```
 
 ## Generating the model
 
@@ -176,6 +211,7 @@ df <- da$plot_n_gram_stats(opts = list(
 ![](man/figures/README-analyze-ngrams-1-1.png)<!-- -->
 
 ``` r
+
 # The test environment is cleaned up
 clean_up(ve)
 ```
@@ -206,6 +242,7 @@ df <- da$plot_n_gram_stats(opts = list(
 ![](man/figures/README-analyze-ngrams-2-1.png)<!-- -->
 
 ``` r
+
 # The test environment is cleaned up
 clean_up(ve)
 ```
@@ -243,6 +280,7 @@ data cleaning options. The following code shows the data cleaning
 options and their default values:
 
 ``` r
+
 # @field dc_opts The options for the data cleaner object.
 #   min_words -> The minimum number of words per sentence.
 #   line_count -> The number of lines to read and clean at a time.
@@ -282,6 +320,7 @@ token generation options. The following code shows the token generation
 options and their default values:
 
 ``` r
+
 # @field tg_opts The options for the token generator obj.
 #   min_freq -> All ngrams with frequency less than min_freq are
 #     ignored.

@@ -169,24 +169,18 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ModelEvaluator$new()}}
-\item \href{#method-compare_performance}{\code{ModelEvaluator$compare_performance()}}
-\item \href{#method-plot_stats}{\code{ModelEvaluator$plot_stats()}}
-\item \href{#method-evaluate_performance}{\code{ModelEvaluator$evaluate_performance()}}
-\item \href{#method-intrinsic_evaluation}{\code{ModelEvaluator$intrinsic_evaluation()}}
-\item \href{#method-extrinsic_evaluation}{\code{ModelEvaluator$extrinsic_evaluation()}}
-\item \href{#method-clone}{\code{ModelEvaluator$clone()}}
+\item \href{#method-ModelEvaluator-new}{\code{ModelEvaluator$new()}}
+\item \href{#method-ModelEvaluator-compare_performance}{\code{ModelEvaluator$compare_performance()}}
+\item \href{#method-ModelEvaluator-plot_stats}{\code{ModelEvaluator$plot_stats()}}
+\item \href{#method-ModelEvaluator-evaluate_performance}{\code{ModelEvaluator$evaluate_performance()}}
+\item \href{#method-ModelEvaluator-intrinsic_evaluation}{\code{ModelEvaluator$intrinsic_evaluation()}}
+\item \href{#method-ModelEvaluator-extrinsic_evaluation}{\code{ModelEvaluator$extrinsic_evaluation()}}
+\item \href{#method-ModelEvaluator-clone}{\code{ModelEvaluator$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the
 model file name and verbose options.
@@ -205,8 +199,8 @@ model file name and verbose options.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-compare_performance"></a>}}
-\if{latex}{\out{\hypertarget{method-compare_performance}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-compare_performance"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-compare_performance}{}}}
 \subsection{Method \code{compare_performance()}}{
 It compares the performance of the models in the given folder.
 
@@ -268,8 +262,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_stats"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_stats}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-plot_stats"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-plot_stats}{}}}
 \subsection{Method \code{plot_stats()}}{
 It plots the given stats on 5 plots. The plots are displayed on a
 single page.
@@ -293,8 +287,8 @@ The ggplot object is returned.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-evaluate_performance"></a>}}
-\if{latex}{\out{\hypertarget{method-evaluate_performance}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-evaluate_performance"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-evaluate_performance}{}}}
 \subsection{Method \code{evaluate_performance()}}{
 It performs intrinsic and extrinsic evaluation for the given model
 and validation text file. The given number of lines in the validation
@@ -369,8 +363,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-intrinsic_evaluation"></a>}}
-\if{latex}{\out{\hypertarget{method-intrinsic_evaluation}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-intrinsic_evaluation"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-intrinsic_evaluation}{}}}
 \subsection{Method \code{intrinsic_evaluation()}}{
 Evaluates the model using intrinsic evaluation based on
 Perplexity. The given number of sentences are taken from the
@@ -433,8 +427,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-extrinsic_evaluation"></a>}}
-\if{latex}{\out{\hypertarget{method-extrinsic_evaluation}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-extrinsic_evaluation"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-extrinsic_evaluation}{}}}
 \subsection{Method \code{extrinsic_evaluation()}}{
 Evaluates the model using extrinsic evaluation based on
 Accuracy. The given number of sentences are taken from the validation
@@ -499,8 +493,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ModelEvaluator-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelEvaluator-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

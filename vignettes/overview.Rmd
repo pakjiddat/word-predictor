@@ -43,7 +43,7 @@ clean_up <- function(ve) {
     # An object of class EnvManager is created
     em <- EnvManager$new(ve = ve)
     # The test environment is removed
-    em$td_env(T)
+    em$td_env(F)
 }
 ```
 
@@ -97,7 +97,7 @@ The probability of a word is calculated by considering all n-1 words before that
 
 If the word was found in the 1-gram list, then the probability of the word is calculated by simply dividing the number of times the word occurs by the total number words.
 
-If the word was not found in the 1-gram list, then the model uses a default probability as the probability of the word. The default probability is calculated using [Laplace Smoothing](https://towardsdatascience.com/n-gram-language-models-af6085435eeb#:~:text=Laplace%20Smoothing,algorithm%20is%20called%20Laplace%20smoothing.).
+If the word was not found in the 1-gram list, then the model uses a default probability as the probability of the word. The default probability is calculated using Laplace Smoothing.
 
 Laplace Smoothing involves adding 1 to the frequency count of each word in the vocabulary. Essentially this means that the total number of words in the data set are increased by vc, where vc is the number of words in the vocabulary. 
 
@@ -106,6 +106,40 @@ In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs 
 The **wordpredictor** package uses the file **/usr/share/dict/cracklib-small** as the dictionary file. This file is pre-installed in most Linux distributions.
 
 Extrinsic evaluation involves calculating the accuracy score. The model tries to predict the last word of a sentence. If the actual last word was one of the 3 words predicted by the model, then the prediction is considered to be accurate. The accuracy score is the number of sentences that were correctly predicted.
+
+## Environment setup code
+
+The following code should be run before running the examples.
+
+```{r example-prerequisite, echo=TRUE, message=FALSE, results='hide'}
+library(wordpredictor)
+
+# The level of verbosity in the information messages
+ve <- 0
+
+#' @description
+#' Used to setup the test environment
+#' @param rf The required files.
+#' @param ve The verbosity level.
+#' @return The list of directories in the test environment
+setup_env <- function(rf, ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(rp = "../", ve = ve)
+    # The required files are downloaded
+    ed <- em$setup_env(rf)
+
+    return(ed)
+}
+
+#' @description
+#' Used to clean up the test environment
+clean_up <- function(ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(ve = ve)
+    # The test environment is removed
+    em$td_env(F)
+}
+```
 
 ## Generating the model
 

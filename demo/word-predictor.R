@@ -76,8 +76,7 @@ server <- function(input, output) {
                 nwp <- tags$div("Word Probability: ", tags$strong(nwp))
                 # The next word probability is updated
                 output$word_prob <- renderUI(nwp)
-            }
-            else {
+            } else {
                 # The next word
                 nw <- p$words[[1]]
                 # The next word probability
@@ -87,9 +86,10 @@ server <- function(input, output) {
                     # A data frame containing the data to plot
                     df <- data.frame("word" = p$words, "prob" = p$probs)
                     # The data frame is sorted in descending order
-                    df <- (df[order(df$prob, decreasing = T),])
+                    df <- (df[order(df$prob, decreasing = T), ])
                     # The words and their probabilities are plotted
-                    g <- ggplot(data = df, aes(x = reorder(word, prob), y = prob)) +
+                    g <- ggplot(data = df,
+                        aes(x = reorder(word, prob), y = prob)) +
                         geom_bar(stat = "identity", fill = "red") +
                         ggtitle("Predicted words and their probabilities") +
                         ylab("Probability") +
@@ -103,8 +103,7 @@ server <- function(input, output) {
                 # The next word probability is updated
                 output$word_prob <- renderUI(nwp)
             }
-        }
-        else {
+        } else {
             # The next word is set to ""
             nw <- tags$span()
             # The next word probability text is set to ""

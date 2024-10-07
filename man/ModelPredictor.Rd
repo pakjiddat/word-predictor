@@ -117,23 +117,17 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ModelPredictor$new()}}
-\item \href{#method-get_model}{\code{ModelPredictor$get_model()}}
-\item \href{#method-calc_perplexity}{\code{ModelPredictor$calc_perplexity()}}
-\item \href{#method-predict_word}{\code{ModelPredictor$predict_word()}}
-\item \href{#method-get_word_prob}{\code{ModelPredictor$get_word_prob()}}
-\item \href{#method-clone}{\code{ModelPredictor$clone()}}
+\item \href{#method-ModelPredictor-new}{\code{ModelPredictor$new()}}
+\item \href{#method-ModelPredictor-get_model}{\code{ModelPredictor$get_model()}}
+\item \href{#method-ModelPredictor-calc_perplexity}{\code{ModelPredictor$calc_perplexity()}}
+\item \href{#method-ModelPredictor-predict_word}{\code{ModelPredictor$predict_word()}}
+\item \href{#method-ModelPredictor-get_word_prob}{\code{ModelPredictor$get_word_prob()}}
+\item \href{#method-ModelPredictor-clone}{\code{ModelPredictor$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ModelPredictor-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelPredictor-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the
 model file name and verbose options.
@@ -152,8 +146,8 @@ model file name and verbose options.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_model"></a>}}
-\if{latex}{\out{\hypertarget{method-get_model}{}}}
+\if{html}{\out{<a id="method-ModelPredictor-get_model"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelPredictor-get_model}{}}}
 \subsection{Method \code{get_model()}}{
 Returns the Model class object.
 \subsection{Usage}{
@@ -165,8 +159,8 @@ The Model class object is returned.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-calc_perplexity"></a>}}
-\if{latex}{\out{\hypertarget{method-calc_perplexity}{}}}
+\if{html}{\out{<a id="method-ModelPredictor-calc_perplexity"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelPredictor-calc_perplexity}{}}}
 \subsection{Method \code{calc_perplexity()}}{
 The Perplexity for the given sentence is calculated. For
 each word, the probability of the word given the previous words is
@@ -228,8 +222,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_word"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_word}{}}}
+\if{html}{\out{<a id="method-ModelPredictor-predict_word"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelPredictor-predict_word}{}}}
 \subsection{Method \code{predict_word()}}{
 Predicts the next word given a list of previous words. It
 checks the last n previous words in the transition probabilities
@@ -294,8 +288,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_word_prob"></a>}}
-\if{latex}{\out{\hypertarget{method-get_word_prob}{}}}
+\if{html}{\out{<a id="method-ModelPredictor-get_word_prob"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelPredictor-get_word_prob}{}}}
 \subsection{Method \code{get_word_prob()}}{
 Calculates the probability of the given word given the
 previous words. The last n words are converted to numeric hash using
@@ -364,8 +358,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ModelPredictor-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ModelPredictor-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

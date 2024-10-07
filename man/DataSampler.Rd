@@ -94,21 +94,15 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{DataSampler$new()}}
-\item \href{#method-generate_sample}{\code{DataSampler$generate_sample()}}
-\item \href{#method-generate_data}{\code{DataSampler$generate_data()}}
-\item \href{#method-clone}{\code{DataSampler$clone()}}
+\item \href{#method-DataSampler-new}{\code{DataSampler$new()}}
+\item \href{#method-DataSampler-generate_sample}{\code{DataSampler$generate_sample()}}
+\item \href{#method-DataSampler-generate_data}{\code{DataSampler$generate_data()}}
+\item \href{#method-DataSampler-clone}{\code{DataSampler$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-DataSampler-new"></a>}}
+\if{latex}{\out{\hypertarget{method-DataSampler-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current object. It is used to set the
 verbose option.
@@ -127,8 +121,8 @@ verbose option.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_sample"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_sample}{}}}
+\if{html}{\out{<a id="method-DataSampler-generate_sample"></a>}}
+\if{latex}{\out{\hypertarget{method-DataSampler-generate_sample}{}}}
 \subsection{Method \code{generate_sample()}}{
 Generates a sample file of given size from the given input file. The
 file is saved to the directory given by the dir object attribute.
@@ -199,8 +193,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_data"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_data}{}}}
+\if{html}{\out{<a id="method-DataSampler-generate_data"></a>}}
+\if{latex}{\out{\hypertarget{method-DataSampler-generate_data}{}}}
 \subsection{Method \code{generate_data()}}{
 It generates training, testing and validation data sets
 from the given input file. It first reads the file given as a
@@ -264,8 +258,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-DataSampler-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-DataSampler-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

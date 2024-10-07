@@ -69,21 +69,15 @@ em$td_env()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TPGenerator$new()}}
-\item \href{#method-generate_tp}{\code{TPGenerator$generate_tp()}}
-\item \href{#method-generate_tp_for_n}{\code{TPGenerator$generate_tp_for_n()}}
-\item \href{#method-clone}{\code{TPGenerator$clone()}}
+\item \href{#method-TPGenerator-new}{\code{TPGenerator$new()}}
+\item \href{#method-TPGenerator-generate_tp}{\code{TPGenerator$generate_tp()}}
+\item \href{#method-TPGenerator-generate_tp_for_n}{\code{TPGenerator$generate_tp_for_n()}}
+\item \href{#method-TPGenerator-clone}{\code{TPGenerator$clone()}}
 }
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-}
-\out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TPGenerator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TPGenerator-new}{}}}
 \subsection{Method \code{new()}}{
 It initializes the current obj. It is used to set the
 transition probabilities options and verbose option.
@@ -112,8 +106,8 @@ transition probabilities options and verbose option.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_tp"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_tp}{}}}
+\if{html}{\out{<a id="method-TPGenerator-generate_tp"></a>}}
+\if{latex}{\out{\hypertarget{method-TPGenerator-generate_tp}{}}}
 \subsection{Method \code{generate_tp()}}{
 It first generates the transition probabilities for each
 n-gram of size from 1 to the given size. The transition probabilities
@@ -162,8 +156,8 @@ em$td_env()
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate_tp_for_n"></a>}}
-\if{latex}{\out{\hypertarget{method-generate_tp_for_n}{}}}
+\if{html}{\out{<a id="method-TPGenerator-generate_tp_for_n"></a>}}
+\if{latex}{\out{\hypertarget{method-TPGenerator-generate_tp_for_n}{}}}
 \subsection{Method \code{generate_tp_for_n()}}{
 It generates the transition probabilities table for the
 given n-gram size. It first reads n-gram token frequencies from an
@@ -186,8 +180,8 @@ list of words is saved.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TPGenerator-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TPGenerator-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

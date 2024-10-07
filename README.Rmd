@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
 library(wordpredictor)
 
-# If level of verbosity in the information messages
+# The level of verbosity in the information messages
 ve <- 0
 
 #' @description
@@ -38,15 +38,15 @@ clean_up <- function(ve) {
     # An object of class EnvManager is created
     em <- EnvManager$new(ve = ve)
     # The test environment is removed
-    em$td_env(T)
+    em$td_env(F)
 }
 ```
 
 # Introduction
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/pakjiddat/word-predictor/workflows/R-CMD-check/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
-[![lint](https://github.com/pakjiddat/word-predictor/workflows/lint/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
-[![test-coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage/badge.svg)](https://github.com/pakjiddat/word-predictor/actions)
+[![R-CMD-check](https://github.com/pakjiddat/word-predictor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pakjiddat/word-predictor/actions/workflows/R-CMD-check.yaml)
+[![Lint](https://github.com/pakjiddat/word-predictor/workflows/lint.yaml/badge.svg)](https://github.com/pakjiddat/word-predictor/actions/workflows/lint.yaml)
+[![Test Coverage](https://github.com/pakjiddat/word-predictor/workflows/test-coverage.yaml/badge.svg)](https://github.com/pakjiddat/word-predictor/actions/workflows/test-coverage.yaml)
 [![Codecov test coverage](https://codecov.io/gh/pakjiddat/word-predictor/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pakjiddat/word-predictor?branch=master)
 [![CRAN version](https://www.r-pkg.org/badges/version/wordpredictor)](https://cran.r-project.org/package=wordpredictor)
 <!-- badges: end -->
@@ -86,6 +86,40 @@ The wordpredictor package is based on **R6 classes**. It is easy to customize an
 9. **Base**. The base class for all the other classes. It allows provides methods for reading and writing files and processing large text files. 
 
 Information about the package can be obtained using the command line or the package website. For example, the command: **?wordpredictor** returns information about how the given class works and the parameter details for each class method.
+
+## Environment setup code
+
+The following code should be run before running the examples.
+
+```{r example-prerequisite, echo=TRUE, message=FALSE, results='hide'}
+library(wordpredictor)
+
+# The level of verbosity in the information messages
+ve <- 0
+
+#' @description
+#' Used to setup the test environment
+#' @param rf The required files.
+#' @param ve The verbosity level.
+#' @return The list of directories in the test environment
+setup_env <- function(rf, ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(rp = "../", ve = ve)
+    # The required files are downloaded
+    ed <- em$setup_env(rf)
+
+    return(ed)
+}
+
+#' @description
+#' Used to clean up the test environment
+clean_up <- function(ve) {
+    # An object of class EnvManager is created
+    em <- EnvManager$new(ve = ve)
+    # The test environment is removed
+    em$td_env(F)
+}
+```
 
 ## Generating the model
 

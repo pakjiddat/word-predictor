@@ -82,9 +82,7 @@ Base <- R6::R6Class(
             if (format == "plain") {
                 # The file is read
                 data <- private$read_file(fn, opts)
-            }
-            # If the format is obj
-            else if (format == "obj") {
+            } else if (format == "obj") { # If the format is obj
                 # The file is read
                 data <- private$read_obj(fn)
             }
@@ -204,8 +202,7 @@ Base <- R6::R6Class(
                 data <- readLines(con, skipNul = TRUE)
                 # The file connection is closed
                 close(con)
-            }
-            else {
+            } else {
                 data <- read.csv(fn)
             }
             # The information message is shown
@@ -251,8 +248,7 @@ Base <- R6::R6Class(
             if ("data.frame" %in% class(data)) {
                 # The data frame is  written to a file
                 write.csv(data, fn, row.names = F)
-            }
-            else {
+            } else {
                 # The file open mode
                 mode <- "w"
                 # If the data should be appended
@@ -300,8 +296,7 @@ Base <- R6::R6Class(
                     "The file: ", fn, " cannot be read !",
                     md = -1, ty = "e"
                 )
-            }
-            else {
+            } else {
                 # The object is saved
                 obj <- readRDS(fn)
             }
@@ -322,13 +317,9 @@ Base <- R6::R6Class(
                 # If the type is message
                 if (ty == "m") {
                     cat(...)
-                }
-                # If the type is warning
-                else if (ty == "w") {
+                } else if (ty == "w") { # If the type is warning
                     warning(...)
-                }
-                # If the type is error
-                else if (ty == "e") {
+                } else if (ty == "e") { # If the type is error
                     stop(...)
                 }
             }

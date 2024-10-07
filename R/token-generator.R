@@ -93,8 +93,7 @@ TokenGenerator <- R6::R6Class(
                         fn, private$tg_opts[["format"]], T
                     )
                 }
-            }
-            else {
+            } else {
                 # The information message
                 msg <- paste0("Generating ", private$tg_opts[["n"]])
                 msg <- paste0(msg, "-gram tokens")
@@ -205,9 +204,7 @@ TokenGenerator <- R6::R6Class(
                 fo <- private$tg_opts[["format"]]
                 # The n-gram data frame is written to file
                 private$write_data(private$p_output, fn, fo, F)
-            }
-            # If n-gram data should not be saved
-            else {
+            } else { # If n-gram data should not be saved
                 return(private$p_output)
             }
         },
@@ -233,7 +230,7 @@ TokenGenerator <- R6::R6Class(
                 # The empty words are removed
                 w <- w[!i]
                 # The indexes for the words
-                indexes <- seq(length(w))
+                indexes <- seq_along(length(w))
                 # The n-grams are generated
                 l <- sapply(indexes, function(i) {
                     # If the words should be stemmed
@@ -241,8 +238,7 @@ TokenGenerator <- R6::R6Class(
                         # The n-gram prefix words are stemmed. The next word is
                         # not stemmed
                         v <- c(wordStem(w[i:(i + n - 2)]), w[(i + n - 1)])
-                    }
-                    else {
+                    } else {
                         # The n-gram token
                         v <- w[i:(i + n - 1)]
                     }
@@ -262,8 +258,7 @@ TokenGenerator <- R6::R6Class(
                 l <- gsub("<s>", "", l)
                 # The end of sentence tokens are removed
                 l <- gsub("<e>", "", l)
-            }
-            else {
+            } else {
                 # The line is split on " "
                 words <- strsplit(lines, " ")
                 # The list of words is converted to atomic vector

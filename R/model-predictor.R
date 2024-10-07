@@ -317,8 +317,7 @@ ModelPredictor <- R6::R6Class(
                     )
                     # The loop ends
                     break
-                }
-                else {
+                } else {
                     # The information message
                     private$dm(
                         "The n-gram key: ", k,
@@ -339,8 +338,7 @@ ModelPredictor <- R6::R6Class(
                 if (sum(wl$pre == word) == 0) {
                     # Information message is shown
                     private$dm("Using default probability\n", md = 3)
-                }
-                else {
+                } else {
                     # The word probability
                     prob <- as.numeric(wl[wl$pre == word, "prob"])
                 }
@@ -397,8 +395,7 @@ ModelPredictor <- R6::R6Class(
             if (pwl > 3) {
                 # The last 3 words are extracted.
                 pw <- w[(pwl - 2):pwl]
-            }
-            else {
+            } else {
                 pw <- w
             }
         },
@@ -429,8 +426,7 @@ ModelPredictor <- R6::R6Class(
                     # The result count is set to the required number of
                     # results
                     rc <- count
-                }
-                else {
+                } else {
                     # The result count is set to the number of results
                     rc <- rcount
                 }
@@ -447,8 +443,7 @@ ModelPredictor <- R6::R6Class(
                 result[["found"]] <- T
                 # Information message is shown
                 private$dm("The n-gram key: ", k, " was found\n", md = 3)
-            }
-            else {
+            } else {
                 private$dm("The n-gram key: ", k, " was not found\n", md = 3)
                 # The result is updated
                 result[["found"]] <- F

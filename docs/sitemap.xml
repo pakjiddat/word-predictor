@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/404.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/articles/features.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/articles/overview.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/Base.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/DataAnalyzer.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/DataCleaner.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/DataSampler.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/EnvManager.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/Model.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/ModelEvaluator.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/ModelGenerator.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/ModelPredictor.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/TPGenerator.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/TextFileProcessor.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/TokenGenerator.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pakjiddat.github.io/word-predictor/reference/wordpredictor-package.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://pakjiddat.github.io/word-predictor/404.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/LICENSE-text.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/LICENSE.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/articles/features.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/articles/index.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/articles/overview.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/authors.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/index.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/news/index.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/Base.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/DataAnalyzer.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/DataCleaner.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/DataSampler.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/EnvManager.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/Model.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/ModelEvaluator.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/ModelGenerator.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/ModelPredictor.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/TPGenerator.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/TextFileProcessor.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/TokenGenerator.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/index.html</loc></url>
+<url><loc>https://pakjiddat.github.io/word-predictor/reference/wordpredictor-package.html</loc></url>
 </urlset>
+
