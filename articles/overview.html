@@ -4,242 +4,429 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>overview • Word Predictor</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="overview">
-<meta property="og:description" content="wordpredictor">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Overview • wordpredictor</title>
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Overview">
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">Word Predictor</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">1.0.0</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/features.html">features</a>
-    </li>
-    <li>
-      <a href="../articles/overview.html">overview</a>
-    </li>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="../index.html">wordpredictor</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/features.html">Features</a></li>
+    <li><a class="dropdown-item" href="../articles/overview.html">Overview</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/pakjiddat/word-predictor/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/pakjiddat/word-predictor/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="overview_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>overview</h1>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+
+      <h1>Overview</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/pakjiddat/word-predictor/blob/master/vignettes/overview.Rmd"><code>vignettes/overview.Rmd</code></a></small>
-      <div class="hidden name"><code>overview.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/pakjiddat/word-predictor/blob/master/vignettes/overview.Rmd" class="external-link"><code>vignettes/overview.Rmd</code></a></small>
+      <div class="d-none name"><code>overview.Rmd</code></div>
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This document describes the theory behind the n-gram models generated by the <strong>wordpredictor</strong> package. It also provides code examples that describe how to use the package.</p>
-<p>The goal of the <strong>wordpredictor</strong> package is to provide a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram">n-gram models</a> for word prediction.</p>
-<p>The package allows generating n-gram models. It also allows exploring n-gram frequencies using plots. Additionally it provides methods for measuring n-gram model performance using <a href="https://en.wikipedia.org/wiki/Perplexity">Perplexity</a> and accuracy.</p>
-<p>The n-gram model may be customized using several options such as n-gram size, data cleaning options and options for tokenization.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>This document describes the theory behind the n-gram models generated
+by the <strong>wordpredictor</strong> package. It also provides code
+examples that describe how to use the package.</p>
+<p>The goal of the <strong>wordpredictor</strong> package is to provide
+a flexible and easy to use framework for generating <a href="https://en.wikipedia.org/wiki/N-gram" class="external-link">n-gram models</a> for word
+prediction.</p>
+<p>The package allows generating n-gram models. It also allows exploring
+n-gram frequencies using plots. Additionally it provides methods for
+measuring n-gram model performance using <a href="https://en.wikipedia.org/wiki/Perplexity" class="external-link">Perplexity</a> and
+accuracy.</p>
+<p>The n-gram model may be customized using several options such as
+n-gram size, data cleaning options and options for converting text to
+tokens.</p>
 </div>
-<div id="how-the-model-works" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-the-model-works" class="anchor"></a>How the model works</h2>
-<p>The n-gram model generated by the <strong>wordpredictor</strong> package uses the <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov model</a> for approximating the language model. It means that the probability of a word depends only on the probability of the n-1 previous words.</p>
-<p>Maximum Likelihood Estimation (MLE) is used to calculate the probability of a word. The probability of a word is calculated by regarding the word as the last component of a n-gram. The total number of occurrences of the n-gram is divided by the total number of occurrences of the (n-1)-gram. This gives the probability for the word.</p>
-<p>The n-gram model is generated in steps. In the first step, the input data is cleaned. Unwanted symbols and words are removed from the input data.</p>
-<p>In the next step, the cleaned data file is read. N-grams are extracted from the file, starting from 1-grams up to the configured n-gram size. The 1-gram, 2-gram, 3-gram etc tokens are saved in separate files along with the frequency. So the 3-gram file contains all extracted 3-grams and their respective frequencies.</p>
-<p>The next step is to generate transition probability tables for each n-gram file. For the 1-gram file the transition probability table is simply the list of unique words along with the word frequencies. For the other n-gram files, the transition probability table is a data frame with 3 columns. The hash of n-gram prefixes, the next word id and the next word probability.</p>
-<p>The n-gram prefix is the set of n-1 components before the last component. The n-1 components are combined using "_" and converted to a numeric hash value using the <a href="https://www.rdocumentation.org/packages/digest/versions/0.6.27/topics/digest2int">digest2Int</a> method of the <strong>digest</strong> package.</p>
-<p>The next word id is the numeric index of the next word in the list of 1-grams. The next word probability is the probability of the next word given the previous n-1 words. It is calculated using Maximum Likelihood Estimation (MLE) as described above.</p>
-<p>Instead of storing the n-gram prefix strings, a single number is saved. Also instead of storing the next word, the numeric index of the next word is saved. This saves a lot of memory and allows more data to be stored, which improves the n-gram model’s efficiency. In R, a number requires a fixed amount of storage, which about 56 bytes. In contrast the memory required to store a string increases with the string size.</p>
-<p>The data frames that represent each transition probability table are combined into a single data frame. The combined transition probability table is used to make word predictions.</p>
+<div class="section level2">
+<h2 id="how-the-model-works">How the model works<a class="anchor" aria-label="anchor" href="#how-the-model-works"></a>
+</h2>
+<p>The n-gram model generated by the <strong>wordpredictor</strong>
+package uses the <a href="https://en.wikipedia.org/wiki/Markov_chain" class="external-link">Markov model</a> for
+approximating the language model. It means that the probability of a
+word depends only on the probability of the n-1 previous words.</p>
+<p>Maximum Likelihood Estimation (MLE) is used to calculate the
+probability of a word. The probability of a word is calculated by
+regarding the word as the last component of a n-gram. The total number
+of occurrences of the n-gram is divided by the total number of
+occurrences of the (n-1)-gram. This gives the probability for the
+word.</p>
+<p>The n-gram model is generated in steps. In the first step, the input
+data is cleaned. Unwanted symbols and words are removed from the input
+data.</p>
+<p>In the next step, the cleaned data file is read. N-grams are
+extracted from the file, starting from 1-grams up to the configured
+n-gram size. The 1-gram, 2-gram, 3-gram etc tokens are saved in separate
+files along with the frequency. So the 3-gram file contains all
+extracted 3-grams and their respective frequencies.</p>
+<p>The next step is to generate transition probability tables for each
+n-gram file. For the 1-gram file the transition probability table is
+simply the list of unique words along with the word frequencies. For the
+other n-gram files, the transition probability table is a data frame
+with 3 columns. The hash of n-gram prefixes, the next word id and the
+next word probability.</p>
+<p>The n-gram prefix is the set of n-1 components before the last
+component. The n-1 components are combined using “_” and converted to a
+numeric hash value using the digest2Int method of the <a href="https://cran.r-project.org/package=digest" class="external-link">digest</a> package.</p>
+<p>The next word id is the numeric index of the next word in the list of
+1-grams. The next word probability is the probability of the next word
+given the previous n-1 words. It is calculated using Maximum Likelihood
+Estimation (MLE) as described above.</p>
+<p>Instead of storing the n-gram prefix strings, a single number is
+saved. Also instead of storing the next word, the numeric index of the
+next word is saved. This saves a lot of memory and allows more data to
+be stored, which improves the n-gram model’s efficiency.</p>
+<p>In R, a number requires a fixed amount of storage, which about 56
+bytes. In contrast the memory required to store a string increases with
+the number of characters in the string.</p>
+<p>The data frames that represent each transition probability table are
+combined into a single data frame. The combined transition probability
+table is used to make word predictions.</p>
 </div>
-<div id="using-the-model-to-predict-words" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-the-model-to-predict-words" class="anchor"></a>Using the model to predict words</h2>
-<p>To predict a word, the word along with the n-1 previous words are used as input. The model computes the hash of the previous words and looks up the hash in the combined transition probabilities table. If the hash was found, then the model extracts the top 3 next word ids that have the highest probabilities.</p>
-<p>The model looks up the next word text that corresponds to the next word ids. The result is the top 3 most likely next words along with their probabilities.</p>
-<p>If the hash was not found, then the hash of the n-2 previous words is calculated and looked up in the combined transition probabilities table. Essentially this means looking up the transition probability for the n-2-grams.</p>
-<p>This process is repeated until there are no previous words. When this happens, the model returns a “word not found” message.</p>
-<p>This method of checking the transition probabilities of lower level n-grams is called <strong>back-off</strong>. An alternate method of predicting a word is to use <strong>interpolation</strong>. This involves weighing and summing the probabilities for each n-gram size.</p>
+<div class="section level2">
+<h2 id="using-the-model-to-predict-words">Using the model to predict words<a class="anchor" aria-label="anchor" href="#using-the-model-to-predict-words"></a>
+</h2>
+<p>To predict a word, the word along with the n-1 previous words are
+used as input. The model computes the hash of the previous words and
+looks up the hash in the combined transition probabilities table. If the
+hash was found, then the model extracts the top 3 next word ids that
+have the highest probabilities.</p>
+<p>The model looks up the next word text that corresponds to the next
+word ids. The result is the top 3 most likely next words along with
+their probabilities.</p>
+<p>If the hash was not found, then the hash of the n-2 previous words is
+calculated and looked up in the combined transition probabilities
+table.</p>
+<p>This process is repeated until there are no previous words. When this
+happens, the model returns a “word not found” message.</p>
+<p>This method of checking the transition probabilities of lower level
+n-grams is called <strong>back-off</strong>. An alternate method of
+predicting a word is to use <strong>interpolation</strong>. This
+involves weighing and summing the probabilities for each n-gram
+size.</p>
 </div>
-<div id="predicting-the-model-performance" class="section level2">
-<h2 class="hasAnchor">
-<a href="#predicting-the-model-performance" class="anchor"></a>Predicting the model performance</h2>
-<p>The <strong>wordpredictor</strong> package provides methods for performing <strong>intrinsic</strong> and <strong>extrinsic</strong> evaluation of the n-gram model.</p>
-<p>Intrinsic evaluation involves calculating the mean Perplexity score for all sentences in a validation text file. The Perplexity for a sentence is calculated by taking the N-th root of the inverse of the product of probabilities of all words in a sentence.</p>
-<p>N is the number of words in the sentence. The probability of a word is calculated by considering all n-1 words before that word. If the word was not found in the transition probabilities table, then the n-2 words are looked up. This process is repeated until there are no previous words.</p>
-<p>If the word was found in the 1-gram list, then the probability of the word is calculated by simply dividing the number of times the word occurs by the total number words.</p>
-<p>If the word was not found in the 1-gram list, then the model uses a default probability as the probability of the word. The default probability is calculated using <a href="https://towardsdatascience.com/n-gram-language-models-af6085435eeb#:~:text=Laplace%20Smoothing,algorithm%20is%20called%20Laplace%20smoothing.">Laplace Smoothing</a>. Laplace Smoothing involves adding 1 to the frequency count of each word in the vocabulary.</p>
-<p>Essentially this means that the total number of words in the data set are increased by vc, where vc is the number of words in the vocabulary. The <strong>wordpredictor</strong> package uses the file <strong>/usr/share/dict/cracklib-small</strong> as the dictionary file. This file is pre-installed in most Linux distributions.</p>
-<p>In Laplace Smoothing 1 is added to the word count. Since an unknown word occurs zero times, after Laplace Smoothing it will have a count of 1. So the default probability is calculated as: P(unk) = 1/(N+VC), where N is the total number of words in the data set and VC is the number of words in the vocabulary. This default probability is assigned to unknown words. Alternative methods to Laplace Smoothing are <strong>Add-k smoothing</strong>, <strong>Kneser-Ney smoothing</strong> and <strong>Good-Turing Smoothing</strong>.</p>
-<p>Extrinsic evaluation involves calculating the accuracy score. The model tries to predict the last word of a sentence. If the actual last word was one of the 3 words predicted by the model, then the prediction is considered to be accurate. The accuracy score is the number of sentences that were correctly predicted.</p>
+<div class="section level2">
+<h2 id="predicting-the-model-performance">Predicting the model performance<a class="anchor" aria-label="anchor" href="#predicting-the-model-performance"></a>
+</h2>
+<p>The <strong>wordpredictor</strong> package provides methods for
+performing <strong>intrinsic</strong> and <strong>extrinsic</strong>
+evaluation of the n-gram model.</p>
+<p>The <strong>wordpredictor</strong> package performs intrinsic
+evaluation by calculating the mean Perplexity score for all sentences in
+a validation text file. The Perplexity for a sentence is calculated by
+taking the N-th root of the inverse of the product of probabilities of
+all words in a sentence. N is the number of words in the sentence.</p>
+<p>The probability of a word is calculated by considering all n-1 words
+before that word. If the word was not found in the transition
+probabilities table, then the n-2 words are looked up. This process is
+repeated until there are no previous words.</p>
+<p>If the word was found in the 1-gram list, then the probability of the
+word is calculated by simply dividing the number of times the word
+occurs by the total number words.</p>
+<p>If the word was not found in the 1-gram list, then the model uses a
+default probability as the probability of the word. The default
+probability is calculated using Laplace Smoothing.</p>
+<p>Laplace Smoothing involves adding 1 to the frequency count of each
+word in the vocabulary. Essentially this means that the total number of
+words in the data set are increased by vc, where vc is the number of
+words in the vocabulary.</p>
+<p>In Laplace Smoothing 1 is added to the word count. Since an unknown
+word occurs zero times, after Laplace Smoothing it will have a count of
+1. So the default probability is calculated as: <strong>P(unk) =
+1/(N+VC)</strong>, where <strong>N</strong> is the total number of words
+in the data set and <strong>VC</strong> is the number of words in the
+vocabulary. This default probability is assigned to unknown words.
+Alternative methods to Laplace Smoothing are <strong>Add-k
+smoothing</strong>, <strong>Kneser-Ney smoothing</strong> and
+<strong>Good-Turing Smoothing</strong>.</p>
+<p>The <strong>wordpredictor</strong> package uses the file
+<strong>/usr/share/dict/cracklib-small</strong> as the dictionary file.
+This file is pre-installed in most Linux distributions.</p>
+<p>Extrinsic evaluation involves calculating the accuracy score. The
+model tries to predict the last word of a sentence. If the actual last
+word was one of the 3 words predicted by the model, then the prediction
+is considered to be accurate. The accuracy score is the number of
+sentences that were correctly predicted.</p>
 </div>
-<div id="generating-the-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generating-the-model" class="anchor"></a>Generating the model</h2>
-<p>The <strong>ModelGenerator</strong> class allows generating the final n-gram model using a single method call. The following example generates a n-gram model using default data cleaning and tokenization options:</p>
+<div class="section level2">
+<h2 id="environment-setup-code">Environment setup code<a class="anchor" aria-label="anchor" href="#environment-setup-code"></a>
+</h2>
+<p>The following code should be run before running the examples.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The following code generates n-gram model using default options for data</span>
-<span class="co"># cleaning and tokenization. See the following section on how to customize these</span>
-<span class="co"># options. Note that input.txt is the name of the input data file. It should be</span>
-<span class="co"># present in the data directory. ddir is the data directory. mdir is the model</span>
-<span class="co"># directory. The output model file, which is def-model.RDS will be placed in</span>
-<span class="co"># this directory.</span>
-
-<span class="co"># ModelGenerator class object is created</span>
-<span class="va">mg</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelGenerator.html">ModelGenerator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
-  name <span class="op">=</span> <span class="st">"def-model"</span>,
-  desc <span class="op">=</span> <span class="st">"N-gram model generating using default options"</span>,
-  fn <span class="op">=</span> <span class="st">"def-model.RDS"</span>,
-  df <span class="op">=</span> <span class="st">"input.txt"</span>,
-  n <span class="op">=</span> <span class="fl">4</span>,
-  ssize <span class="op">=</span> <span class="fl">10</span>,
-  ddir <span class="op">=</span> <span class="va">ddir1</span>,
-  mdir <span class="op">=</span> <span class="va">mdir</span>,
-  dc_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
-  tg_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
-  ve <span class="op">=</span> <span class="fl">2</span>
-<span class="op">)</span>
-
-<span class="co"># Generates n-gram model. The output is the file</span>
-<span class="co"># ./data/model/def-model.RDS</span>
-<span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pakjiddat/word-predictor" class="external-link">wordpredictor</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The level of verbosity in the information messages</span></span>
+<span><span class="va">ve</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span></span>
+<span><span class="co">#' @description</span></span>
+<span><span class="co">#' Used to setup the test environment</span></span>
+<span><span class="co">#' @param rf The required files.</span></span>
+<span><span class="co">#' @param ve The verbosity level.</span></span>
+<span><span class="co">#' @return The list of directories in the test environment</span></span>
+<span><span class="va">setup_env</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># An object of class EnvManager is created</span></span>
+<span>    <span class="va">em</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/EnvManager.html">EnvManager</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>rp <span class="op">=</span> <span class="st">"../"</span>, ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span></span>
+<span>    <span class="co"># The required files are downloaded</span></span>
+<span>    <span class="va">ed</span> <span class="op">&lt;-</span> <span class="va">em</span><span class="op">$</span><span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ed</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' @description</span></span>
+<span><span class="co">#' Used to clean up the test environment</span></span>
+<span><span class="va">clean_up</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># An object of class EnvManager is created</span></span>
+<span>    <span class="va">em</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/EnvManager.html">EnvManager</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span></span>
+<span>    <span class="co"># The test environment is removed</span></span>
+<span>    <span class="va">em</span><span class="op">$</span><span class="fu">td_env</span><span class="op">(</span><span class="cn">F</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="evaluating-the-model-performance" class="section level2">
-<h2 class="hasAnchor">
-<a href="#evaluating-the-model-performance" class="anchor"></a>Evaluating the model performance</h2>
-<p>The <strong>wordpredictor</strong> package provides the <strong>ModelEvaluator</strong> class for evaluating the performance of the generated n-gram model.</p>
-<p>The following example performs Intrinsic evaluation. It measures the Perplexity score for each sentence in the <strong>validation.txt</strong> file. It returns the minimum, mean and maximum Perplexity score for each line.</p>
+<div class="section level2">
+<h2 id="generating-the-model">Generating the model<a class="anchor" aria-label="anchor" href="#generating-the-model"></a>
+</h2>
+<p>The <strong>ModelGenerator</strong> class allows generating the final
+n-gram model using a single method call. The following example generates
+a n-gram model using default data cleaning and tokenization options:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">mdir</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
-<span class="co"># The path to the cleaned validation file</span>
-<span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">mdir</span>, <span class="st">"/validate.txt"</span><span class="op">)</span>
-<span class="co"># ModelEvaluator class object is created</span>
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span><span class="op">)</span>
-<span class="co"># The intrinsic evaluation is performed on first 20 lines</span>
-<span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">intrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span></code></pre></div>
-<p>The following example performs Extrinsic evaluation. It measures the accuracy score for each sentence in <strong>validation.txt</strong> file. For each sentence the model is used to predict the last word in the sentence given the previous words. If the last word was correctly predicted, then the prediction is considered to be accurate. The Extrinsic evaluation returns the number of correct and incorrect predictions.</p>
+<code class="sourceCode R"><span><span class="co"># The required files</span></span>
+<span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"input.txt"</span><span class="op">)</span></span>
+<span><span class="co"># The test environment is setup</span></span>
+<span><span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The following code generates n-gram model using default options for data</span></span>
+<span><span class="co"># cleaning and tokenization. See the following section on how to customize these</span></span>
+<span><span class="co"># options. Note that input.txt is the name of the input data file. It should be</span></span>
+<span><span class="co"># present in the ed directory. The generated model file is also placed in this</span></span>
+<span><span class="co"># directory.</span></span>
+<span></span>
+<span><span class="co"># ModelGenerator class object is created</span></span>
+<span><span class="va">mg</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelGenerator.html">ModelGenerator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"def-model"</span>,</span>
+<span>    desc <span class="op">=</span> <span class="st">"N-gram model generating using default options"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"def-model.RDS"</span>,</span>
+<span>    df <span class="op">=</span> <span class="st">"input.txt"</span>,</span>
+<span>    n <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    ssize <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>    dir <span class="op">=</span> <span class="va">ed</span>,</span>
+<span>    dc_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    tg_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    ve <span class="op">=</span> <span class="va">ve</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Generates n-gram model. The output is the file</span></span>
+<span><span class="co"># ./data/model/def-model.RDS</span></span>
+<span><span class="va">mg</span><span class="op">$</span><span class="fu">generate_model</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The test environment is cleaned up</span></span>
+<span><span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="evaluating-the-model-performance">Evaluating the model performance<a class="anchor" aria-label="anchor" href="#evaluating-the-model-performance"></a>
+</h2>
+<p>The <strong>wordpredictor</strong> package provides the
+<strong>ModelEvaluator</strong> class for evaluating the performance of
+the generated n-gram model.</p>
+<p>The following example performs intrinsic evaluation. It measures the
+Perplexity score for each sentence in the
+<strong>validation.txt</strong> file. It returns the minimum, mean and
+maximum Perplexity score for each line.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">mdir</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
-<span class="co"># The path to the cleaned validation file</span>
-<span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">mdir</span>, <span class="st">"/validate.txt"</span><span class="op">)</span>
-<span class="co"># ModelEvaluator class object is created</span>
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span><span class="op">)</span>
-<span class="co"># The intrinsic evaluation is performed on first 100 lines</span>
-<span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">extrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">100</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="how-to-predict-a-word" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-predict-a-word" class="anchor"></a>How to predict a word</h2>
-<p>The following example shows how to predict the next word. It returns the 3 possible next words along with their probabilities.</p>
+<code class="sourceCode R"><span><span class="co"># The required files</span></span>
+<span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span></span>
+<span><span class="co"># The test environment is setup</span></span>
+<span><span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The model file name</span></span>
+<span><span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span></span>
+<span><span class="co"># The path to the cleaned validation file</span></span>
+<span><span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/validate-clean.txt"</span><span class="op">)</span></span>
+<span><span class="co"># ModelEvaluator class object is created</span></span>
+<span><span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span>, ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span></span>
+<span><span class="co"># The intrinsic evaluation is performed on first 20 lines</span></span>
+<span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">intrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">20</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The test environment is cleaned up</span></span>
+<span><span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span></code></pre></div>
+<p>The following example performs extrinsic evaluation. It measures the
+accuracy score for each sentence in <strong>validation.txt</strong>
+file. For each sentence the model is used to predict the last word in
+the sentence given the previous words. If the last word was correctly
+predicted, then the prediction is considered to be accurate. The
+extrinsic evaluation returns the number of correct and incorrect
+predictions.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The model file name</span>
-<span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">mdir</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span>
-<span class="co"># An object of class ModelPredictor is created. The mf parameter is the name of</span>
-<span class="co"># the model file that was generated in the previous example.</span>
-<span class="va">mp</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelPredictor.html">ModelPredictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span><span class="op">)</span>
-<span class="co"># Given the words: "how are", the next word is predicted. The top 3 most likely</span>
-<span class="co"># next words are returned along with their respective probabilities.</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>
-<span class="co">#&gt; $found</span>
-<span class="co">#&gt; [1] TRUE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $words</span>
-<span class="co">#&gt; [1] "you"        "we"         "indigenous"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $probs</span>
-<span class="co">#&gt; [1] 0.50000000 0.21428571 0.07142857</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># The required files</span></span>
+<span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span></span>
+<span><span class="co"># The test environment is setup</span></span>
+<span><span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The model file name</span></span>
+<span><span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span></span>
+<span><span class="co"># The path to the cleaned validation file</span></span>
+<span><span class="va">vfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/validate-clean.txt"</span><span class="op">)</span></span>
+<span><span class="co"># ModelEvaluator class object is created</span></span>
+<span><span class="va">me</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelEvaluator.html">ModelEvaluator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span>, ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span></span>
+<span><span class="co"># The intrinsic evaluation is performed on first 100 lines</span></span>
+<span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">me</span><span class="op">$</span><span class="fu">extrinsic_evaluation</span><span class="op">(</span>lc <span class="op">=</span> <span class="fl">100</span>, fn <span class="op">=</span> <span class="va">vfn</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The test environment is cleaned up</span></span>
+<span><span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span></code></pre></div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
+<div class="section level2">
+<h2 id="how-to-predict-a-word">How to predict a word<a class="anchor" aria-label="anchor" href="#how-to-predict-a-word"></a>
+</h2>
+<p>The following example shows how to predict the next word. It returns
+the 3 possible next words along with their probabilities.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The required files</span></span>
+<span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"def-model.RDS"</span>, <span class="st">"validate-clean.txt"</span><span class="op">)</span></span>
+<span><span class="co"># The test environment is setup</span></span>
+<span><span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu">setup_env</span><span class="op">(</span><span class="va">rf</span>, <span class="va">ve</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The model file name</span></span>
+<span><span class="va">mfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">ed</span>, <span class="st">"/def-model.RDS"</span><span class="op">)</span></span>
+<span><span class="co"># An object of class ModelPredictor is created. The mf parameter is the name of</span></span>
+<span><span class="co"># the model file that was generated in the previous example.</span></span>
+<span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ModelPredictor.html">ModelPredictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>mf <span class="op">=</span> <span class="va">mfn</span>, ve <span class="op">=</span> <span class="va">ve</span><span class="op">)</span></span>
+<span><span class="co"># Given the words: "how are", the next word is predicted. The top 3 most likely</span></span>
+<span><span class="co"># next words are returned along with their respective probabilities.</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="fu">predict_word</span><span class="op">(</span>words <span class="op">=</span> <span class="st">"how are"</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co"># The test environment is cleaned up</span></span>
+<span><span class="fu">clean_up</span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="demo">Demo<a class="anchor" aria-label="anchor" href="#demo"></a>
+</h2>
+<p>The wordpredictor package includes a demo called “word-predictor”.
+The demo is a Shiny application that displays the ten most likely words
+for a given set of words. To access the demo, run the following command
+from the R shell:</p>
+<p><strong><code>demo("word-predictor", package = "wordpredictor", ask = F)</code></strong>.</p>
+</div>
+<div class="section level2">
+<h2 id="package-dependencies">Package dependencies<a class="anchor" aria-label="anchor" href="#package-dependencies"></a>
+</h2>
+<p>The wordpredictor package uses the following packages: <a href="https://cran.r-project.org/package=digest" class="external-link">digest</a>, <a href="https://cran.r-project.org/package=dplyr" class="external-link">dply</a>, <a href="https://cran.r-project.org/package=ggplot2" class="external-link">ggplot2</a>, <a href="https://cran.r-project.org/package=R6" class="external-link">R6</a>, <a href="https://cran.r-project.org/package=testthat" class="external-link">testthat</a> and <a href="https://cran.r-project.org/package=stringr" class="external-link">stingr</a></p>
+<p>The following packages were useful during package development: <a href="https://cran.r-project.org/package=quanteda" class="external-link">quanteda</a>, <a href="https://cran.r-project.org/package=tm" class="external-link">tm</a> and <a href="https://cran.r-project.org/package=hash" class="external-link">hash</a> <a href="https://cran.r-project.org/package=lintr" class="external-link">lintr</a> <a href="https://cran.r-project.org/package=styler" class="external-link">styler</a> <a href="https://cran.r-project.org/package=pkgdown" class="external-link">pkgdown</a> <a href="https://cran.r-project.org/package=pryr" class="external-link">pryr</a>,</p>
+</div>
+<div class="section level2">
+<h2 id="useful-links">Useful Links<a class="anchor" aria-label="anchor" href="#useful-links"></a>
+</h2>
+<p>The following articles and tutorials were very useful:</p>
+<ul>
+<li><a href="https://devopedia.org/n-gram-model" class="external-link">N-Gram Model</a></li>
+<li><a href="https://lazyprogrammer.me/probability-smoothing-for-natural-language-processing/" class="external-link">Probability
+Smoothing for Natural Language Processing</a></li>
+<li><a href="https://medium.com/@ageitgey/natural-language-processing-is-fun-9a0bff37854e" class="external-link">Natural
+Language Processing is Fun!</a></li>
+<li><a href="https://tutorials.quanteda.io/" class="external-link">Quanteda Tutorials</a></li>
+</ul>
+</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="bibliography">Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-intro-to-natural-lang-proc" class="csl-entry">
+Cardie, Professor Claire. 2014. <span>“Smoothing, Interpolation and
+Backoff.”</span> In. <a href="https://www.cs.cornell.edu/courses/cs4740/2014sp/lectures/smoothing+backoff.pdf" class="external-link">https://www.cs.cornell.edu/courses/cs4740/2014sp/lectures/smoothing+backoff.pdf</a>.
+</div>
+<div id="ref-JSSv025i05" class="csl-entry">
+Feinerer, Ingo, Kurt Hornik, and David Meyer. 2008. <span>“Text Mining
+Infrastructure in r.”</span> <em>Journal of Statistical Software,
+Articles</em> 25 (5): 1–54. <a href="https://doi.org/10.18637/jss.v025.i05" class="external-link">https://doi.org/10.18637/jss.v025.i05</a>.
+</div>
+<div id="ref-roxygen2-man" class="csl-entry">
+Hadley Wickham, Gábor Csárdi, Peter Danenberg. 2020. <em>In-Line
+Documentation for r</em>. <a href="https://cran.r-project.org/package=roxygen2" class="external-link">https://cran.r-project.org/package=roxygen2</a>.
+</div>
+<div id="ref-speech-and-lang-proc" class="csl-entry">
+Jurafsky, Dan, and James H. Martin. 2020. <span>“N-Gram Language
+Models.”</span> In <em>Speech and Language Processing</em>, third. <a href="https://web.archive.org/web/20240919222934/https%3A%2F%2Fweb.stanford.edu%2F~jurafsky%2Fslp3%2F3.pdf" class="external-link">https://web.archive.org/web/20240919222934/https%3A%2F%2Fweb.stanford.edu%2F~jurafsky%2Fslp3%2F3.pdf</a>.
+</div>
+<div id="ref-adv-r-man" class="csl-entry">
+Wickham, Hadley. 2021. <em>Advanced r</em>. Second. <a href="https://adv-r.hadley.nz/index.html" class="external-link">https://adv-r.hadley.nz/index.html</a>.
+</div>
+<div id="ref-r-pkgs-man" class="csl-entry">
+Wickham, Hadley, and Jenny Bryan. 2021. <em>R Packages</em>. Second. <a href="https://r-pkgs.org/index.html" class="external-link">https://r-pkgs.org/index.html</a>.
+</div>
+<div id="ref-enwiki:1018953040" class="csl-entry">
+Wikipedia contributors. 2021a. <span>“N-Gram —
+<span>Wikipedia</span><span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/w/index.php?title=N-gram&amp;oldid=1018953040" class="external-link">https://en.wikipedia.org/w/index.php?title=N-gram&amp;oldid=1018953040</a>.
+</div>
+<div id="ref-enwiki:1022965742" class="csl-entry">
+———. 2021b. <span>“Perplexity — <span>Wikipedia</span><span>,</span> the
+Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/w/index.php?title=Perplexity&amp;oldid=1022965742" class="external-link">https://en.wikipedia.org/w/index.php?title=Perplexity&amp;oldid=1022965742</a>.
+</div>
+<div id="ref-r-markdown-man" class="csl-entry">
+Yihui Xie, Emily Riederer, Christophe Dervieux. 2021. <em>R Markdown
+Cookbook</em>. First. <a href="https://bookdown.org/yihui/rmarkdown-cookbook/" class="external-link">https://bookdown.org/yihui/rmarkdown-cookbook/</a>.
+</div>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
-</div>
 
 
-
-      <footer><div class="copyright">
+    <footer><div class="pkgdown-footer-left">
   <p>Developed by Nadir Latif.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
+
+
 
 
   </body>
